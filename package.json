@@ -1,0 +1,29 @@
+{
+  "name": "portfolio-manager",
+  "version": "1.0.0",
+  "description": "Hi Everyone! We will use this repository for builiding our DBMS lab project. Feel free to edit this description.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DBMS-LAB-PROJECT/Portfolio-Manager.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DBMS-LAB-PROJECT/Portfolio-Manager/issues"
+  },
+  "homepage": "https://github.com/DBMS-LAB-PROJECT/Portfolio-Manager#readme",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "mongoose": "^6.2.2",
+    "nodemon": "^2.0.15",
+    "passport": "^0.5.2",
+    "passport-facebook": "^3.0.0"
+  }
+}
