@@ -1,75 +1,54 @@
 const express = require("express");
+require('dotenv').config();
 const mongoose = require("mongoose");
 const body_parser = require("body-parser");
 const passport = require("passport");
 const ejs = require("ejs");
 const session = require("express-session");
-const { Cookie } = require("express-session");
-
+const mysql2 = require("mysql2");
 require("./auth_facebook");
 require("./auth_google");
+require("./auth_local");
+var routes = require("./routes");
+const flash = require("express-flash");
+
+const con = mysql2.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD
+});
 
 
-function isloggedin(req, res, next){
-    req.user ? next() : res.sendStatus(401);
-}
+con.connect(function (err) {
+    if (err) throw err;
+    console.log("Connected!");
+});
+
+
 const app = express();
 
-// app.use(session({secret:'yoursecret'}, {resave:false},{saveUninitialized: false}));
+app.use(body_parser.urlencoded({extended: true}));
+
 app.use(session({
-    secret: 'keyboard cat',
+    secret: process.env.SECRET,
     resave: false,
-    saveUninitialized: false
-  }));
+    saveUninitialized: false,
+    cookie:{
+        maxAge: 1000 * 60 * 24
+    }
+}));
+
+
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(flash());
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 
-
-app.get("/", function (req, res) {
-    res.render("login");
-});
-
-app.get("/auth/google", 
-    passport.authenticate("google", {scope: ["email" , "profile"]})
-)
-
-app.get('/auth/facebook',
-  passport.authenticate('facebook'));
-
-
-app.get("/google/callback",
-    passport.authenticate("google",{
-        successRedirect: "/complete",
-        failureRedirect: "/auth/failure",
-    })
-);
-
-app.get('/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/auth/failure' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/complete');
-  });
-
-app.get("/auth/failure", function(req, res){
-    res.send("OOps login failed"); 
-})
-
-app.get("/complete", isloggedin, function (req, res) {
-    res.render("complete");
-});
-
-
-app.get("/logout", function(req, res){
-    req.logOut();
-    req.session.destroy();
-    res.redirect("/");
-})
+// ALL ROUTES 
+app.use(routes);
 
 
 app.listen(3000, function () {

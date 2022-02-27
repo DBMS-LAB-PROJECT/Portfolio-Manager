@@ -16,31 +16,30 @@
     <title>Login</title>
 </head>
 <body>
+    
    <h1>Sign In</h1>
-   <div>
-       <input type="text" placeholder="Username or Email">
-   </div>
-   <div>
-       <input type="text" placeholder="Password">
-   </div>
-   <div>
-       <input type="checkbox"> Remember me 
-   </div>
-
-   <button><a href="">Sign In</a></button>
-   <p><a href=""> Forgot Password?</a></p>
+    <% if (messages.error) { %>
+    <%= messages.error %>
+    <% } %>
+    <form action="/login" method="post">
+       <div>
+           <input type="text" name="username" placeholder="Username or Email">
+        </div>
+        <div>
+            <input type="password" name="password" placeholder="Password">
+        </div>
+        <button type="submit" name="submit">Sign In</button>
+        <p><a href=""> Forgot Password?</a></p>
+    </form>
 
    <hr>
    <p>or continue with</p>
    <hr>
 
-   
-   <a href="/auth/google"><button><i class="fa-brands fa-google"></i> Google</button></a>
-   <a href="/auth/facebook"><button><i class="fa-brands fa-facebook"></i> Facebook</button></a>
-   <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+    <a href="/auth/google"><button><img src="https://img.icons8.com/color/48/000000/google-logo.png" width="18px"> Google</button></a>
+    <a href="/auth/facebook"><button><img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" width="18px"></i> Facebook</button></a>
+    <p>Don't have an account? <a href="/signup">Sign Up</a></p>
 
 </body>
 </html>
 
-
-<!-- http://localhost:3000/auth/facebook/complete -->
