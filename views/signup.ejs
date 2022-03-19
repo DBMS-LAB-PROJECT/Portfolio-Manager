@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/40989200a5.js" crossorigin="anonymous"></script>
+
+
+    <title>Sign Up</title>
+    <script>
+        function disableSubmit() {
+         document.getElementById("submit").disabled = true;
+        }
+       
+         function activateButton(element) {
+       
+             if(element.checked) {
+               document.getElementById("submit").disabled = false;
+              }
+              else  {
+               document.getElementById("submit").disabled = true;
+             }
+       
+         }
+       </script>
+</head>
+
+<body onload="disableSubmit()">
+    <h1>Create New Account</h1>
+    <% if (messages.error) { %>
+        <%= messages.error %>
+    <% } %>
+    <form action="/signup" method="post">
+        <div>
+            <input type="text" name="username" placeholder="Username">
+        </div>
+        <div>
+            <input type="email" name="email" placeholder="Email">
+        </div>
+        <div>
+            <input type="password" name="password" placeholder="Password">
+        </div>
+        <div>
+            <input type="checkbox" onchange="activateButton(this)"> I agree with <a href="/terms_and_conditions">terms and condtions</a> 
+        </div>
+        <div>
+            <button id="submit" type="submit" name="submit">Create Account</button>    
+        </div>
+    </form>
+
+    <hr>
+    <p>or</p>
+    <hr>
+
+    <a href="/auth/google"><button><img src="https://img.icons8.com/color/48/000000/google-logo.png" width="18px"> Google</button></a>
+    <a href="/auth/facebook"><button><img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" width="18px"></i> Facebook</button></a>
+
+
+    
+</body>
+
+
+
+</html>

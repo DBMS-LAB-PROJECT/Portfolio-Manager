@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stocks</title>
+</head>
+
+<body>
+    <header>
+        <span>Symbol</span>
+        <span>Name</span>
+        <span>Currency</span>
+        <span>Exchange</span>
+        <span>Country</span>
+        <span>Type</span>
+    </header>
+    <ul>
+    <% list.forEach(company=>{ %>
+       <span><%=company.symbol%>  </span>
+       <span><%=company.name%>  </span>
+       <span><%=company.currency%>  </span>
+       <span><%=company.exchange%>  </span>
+       <span><%=company.country%>  </span>
+       <span><%=company.type%>  </span>
+    <% }); %>
+    </ul>
+
+
+</body>
+
+</html>
