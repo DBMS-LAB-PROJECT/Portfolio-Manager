@@ -10,12 +10,14 @@ const { response } = require("express");
 const bodyParser = require("body-parser");
 const { appendFile } = require("fs");
 const fs = require('fs');
-const stream = require("stream");
-const JSONStream = require('JSONStream');
-const es = require('event-stream');
-const request = require('request')
 const fetch = require('node-fetch');
 const path = require("path");
+const database = require("../database");
+const _ = require("lodash");
+// const stream = require("stream");
+// const JSONStream = require('JSONStream');
+// const es = require('event-stream');
+// const request = require('request');
 
 router.use(bodyParser.urlencoded({ extended: true, limit: "100kb" }))
 
@@ -34,7 +36,7 @@ function isloggedin(req, res, next) {
     req.user ? next() : res.sendStatus(401);
 }
 
-
+database.query("use portfolio_manager");
 
 // ****************************     GET ROUTES    ********************************************************
 router.get("/", function (req, res) {
@@ -59,7 +61,7 @@ router.get('/auth/facebook',
 
 router.get("/google/callback",
     passport.authenticate("google", {
-        successRedirect: "/complete",
+        successRedirect: "/dashboard",
         failureRedirect: "/auth/failure",
     })
 );
@@ -68,15 +70,16 @@ router.get('/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/auth/failure' }),
     function (req, res) {
         // Successful authentication, redirect home.
-        res.redirect('/complete');
+        res.redirect('/dashboard');
     });
 
 router.get("/auth/failure", function (req, res) {
     res.send("Oops login failed");
 })
 
-router.get("/complete", isloggedin, function (req, res) {
-    res.render("complete");
+router.get("/dashboard", isloggedin, function (req, res) {
+    
+    res.render("dashboard", {username: req.user.user_name});
 });
 
 router.get("/logout", function (req, res) {
@@ -89,12 +92,43 @@ router.get("/terms_and_conditions", function (req, res) {
     res.render("terms_and_conditions");
 });
 
+router.get("/liabilities", isloggedin, function(req, res){
 
+    let sql = "SELECT * FROM ((liability_amounts a INNER JOIN liability_interests b ON a.user_id = b.user_id) INNER JOIN liability_interest_rates c ON a.user_id = c.user_id) WHERE a.user_id  = ?";
+
+    database.query(sql, req.user.user_id,function(err, result, fields){
+        
+        if (err) throw err;
+        res.render("liabilities", { liabilities: result, username: req.params.username});
+
+    });
+    
+});
+ 
+router.get("/liabilities/edit/:liability_type", isloggedin, function(req, res, next){
+
+    let type = req.params.liability_type;
+    let liability_type = _.snakeCase(_.lowerCase(type));
+    let amount = liability_type+"_amount";
+    let interest = liability_type+"_interest";
+    let rate = liability_type+"_rate";
+
+    let sql = "SELECT a."+amount+", b."+interest+", c."+rate+" FROM ((liability_amounts a INNER JOIN liability_interests b ON a.user_id = b.user_id) INNER JOIN liability_interest_rates c ON a.user_id = c.user_id) WHERE a.user_id = ?";
+
+    database.query(sql, req.user.user_id, function(err, result){
+
+        if(err) throw err;
+        console.log(result);
+        res.render("edit_liability", { liability_name: type, liability: result[0], amount: amount, rate: rate });
+
+    });
+    
+});
 
 
 // **************************** POST ROUTES *******************************************************
 router.post("/login", passport.authenticate('local-signIn', {
-    successRedirect: '/complete',
+    successRedirect: '/dashboard',
     failureRedirect: '/login',
     failureFlash: true
 }),
@@ -112,6 +146,33 @@ router.post("/signup", passport.authenticate('local-signup', {
         console.log("i am signup page");
     }
 )
+
+
+router.post("/liabilities/edit/:liability_type", function(req, res){
+
+    let type = req.params.liability_type;
+    let liability_type = _.snakeCase(_.lowerCase(type));
+    let amount = liability_type+"_amount";
+    let interest = liability_type+"_interest";
+    let rate = liability_type+"_rate";
+
+    let r = req.body.interest_rate;
+    let t = req.body.time_period;
+    let p = req.body.amount;
+    let int = ((p * r * t) / 100);
+
+    let sql = "UPDATE liability_amounts a, liability_interests b, liability_interest_rates c SET a."+amount+" = ?, b."+interest+" = ?, c."+rate+" = ? WHERE a.user_id = b.user_id AND b.user_id = c.user_id AND a.user_id = ?";
+
+    database.query(sql, [p, int, r, req.user.user_id], function(err, result){
+
+        if (err) throw err;
+        console.log(result);
+
+    });
+
+    res.redirect("/liabilities");
+});
+
 
 router.get("/stocks", async function (req, res) {
     let url_stocks = "https://api.twelvedata.com/stocks?apikey=" + process.env.API_KEY + "&country=usa";

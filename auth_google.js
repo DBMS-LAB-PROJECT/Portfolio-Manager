@@ -33,6 +33,22 @@ passport.use(new GoogleStrategy({
                     if(err) throw err;
                     console.log("1 record inserted");
                 });
+
+                con.query("INSERT INTO liability_amounts(user_id) VALUES(?)", userId, function (err, result){
+                    if (err) throw err;
+                    console.log("1 record inserted");
+                });
+                
+                con.query("INSERT INTO liability_interests(user_id) VALUES(?)", userId, function (err, result){
+                    if (err) throw err;
+                    console.log("1 record inserted");
+                });
+    
+                con.query("INSERT INTO liability_interest_rates(user_id) VALUES(?)", userId, function (err, result){
+                    if (err) throw err;
+                    console.log("1 record inserted");
+                });
+                
             }
             else {
                 console.log(result);
