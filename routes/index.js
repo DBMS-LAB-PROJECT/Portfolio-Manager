@@ -98,8 +98,29 @@ router.get("/liabilities", isloggedin, function(req, res){
 
     database.query(sql, req.user.user_id,function(err, result, fields){
         
+        let total_amount = result[0].car_loan_amount; 
+        total_amount+= result[0].property_loan_amount;
+        total_amount+= result[0].educational_loan_amount;
+        total_amount+= result[0].home_loan_amount;
+        total_amount+= result[0].bills_payable_amount;
+        total_amount+= result[0].mortgage_payable_amount;
+        total_amount+= result[0].capital_leases_amount;
+        total_amount+= result[0].bank_account_overdrafts_amount;
+        
+        let total_interest = result[0].car_loan_interest; 
+        total_interest+= result[0].property_loan_interest;
+        total_interest+= result[0].educational_loan_interest;
+        total_interest+= result[0].home_loan_interest;
+        total_interest+= result[0].bills_payable_interest;
+        total_interest+= result[0].mortgage_payable_interest;
+        total_interest+= result[0].capital_leases_interest;
+        total_interest+= result[0].bank_account_overdrafts_interest;
+
         if (err) throw err;
-        res.render("liabilities", { liabilities: result, username: req.params.username});
+        res.render("liabilities", { liabilities: result, 
+                                    total_amount: total_amount, 
+                                    total_interest: total_interest 
+                                });
 
     });
     
