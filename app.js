@@ -35,7 +35,6 @@ app.post('/', (req, res)=>{
     db.query(sql, userDetails,function (err, data) { 
         if (err) throw err;
            console.log("User data is inserted successfully "); 
-           alert("User data is inserted successfully");
     });
   };
 });
