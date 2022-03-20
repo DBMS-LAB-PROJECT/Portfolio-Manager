@@ -18,7 +18,6 @@ router.post('/create', function(req, res, next) {
     db.query(sql, userDetails,function (err, data) { 
         if (err) throw err;
            console.log("User data is inserted successfully "); 
-           alert("User data is inserted successfully");
     });
   // }
  res.redirect('/users/form');  // redirect to user form page after inserting the data
