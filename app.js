@@ -1,142 +1,76 @@
-const express = require("express");
-require('dotenv').config();
-const mongoose = require("mongoose");
-const body_parser = require("body-parser");
-const passport = require("passport");
-const ejs = require("ejs");
-const session = require("express-session");
-const mysql2 = require("mysql2");
-require("./auth_facebook");
-require("./auth_google");
-require("./auth_local");
-var routes = require("./routes");
-const flash = require("express-flash");
-const fetch = require("node-fetch");
+var db=require('./database');
+const express = require('express');
+
+// Setting the Views Directory
 const path = require("path");
-
-
-const con = mysql2.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD
-});
-
-
-con.connect(function (err) {
-    if (err) throw err;
-    // console.log("Connected!");
-});
-
+const fs = require('fs');
 
 const app = express();
+const port = 80;
 
 
-app.use(body_parser.urlencoded({extended: true}));
+// EXPRESS SPECIFIC STUFF
+app.use('/static', express.static('static')); // For serving static files
+app.use(express.urlencoded()); // This will help us bring the data of our form to the express
 
-app.use(session({
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie:{
-        maxAge: 1000 * 60 * 24
-    }
-}));
+// PUG SPECIFIC STUFF
+var usersRouter = require('./routes/users');
+const req = require('express/lib/request');
+const res = require('express/lib/response');
+app.use('/users', usersRouter);
+app.set("view engine", 'pug'); // Setting template engine as pug
+app.set('views', path.join(__dirname,'views')); // Setting the Views Directory
+// Now we set a folder named views.
 
-
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
-
-
-app.set("view engine", "ejs");
-app.use(express.static("public"));
-
-
-app.engine('ejs', async (path, data, cb) => {
-    try{
-        let html = await ejs.renderFile(path, data, {async: true});
-        cb(null, html);
-    }catch (e){
-        cb(e, '');
-    }
+// ENDPOINTS
+app.get('/', (req, res)=>{
+    const con = 'This is our content for the webpage using pug';
+    const params = {'title': "Portfolio Builder", 'content': con};
+    res.status(200).render('index', params);
+}); 
+app.post('/', (req, res)=>{
+  var sql = 'INSERT INTO user_detail SET ?';
+  var submit_button = window.getElementById("endBtn");
+  submit_button.onclick = function(){
+    db.query(sql, userDetails,function (err, data) { 
+        if (err) throw err;
+           console.log("User data is inserted successfully "); 
+           alert("User data is inserted successfully");
+    });
+  };
 });
 
-// ALL ROUTES 
-app.use(routes);
+// app.post('/', (req,res)=>{
+//     name = req.body.name; 
+//     mname = req.body.mname;
+//     lname = req.body.lname;
+//     birthplace = req.body.birthplace;
+//     birthdate = req.body.birthdate;
+//     profession = req.body.profession;
+//     mobile = req.body.mobile; 
+//     address = req.body.address;
+//     institute = req.body.institute;
+//     qualification = req.body.qualification;
+//     course = req.body.course;
+//     grade = req.body.grade;
+    
+//     let outputToWrite = `Name of Client is ${name} ${mname} ${lname},
+//     Place of birth of Client is ${birthplace},
+//     DOB of Client is ${birthdate},
+//     Profession of Client is ${profession},
+//     Phone number of Client is ${mobile},
+//     Address of Client is ${address},
+//     Institute of Client is ${institute},
+//     Qualification of Client is ${qualification},
+//     Course of Client is ${course},
+//     Grade of Client is ${grade},`;
+//     fs.writeFileSync('output.txt', outputToWrite);
+//     const params = {'message': "Your form has been submitted"};
+//     res.status(200).render('index', params);
+// });
 
-
-app.get("/stocks", async function (req, res) {
-    let url_stocks = "https://api.twelvedata.com/stocks?apikey=" + process.env.API_KEY + "&country=usa";
-    let url_time_series = "https://api.twelvedata.com/time_series?apikey=" + process.env.API_KEY + "&interval=1min&outputsize=1&symbol=";
-
-    const list = [];
-    async function getdata() {
-        try {
-            const data = await fetch(url_stocks);
-            const obj_data = await data.json();
-
-            const obj_array = obj_data.data;
-
-
-            const stockprice = await fetch(url_time_series);
-
-            // res.send(stockprice);
-            // console.log(url_time_series);
-            // res.send(url_time_series);
-
-
-            let symbol, name, currency, exchange, country, type;
-            let obj = {
-                symbol: symbol,
-                name: name,
-                currency: currency,
-                exchange: exchange,
-                country: country,
-                type: type
-            }
-
-            // add the whole data to list array 
-            obj_array.forEach(company => {
-                // res.write(company.symbol + "\t" + company.name + "\t" + company.currency + "\t" + company.exchange + "\t" + company.country + "\t" + company.type + "\n");
-                let newobj = {
-                symbol:  company.symbol,
-                name:  company.name,
-                currency:  company.currency,
-                exchange:  company.exchange,
-                country:  company.country,
-                type:  company.type
-                }
-                list.push(newobj);
-                // res.write(obj.symbol + " " + obj.name + "\n");
-            });
-
-
-
-
-            // res.send(list);
-            const filePath = path.join(__dirname , "../views/stocks.ejs"); 
-            const html = ejs.renderFile(filePath, {list} , {async: true}, function(err,data ){
-                // console.log(data);
-
-            })
-            // console.log(html);
-            res.send(html);
-            
-
-        } catch (error) {
-            console.log(error);
-        }
-
-    }
-
-    getdata()
-    // const html = ejs.renderFile("stocks.ejs", {list} , {async:true});
-    // res.send(html);
-    // res.render("stocks", {list});
-
-
-})
-
-app.listen(3000, function () {
-    console.log("Server is up and running on port 3000");
+// STARTING THE SERVER
+app.listen(port, ()=>{
+    console.log(`The app started on port ${port}`);
 });
+ 

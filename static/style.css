@@ -1,0 +1,96 @@
+*{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* body::before{
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    content: "";
+    opacity: 0.8;
+    z-index: -1;
+    background: url("/static/bg.jpg") no-repeat center center;
+} */
+ /* How to add an image in our css */
+
+body{
+     background-color: rgb(16, 156, 156);
+}
+
+/* nav{
+    border: 5px solid rgb(8, 127, 148);
+    border-radius: 20px;
+    background-color: rgb(180, 219, 168);
+} */
+
+ul{
+    display: flex;
+}
+
+li{
+    list-style: none;
+    padding: 10px 30px;
+} 
+
+div{
+    margin: auto auto auto 750px;
+}
+
+#search{
+    border: 2px solid black;
+    background-color: rgb(255, 255, 255);
+    width: 200px;
+    margin: auto 10px auto auto;
+}
+
+a{
+    text-decoration: none;
+}
+
+.container{
+    margin: 12px;
+}    
+
+h2{
+    text-align: center;
+}
+
+input, textarea{
+    display: block;
+    background-color: bisque;
+    margin: auto auto auto 350px;
+    width: 600px;
+    padding: 4px;
+    text-align: center;
+    border: 3px solid black;
+    border-radius: 10px;
+}
+
+/* .allnames{
+    margin: auto auto auto 10px;
+} */
+
+#first_name, #last_name{ 
+    width: 290px;
+    margin: auto 0px;
+    
+} 
+/* .allnames{
+    
+    
+} */
+
+.btn{
+    display: block;
+    background-color: bisque;
+    margin: auto auto auto 350px;
+    width: 150px;
+    padding: 4px;
+    text-align: center;
+    border: 3px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
