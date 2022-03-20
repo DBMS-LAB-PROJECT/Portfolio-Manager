@@ -14,6 +14,8 @@ const flash = require("express-flash");
 const fetch = require("node-fetch");
 const path = require("path");
 
+var db=require('./database');
+
 
 const con = mysql2.createConnection({
     host: process.env.DB_HOST,
@@ -49,6 +51,8 @@ app.use(flash());
 
 
 app.set("view engine", "ejs");
+app.set("view engine", 'pug');
+app.set('views', path.join(__dirname,'views'));
 app.use(express.static("public"));
 
 
