@@ -14,7 +14,7 @@ const flash = require("express-flash");
 const fetch = require("node-fetch");
 const path = require("path");
 
-var db=require('./database');
+var db=require('../database');
 
 
 const con = mysql2.createConnection({

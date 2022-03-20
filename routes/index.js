@@ -18,6 +18,7 @@ const _ = require("lodash");
 // const JSONStream = require('JSONStream');
 // const es = require('event-stream');
 // const request = require('request');
+const db=require('../db');
 
 router.use(bodyParser.urlencoded({ extended: true, limit: "100kb" }))
 
@@ -256,6 +257,23 @@ router.get("/stocks", async function (req, res) {
 router.get("/test", function (req, res) {
     res.render("test.ejs", { name: "shadab" });
 })
+
+router.get('/portfolio', (req, res)=>{
+    const con = 'This is our content for the webpage using pug';
+    const params = {'title': "Portfolio Builder", 'content': con};
+    res.status(200).render('profile', params);
+}); 
+router.post('/portfolio', (req, res)=>{
+  var sql = 'INSERT INTO user_detail SET ?';
+  var submit_button = window.getElementById("endBtn");
+  submit_button.onclick = function(){
+    db.query(sql, userDetails,function (err, data) { 
+        if (err) throw err;
+           console.log("User data is inserted successfully "); 
+        //    alert("User data is inserted successfully");
+    });
+  };
+});
 
 
 module.exports = router;

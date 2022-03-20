@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Using Plain HTML in Pug</title> -->
+    <title>#{title}</title>
+    style
+        include ../static/profile.css
+</head>
+<body>
+    <!-- <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Services</a></li>
+
+            <div>
+                <input type="text" name="search" placeholder="Search this website" id="search">
+            </div>
+        </ul>
+    </nav> -->
+    <div class="container">
+    <h2>Welcome To Our App - Hurry fill this form now</h2>
+    //- <p> 
+     |#{content}
+    //- |# is how we select our parameters. 
+    //- </p> 
+
+    
+
+    <form action="/users/create" id="contact" method="post">
+        <div class='names'>
+            <ul class="allnames">
+                <li><input type="text" name="first_name" id="first_name" placeholder="Enter your first name"></li>
+            <!-- <li><input type="text" name="mname" id="middlename" placeholder="Enter your second name"></li> -->
+                <li><input type="text" name="last_name" id="last_name" placeholder="Enter your last name"></li>    
+            </ul>
+        </div>
+        <input type="text" name="birth_place" id="birth_place" placeholder="Enter your place of birth">
+        <br>
+        <input type="date" name="dob" id="dob" placeholder="Enter your date of birth">
+        <br>
+        <input type="text" name="profession" id="profession" placeholder="Enter your profession">
+        <br>
+        <input type="tel" name="mobile_no" id="mobile_no" placeholder="Enter your mobile number">
+        <br>
+        <textarea name="address" id="address" cols="30" rows="10" placeholder="Enter Your Address"></textarea>
+        <br>
+        <input type="text" name="institute" id="institute" placeholder="Enter name of your institute">
+        <br>
+        <input type="text" name="qualification" id="qualification" placeholder="Enter your qualifcations">
+        <br>
+        <input type="text" name="course" id="course" placeholder="Enter your course">
+        <br>
+        <input type="number" step='0.01' name="grade" id="grade" placeholder="Enter your grade">
+        <br>
+        <button class="btn" id="endBtn">Submit Now</button>
+    </form>
+    </div>
+</body>
+</html>
