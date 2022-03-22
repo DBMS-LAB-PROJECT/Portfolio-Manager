@@ -34,9 +34,13 @@
     <div class="pic"></div>
     <div class="main">
     <h1>Create New Account</h1>
-    <% if (messages.error) { %>
+
+    <p class="error">
+        <% if (messages.error) { %>
         <%= messages.error %>
-    <% } %>
+        <% } %>
+    </p>
+    
     <form action="/signup" method="post">
         <div>
             <input type="text" name="username" placeholder="Username">

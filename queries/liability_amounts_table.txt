@@ -1,0 +1,25 @@
+
+CREATE TABLE liability_amounts(
+    
+	user_id VARCHAR(100) NOT NULL,
+
+	data_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+
+    car_loan_amount DECIMAL(19,4) NOT NULL DEFAULT 0, 
+
+	property_loan_amount DECIMAL(19,4) NOT NULL DEFAULT 0,
+
+    educational_loan_amount DECIMAL(19,4) NOT NULL DEFAULT 0,
+
+    home_loan_amount DECIMAL(19,4) NOT NULL DEFAULT 0,
+
+    bills_payable_amount DECIMAL(19,4) NOT NULL DEFAULT 0,
+
+    mortgage_payable_amount DECIMAL(19,4) NOT NULL DEFAULT 0,
+
+    capital_leases_amount DECIMAL(19,4) NOT NULL DEFAULT 0,
+
+    bank_account_overdrafts_amount DECIMAL(19,4) NOT NULL DEFAULT 0,
+
+    FOREIGN KEY(user_id) REFERENCES login_credentials(user_id)
+);

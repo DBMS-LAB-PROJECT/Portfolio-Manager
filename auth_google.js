@@ -2,6 +2,7 @@ require('dotenv').config();
 const mysql2 = require("mysql2");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const insertNewUserRows = require("./insert_new_user_rows");
 
 const con = mysql2.createConnection({
     host: process.env.DB_HOST,
@@ -34,21 +35,7 @@ passport.use(new GoogleStrategy({
                     console.log("1 record inserted");
                 });
 
-                con.query("INSERT INTO liability_amounts(user_id) VALUES(?)", userId, function (err, result){
-                    if (err) throw err;
-                    console.log("1 record inserted");
-                });
-                
-                con.query("INSERT INTO liability_interests(user_id) VALUES(?)", userId, function (err, result){
-                    if (err) throw err;
-                    console.log("1 record inserted");
-                });
-    
-                con.query("INSERT INTO liability_interest_rates(user_id) VALUES(?)", userId, function (err, result){
-                    if (err) throw err;
-                    console.log("1 record inserted");
-                });
-                
+                insertNewUserRows.insertRows(User.userId);
             }
             else {
                 console.log(result);

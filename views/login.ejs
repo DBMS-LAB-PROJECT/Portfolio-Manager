@@ -19,9 +19,13 @@
     <div class="pic"></div>
     <div class="main">
    <h1>Sign In</h1>
-    <% if (messages.error) { %>
-    <%= messages.error %>
-    <% } %>
+   
+   <p class="error">
+        <% if (messages.error) { %>
+        <%= messages.error %>
+        <% } %>
+   </p>
+    
     <form action="/login" method="post">
        <div>
            <input type="text" name="username" placeholder="Username or Email">
