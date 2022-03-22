@@ -2,7 +2,7 @@ body{
     margin: 0;
     padding: 0;
     background-color: #11351B;
-
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .pic{
     background: url(main.jpeg) no-repeat center;
@@ -31,8 +31,8 @@ h1{
     
     color: #34A853;
     position: absolute;
-    left: 152px;
-    top: -8px;
+    left: 175px;
+    top: 0px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 700;
     font-size: 35px;
@@ -40,42 +40,36 @@ h1{
 }
 
 p{
-    margin-left: 217px;
+    margin-left: 214px;
     margin-top: 136px;
-    font-size: 30px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 500;
 }
 
-.google{
+
+.google, .fb{
     position: absolute;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    width: 170px;
-    left: 61px;
     top: 98px;
-    font-size: 11px;
+    font-size: 12px;
     padding: 5px;
+    border: none;
     border-radius: 14px;
     background-color: white;
     cursor: pointer;
-    border-color: white;
+    border: 2px solid white;
     font-weight: 600;
-    box-shadow: 2px 2px #34A853 ;
+    box-shadow: 2px 2px 5px #83838375 ;
+
 
 }
+.google{
+    width: 170px;
+    left: 59px;
+}
 .fb{
-    position: absolute;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     width: 180px;
-    left: 252px;
-    top: 98px;
-    font-size: 11px;
-    padding: 5px;
-    border-radius: 14px;
-    background-color: white;
-     cursor: pointer;
-     border-color: white;
-     font-weight: 600;
-     box-shadow: 2px 2px #34A853 ;
+    left: 241px;
 }   
 
 
@@ -83,13 +77,14 @@ p{
 
     background-color:#34A853;
     color: white;
+    border: 2px solid #34A853;
 }
 
 
- form{
+form{
     position: absolute;
     top: 174px;
-    right: 83px;
+    right: 130px;
     
 } 
 
@@ -98,62 +93,69 @@ input{
     height: 30px;
     width: 351px;
     background: none;
-    border-color: white;
+    /* border-color: white; */
+    border: none;
+    border-bottom: 2px solid #a8a8a8;
+    outline: none;
+    align-items: left;
 } 
-
+input::placeholder{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+}
 
 span{
     margin-left: 11px;    
 }
 
 span a{
-    color:rgb(27, 150, 27);
+    color:#1b961b;
     cursor: pointer;
-    font-weight: 900;
+    font-weight: 600;
 }
 
 #submit{
     position: absolute;
-    top: 212px;
-    right: 26px;
-    font-size: 23px;
-    padding: 3px;
-    border-radius: 17px;
-    font-weight: 600;
+    top: 153px;
+    right: 8px;
+    font-size: 18px;
+    padding: 7px;
+    border: none;
+    border-radius: 21px;
     background-color: #34A853;
     color: white;
-    width: 345px;
+    width: 359px;
     cursor: pointer;
     font-weight: 700;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
+    box-shadow: 1px 1px 24px #96969660;
 
 }
 
 .later{
     position: absolute;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    left: -142px;
-    top: 178px;
-    font-size: 18px;
+    left: -90px;
+    top: 266px;
+    font-size: 16px;
     font-weight: 500;
 
 }
 
 .later a{
-    color: #34A853;
-    font-weight: 700;
+    color: #1b961b;
+    font-weight: 600;
 }
 
  .png1{
     position: absolute;
     top: 5px;
-    left: 9px;
+    left: 7px;
 }
 
 
 .png2{
     position: absolute;
-    top: 4px;
-    left: 9px;
+    top: 5px;
+    left: 7px;
 }
