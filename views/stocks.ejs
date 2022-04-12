@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/stocks.css">
     <title>Stocks</title>
 </head>
-
+ 
 <body>
-    <input type="search" id="searchbar" onkeyup="search_company()" placeholder="Search company here" width="150px">
+    <div id="loading" class="hide"></div>
+    <input type="text" id="searchbar" placeholder="Search company here" name="hello">
     <header>
         <span>Symbol</span>
         <span>Name</span>
@@ -18,36 +20,19 @@
         <span>Country</span>
         <span>Type</span>
     </header>
-
+    <div id="search_list">
+        
+    </div>
     <div id="list">
-        <% list.forEach(company=>{ %>
-            <form action="/stocks" method="post">
-                <input type="hidden" value="<%= company.symbol %>" name="company_symbol">
-                <button><span class="symbol">
-                        <%=company.symbol%>
-                    </span></button>
-
-                <input type="hidden" value="<%=company.name%>" name="company_name">
-                <span>
-                    <%=company.name%>
-                </span>
-                <span>
-                    <%=company.currency%>
-                </span>
-                <span>
-                    <%=company.exchange%>
-                </span>
-                <span>
-                    <%=company.country%>
-                </span>
-                <span>
-                    <%=company.type%>
-                </span>
-                <br>
-            </form>
-            <% }); %>
     </div>
 
+
+    
+    <script>
+        
+        
+    </script>
+    <script src="js/config.js"></script>
     <script src="js/stocks.js"></script>
 </body>
 
