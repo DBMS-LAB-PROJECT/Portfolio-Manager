@@ -10,17 +10,22 @@
 
 
     <!-- css stylesheet -->
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="/css/login.css">
 
 
     <title>Login</title>
 </head>
 <body>
-    
+    <div class="pic"></div>
+    <div class="main">
    <h1>Sign In</h1>
-    <% if (messages.error) { %>
-    <%= messages.error %>
-    <% } %>
+   
+   <p class="error">
+        <% if (messages.error) { %>
+        <%= messages.error %>
+        <% } %>
+   </p>
+    
     <form action="/login" method="post">
        <div>
            <input type="text" name="username" placeholder="Username or Email">
@@ -28,18 +33,17 @@
         <div>
             <input type="password" name="password" placeholder="Password">
         </div>
-        <button type="submit" name="submit">Sign In</button>
-        <p><a href=""> Forgot Password?</a></p>
+        <button type="submit" id="submit" name="submit">Sign In</button>
+        <span><a href=""> Forgot Password?</a></span>
     </form>
 
-   <hr>
-   <p>or continue with</p>
-   <hr>
-
-    <a href="/auth/google"><button><img src="https://img.icons8.com/color/48/000000/google-logo.png" width="18px"> Google</button></a>
-    <a href="/auth/facebook"><button><img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" width="18px"></i> Facebook</button></a>
-    <p>Don't have an account? <a href="/signup">Sign Up</a></p>
-
+   
+   <p>-OR-</p>
+   
+   
+    <a href="/auth/google"><button class="google"><img class="png1" src="https://img.icons8.com/color/48/000000/google-logo.png" width="18px"> Sign in with Google</button></a>
+    <a href="/auth/facebook"><button class="fb"><img class="png2" src="https://img.icons8.com/fluency/48/000000/facebook-new.png" width="18px"></i>  Sign in with Facebook</button></a>
+    <p class="later">Don't have an account? <a href="/signup">Sign Up</a></p>
+</div>
 </body>
 </html>
-

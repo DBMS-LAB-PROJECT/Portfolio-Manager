@@ -3,6 +3,7 @@ const mysql2 = require("mysql2");
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
+const insertNewUserRows = require("./insert_new_user_rows");
 
 const con = mysql2.createConnection({
     host: process.env.DB_HOST,
@@ -49,24 +50,7 @@ const verfiyCallbackSignUp = function(req, username, password, done){
                 console.log("1 record inserted");
             });
 
-            con.query("INSERT INTO liability_amounts(user_id) VALUES(?)", User.userId, function (err, result){
-                if (err) throw err;
-                console.log("result");
-                console.log("1 record inserted");
-            });
-            
-            con.query("INSERT INTO liability_interests(user_id) VALUES(?)", User.userId, function (err, result){
-                if (err) throw err;
-                console.log("result");
-                console.log("1 record inserted");
-            });
-
-            con.query("INSERT INTO liability_interest_rates(user_id) VALUES(?)", User.userId, function (err, result){
-                if (err) throw err;
-                console.log("result");
-                console.log("1 record inserted");
-            });
-            
+            insertNewUserRows.insertRows(User.userId);
         }
         // console.log(User);
         return done(null , User);

@@ -54,6 +54,14 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 
+app.engine('ejs', async (path, data, cb) => {
+    try{
+        let html = await ejs.renderFile(path, data, {async: true});
+        cb(null, html);
+    }catch (e){
+        cb(e, '');
+    }
+});
 
 
 // ALL ROUTES 
