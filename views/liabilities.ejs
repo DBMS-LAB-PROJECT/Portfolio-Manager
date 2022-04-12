@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Liabilities</title>
+
+</head>
+
+<body>
+
+    <div>
+        <h1>LIABILITIES</h1>
+    </div>
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th> Type </th>
+                    <th> Amount </th>
+                    <th> Interest </th>
+                    <th> Interest Rate </th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Car Loan</td>
+                    <td>
+                        $<%= liabilities[0].car_loan_amount %>
+                    </td>
+                    <td>
+                        $<%= liabilities[0].car_loan_interest %>
+                    </td>
+                    <td>
+                        <%= liabilities[0].car_loan_rate %>%
+                    </td>
+                    <td><a href="/liabilities/edit/Car Loan">Edit</a></td>
+                </tr>
+
+                <tr>
+                    <td>Property Loan</td>
+                    <td>
+                        $<%= liabilities[0].property_loan_amount %>
+                    </td>
+                    <td>
+                        $<%= liabilities[0].property_loan_interest %>
+                    </td>
+                    <td>
+                        <%= liabilities[0].property_loan_rate %>%
+                    </td>
+                    <td><a href="/liabilities/edit/Property Loan">Edit</a></td>
+                </tr>
+
+                <tr>
+                    <td>Educational Loan</td>
+                    <td>
+                        $<%= liabilities[0].educational_loan_amount %>
+                    </td>
+                    <td>
+                        $<%= liabilities[0].educational_loan_interest %>
+                    </td>
+                    <td>
+                        <%= liabilities[0].educational_loan_rate %>%
+                    </td>
+                    <td><a href="/liabilities/edit/Educational Loan">Edit</a></td>
+                </tr>
+
+                <tr>
+                    <td>Home Loan</td>
+                    <td>
+                        $<%= liabilities[0].home_loan_amount %>
+                    </td>
+                    <td>
+                        $<%= liabilities[0].home_loan_interest %>
+                    </td>
+                    <td>
+                        <%= liabilities[0].home_loan_rate %>%
+                    </td>
+                    <td><a href="/liabilities/edit/Home Loan">Edit</a></td>
+                </tr>
+
+                <tr>
+                    <td>Bills Payable</td>
+                    <td>
+                        $<%= liabilities[0].bills_payable_amount %>
+                    </td>
+                    <td>
+                        $<%= liabilities[0].bills_payable_interest %>
+                    </td>
+                    <td>
+                        <%= liabilities[0].bills_payable_rate %>%
+                    </td>
+                    <td><a href="/liabilities/edit/Bills Payable">Edit</a></td>
+                </tr>
+
+                <tr>
+                    <td>Mortgage Payable</td>
+                    <td>
+                        $<%= liabilities[0].mortgage_payable_amount %>
+                    </td>
+                    <td>
+                        $<%= liabilities[0].mortgage_payable_interest %>
+                    </td>
+                    <td>
+                        <%= liabilities[0].mortgage_payable_rate %>%
+                    </td>
+                    <td><a href="/liabilities/edit/Mortgage Payable">Edit</a></td>
+                </tr>
+
+                <tr>
+                    <td>Capital Leases</td>
+                    <td>
+                        $<%= liabilities[0].capital_leases_amount %>
+                    </td>
+                    <td>
+                        $<%= liabilities[0].capital_leases_interest %>
+                    </td>
+                    <td>
+                        <%= liabilities[0].capital_leases_rate %>%
+                    </td>
+                    <td><a href="/liabilities/edit/Capital Leases">Edit</a></td>
+                </tr>
+
+                <tr>
+                    <td>Bank Account Overdrafts</td>
+                    <td>
+                        $<%= liabilities[0].bank_account_overdrafts_amount %>
+                    </td>
+                    <td>
+                        $<%= liabilities[0].bank_account_overdrafts_interest %>
+                    </td>
+                    <td>
+                        <%= liabilities[0].bank_account_overdrafts_rate %>%
+                    </td>
+                    <td><a href="/liabilities/edit/Bank Account Overdrafts">Edit</a></td>
+                </tr>
+
+                <tr>
+                    <td> Total </td>
+                    <td> 
+                        $<%=total_amount%>
+                    </td>
+                    <td> 
+                        $<%=total_interest%>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</body>
+
+</html>
