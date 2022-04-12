@@ -197,39 +197,10 @@ router.post("/liabilities/edit/:liability_type", function(req, res){
 
 
 router.get("/stocks", async function (req, res) {
-    let url_stocks = "https://api.twelvedata.com/stocks?apikey=" + process.env.API_KEY + "&country=usa";
-    let url_time_series = "https://api.twelvedata.com/time_series?apikey=" + process.env.API_KEY + "&interval=1min&outputsize=1&symbol=";
-    async function getdata() {
-        try {
-            const list = [];
-            const data = await fetch(url_stocks);
-            const obj_data = await data.json();
-            const obj_array = obj_data.data;
-
-            // add the whole data to list array 
-            obj_array.forEach(company => {
-                let newobj = {
-                    symbol: company.symbol,
-                    name: company.name,
-                    currency: company.currency,
-                    exchange: company.exchange,
-                    country: company.country,
-                    type: company.type
-                }
-                list.push(newobj);
-            });
-            const filePath = path.join(__dirname, "../views/stocks.ejs");
-            const html = ejs.renderFile(filePath, { list }, { async: true }, function (err, data) {
-                Promise.resolve(data).then(value => res.send(value));
-            })
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    getdata();
-
-
-
+    con.query("use portfolio_manager");
+    // const user = req.user;
+    // console.log("this is get test route------->" + user);
+    res.render("stocks");
 })
 
 router.post("/stocks", async function (req, res) {
@@ -246,13 +217,6 @@ router.post("/stocks", async function (req, res) {
     // const logo = logo_json.url; 
     res.render("company", { logo: "", name: name, exchange: jsondata.meta.exchange, symbol: symbol });
     // res.send(jsondata);
-})
-
-router.get("/test", async function (req, res) {
-    con.query("use portfolio_manager");
-    // const user = req.user;
-    // console.log("this is get test route------->" + user);
-    res.render("test");
 })
 
 router.post("/add", function (req, res) {
