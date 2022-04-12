@@ -33,10 +33,11 @@ passport.use(new FacebookStrategy({
                 });
             }
             else {
-                console.log(result);
+                // console.log(result);
             }
         });
-        return cb(null, profile);
+        // console.log(profile);
+        return cb(null, profile.id);
     }
 ));
 

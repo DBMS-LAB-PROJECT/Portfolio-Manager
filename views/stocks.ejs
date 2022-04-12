@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <input type="search" id="searchbar" onkeyup="search_company()" placeholder="Search company here" width="150px">
     <header>
         <span>Symbol</span>
         <span>Name</span>
@@ -17,18 +18,37 @@
         <span>Country</span>
         <span>Type</span>
     </header>
-    <ul>
-    <% list.forEach(company=>{ %>
-       <span><%=company.symbol%>  </span>
-       <span><%=company.name%>  </span>
-       <span><%=company.currency%>  </span>
-       <span><%=company.exchange%>  </span>
-       <span><%=company.country%>  </span>
-       <span><%=company.type%>  </span>
-    <% }); %>
-    </ul>
 
+    <div id="list">
+        <% list.forEach(company=>{ %>
+            <form action="/stocks" method="post">
+                <input type="hidden" value="<%= company.symbol %>" name="company_symbol">
+                <button><span class="symbol">
+                        <%=company.symbol%>
+                    </span></button>
 
+                <input type="hidden" value="<%=company.name%>" name="company_name">
+                <span>
+                    <%=company.name%>
+                </span>
+                <span>
+                    <%=company.currency%>
+                </span>
+                <span>
+                    <%=company.exchange%>
+                </span>
+                <span>
+                    <%=company.country%>
+                </span>
+                <span>
+                    <%=company.type%>
+                </span>
+                <br>
+            </form>
+            <% }); %>
+    </div>
+
+    <script src="js/stocks.js"></script>
 </body>
 
 </html>

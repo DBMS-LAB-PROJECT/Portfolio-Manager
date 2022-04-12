@@ -18,8 +18,7 @@ passport.use(new GoogleStrategy({
         let userId = profile._json.sub;
         let userName = profile._json.name;
         let userEmail = profile._json.email;
-
-
+        
         con.query("use portfolio_manager");
         let sql = "SELECT user_id FROM login_credentials where user_id = ?;";
         con.query(sql, userId, function (err, result) {
@@ -35,11 +34,12 @@ passport.use(new GoogleStrategy({
                 });
             }
             else {
-                console.log(result);
+                // console.log(result);
             }
         });
-        return done(null, profile);
-
+        // console.log("Profile-----------------------------");
+        // console.log(profile);
+        return done(null, profile.id);
     }
 ));
 

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/company.css">
+
+    <!-- GOOGLE FONTS -->
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <title>
+        <%= name %>
+    </title>
+</head>
+
+<body>
+    <div id="successfullyAdded">
+        Successfully Added
+    </div>
+    <div id="successfullyUpdated">
+        Successfully Updated
+    </div>
+
+    <div id="alreadyHaveSelectedStock">
+        <div class="modal-content">
+            <div id="alreadyHaveSelectedStockMessage">
+            </div>
+            <div>Do you want to add or update the previous stock qunatity?</div>
+            <div id="alreadyHaveSelectedStockButton">
+                <button id="alreadyHaveSelectedStockButtonUpdate">Update</button>
+                <button id="alreadyHaveSelectedStockButtonAdd">Add</button>
+            </div>
+        </div>
+    </div>
+
+
+    <img src="<%= logo %>" alt="">
+    <h1>
+        <%= name %>
+    </h1>
+    <h2 id="symbol">
+        <%= symbol %>
+    </h2>
+    <h3>
+        <%= exchange %>
+    </h3>
+
+    <div id="currentQuantity">
+    </div>
+
+    <div id="stockCount">
+        <!-- <form id="form" method="post" action="/add/symbol=<%=symbol%>" > -->
+        <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+        <input type="text" id="number" value="0" autocomplete="off" name="quantity" />
+        <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+        <button type="button" id="addButton">Add</button>
+        <!-- </form> -->
+    </div>
+
+    <h2>
+        <button>
+            <span id="info">Info</span>
+        </button>
+        <button>
+            <span id="historicalData">Historical Data</span>
+        </button>
+        <button>
+            <span id="dividendHistory">Dividend History</span>
+        </button>
+        <button>
+            <span id="stockSplitHistory">Stock Split History</span>
+        </button>
+        <button>
+            <span id="news">News</span>
+        </button>
+    </h2>
+    <div id="infoDiv">
+        <p id="description"></p>
+        <p id="locale"></p>
+        <p id="primaryExchange"></p>
+        <p id="typeOfStock"></p>
+        <p id="cik"></p>
+        <p id="composite_figi"></p>
+        <p id="share_class_figi"></p>
+        <p id="market_cap"></p>
+        <p id="phone_number"></p>
+        <p id="address"></p>
+        <p id="sic_code"></p>
+        <p id="sic_description"></p>
+        <p id="homepage_url"></p>
+        <p id="total_employees"></p>
+        <p id="list_date"></p>
+        <p id="share_class_shares_outstanding"></p>
+        <p id="weighted_shares_outstanding"></p>
+    </div>
+
+
+    <div id="historicalDataDiv">
+        <div>
+            <button onclick="change_date(this)">Yesterday</button>
+            <button onclick="change_date(this)">Today</button>
+            <input type="date" id="date" onchange="change_date(this)">
+        </div>
+        <br>
+
+        <!-- *******************************************************°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° -->
+        <div id="interval">
+            <button onclick="change_interval(this)" value="1min">1min</button>
+            <button onclick="change_interval(this)" value="5min">5min</button>
+            <button onclick="change_interval(this)" value="15min">15min</button>
+            <button onclick="change_interval(this)" value="30min">30min</button>
+            <button onclick="change_interval(this)" value="45min">45min</button>
+            <button onclick="change_interval(this)" value="1h">1hr</button>
+            <button onclick="change_interval(this)" value="1day">1day</button>
+            <button onclick="change_interval(this)" value="1week">1week</button>
+            <button onclick="change_interval(this)" value="1month">1month</button>
+        </div>
+
+        <p id="notice"></p>
+        <!-- <p id="futureData">Selected Date is in the future. You can only see historical data.</p> -->
+        <div id="historicaldiv">
+            <canvas id="myChart" height="100px"></canvas>
+            <br>
+            <span>Date Time</span>
+            <span>Open</span>
+            <span>High</span>
+            <span>Low</span>
+            <span>Close</span>
+            <div id="time_series_duration" style="max-height: 300px; overflow: scroll;"></div>
+        </div>
+    </div>
+
+    <div id="stockSplitHistoryDiv">
+        <div>
+            <span>Execution Date</span>
+            <span>From</span>
+            <span>To</span>
+        </div>
+        <div id="stockSplitData">
+        </div>
+    </div>
+
+    <div id="newsDiv">
+        <a href=""></a>
+    </div>
+
+    <div id="dividendHistoryDiv">
+
+        <div>
+            <span>Dvidend Type</span>
+            <span>Declaration date</span>
+            <span>Pay Date</span>
+            <span>Record Date</span>
+            <span>Cash Amount Per Share</span>
+        </div>
+        <canvas id="dividendChart" height="100px"></canvas>
+        <div id="dividendData" style="max-height: 300px; overflow: scroll;">
+        </div>
+    </div>
+
+
+    <script src="js/config.js"></script>
+    <script src="js/company.js"></script>
+
+</body>
+
+
+</html>

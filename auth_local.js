@@ -24,9 +24,9 @@ const verfiyCallbackSignUp = function(req, username, password, done){
         userId: bcrypt.hashSync(password, 10)
     };
 
-    console.log(User.userName);
-    console.log(User.email);
-    console.log(User.password);
+    // console.log(User.userName);
+    // console.log(User.email);
+    // console.log(User.password);
     // console.log(User.userId);
 
     con.query("use portfolio_manager");
@@ -49,6 +49,7 @@ const verfiyCallbackSignUp = function(req, username, password, done){
                 console.log("1 record inserted");
             });
         }
+        // console.log(User);
         return done(null , User);
     })
 }
@@ -61,9 +62,9 @@ const verfiyCallbackSignIn = function(req, username, password, done){
         userId: bcrypt.hashSync(password, 10)
     };
 
-    console.log(User.userName);
-    console.log(User.password);
-    console.log(User.userId);
+    // console.log(User.userName);
+    // console.log(User.password);
+    // console.log(User.userId);
 
     con.query("use portfolio_manager");
 
@@ -77,7 +78,7 @@ const verfiyCallbackSignIn = function(req, username, password, done){
         }
         if (!bcrypt.compareSync(password, rows[0].user_id))
                     return done(null, false, {message:'Wrong password.'});
-        return done(null, rows[0]);
+        return done(null, rows[0].user_id);
     });
 }
 
