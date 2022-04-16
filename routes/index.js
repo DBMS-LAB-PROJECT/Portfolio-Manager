@@ -20,7 +20,7 @@ const _ = require("lodash");
 // const request = require('request');
 
 router.use(bodyParser.urlencoded({ extended: true, limit: "100kb" }))
-
+router.use("view engine", "ejs");
 // ***************************************************************************************
 
 // ***************************************************************************************
@@ -78,8 +78,8 @@ router.get("/auth/failure", function (req, res) {
 })
 
 router.get("/dashboard", isloggedin, function (req, res) {
-    
-    res.render("dashboard", {username: req.user.user_name});
+
+    res.render("dashboard", { username: req.user.user_name });
 });
 
 router.get("/logout", function (req, res) {
@@ -92,60 +92,80 @@ router.get("/terms_and_conditions", function (req, res) {
     res.render("terms_and_conditions");
 });
 
-router.get("/liabilities", isloggedin, function(req, res){
+router.get("/liabilities", isloggedin, function (req, res) {
 
     let sql = "SELECT * FROM ((liability_amounts a INNER JOIN liability_interests b ON a.user_id = b.user_id) INNER JOIN liability_interest_rates c ON a.user_id = c.user_id) WHERE a.user_id  = ?";
 
-    database.query(sql, req.user.user_id,function(err, result, fields){
-        
-        let total_amount = result[0].car_loan_amount; 
-        total_amount+= result[0].property_loan_amount;
-        total_amount+= result[0].educational_loan_amount;
-        total_amount+= result[0].home_loan_amount;
-        total_amount+= result[0].bills_payable_amount;
-        total_amount+= result[0].mortgage_payable_amount;
-        total_amount+= result[0].capital_leases_amount;
-        total_amount+= result[0].bank_account_overdrafts_amount;
-        
-        let total_interest = result[0].car_loan_interest; 
-        total_interest+= result[0].property_loan_interest;
-        total_interest+= result[0].educational_loan_interest;
-        total_interest+= result[0].home_loan_interest;
-        total_interest+= result[0].bills_payable_interest;
-        total_interest+= result[0].mortgage_payable_interest;
-        total_interest+= result[0].capital_leases_interest;
-        total_interest+= result[0].bank_account_overdrafts_interest;
+    database.query(sql, req.user.user_id, function (err, result, fields) {
+
+        let total_amount = result[0].car_loan_amount;
+        total_amount += result[0].property_loan_amount;
+        total_amount += result[0].educational_loan_amount;
+        total_amount += result[0].home_loan_amount;
+        total_amount += result[0].bills_payable_amount;
+        total_amount += result[0].mortgage_payable_amount;
+        total_amount += result[0].capital_leases_amount;
+        total_amount += result[0].bank_account_overdrafts_amount;
+
+        let total_interest = result[0].car_loan_interest;
+        total_interest += result[0].property_loan_interest;
+        total_interest += result[0].educational_loan_interest;
+        total_interest += result[0].home_loan_interest;
+        total_interest += result[0].bills_payable_interest;
+        total_interest += result[0].mortgage_payable_interest;
+        total_interest += result[0].capital_leases_interest;
+        total_interest += result[0].bank_account_overdrafts_interest;
 
         if (err) throw err;
-        res.render("liabilities", { liabilities: result, 
-                                    total_amount: total_amount, 
-                                    total_interest: total_interest 
-                                });
+        res.render("liabilities", {
+            liabilities: result,
+            total_amount: total_amount,
+            total_interest: total_interest
+        });
 
     });
-    
+
 });
- 
-router.get("/liabilities/edit/:liability_type", isloggedin, function(req, res, next){
+
+router.get("/liabilities/edit/:liability_type", isloggedin, function (req, res, next) {
 
     let type = req.params.liability_type;
     let liability_type = _.snakeCase(_.lowerCase(type));
-    let amount = liability_type+"_amount";
-    let interest = liability_type+"_interest";
-    let rate = liability_type+"_rate";
+    let amount = liability_type + "_amount";
+    let interest = liability_type + "_interest";
+    let rate = liability_type + "_rate";
 
-    let sql = "SELECT a."+amount+", b."+interest+", c."+rate+" FROM ((liability_amounts a INNER JOIN liability_interests b ON a.user_id = b.user_id) INNER JOIN liability_interest_rates c ON a.user_id = c.user_id) WHERE a.user_id = ?";
+    let sql = "SELECT a." + amount + ", b." + interest + ", c." + rate + " FROM ((liability_amounts a INNER JOIN liability_interests b ON a.user_id = b.user_id) INNER JOIN liability_interest_rates c ON a.user_id = c.user_id) WHERE a.user_id = ?";
 
-    database.query(sql, req.user.user_id, function(err, result){
+    database.query(sql, req.user.user_id, function (err, result) {
 
-        if(err) throw err;
+        if (err) throw err;
         console.log(result);
         res.render("edit_liability", { liability_name: type, liability: result[0], amount: amount, rate: rate });
 
     });
-    
+
 });
 
+router.get("/addInsurance", function (req, res) {
+    res.sendFile(__dirname + "/views/addInsurance.ejs")
+})
+
+router.get("/insurance", isloggedin, function (req, res) {
+
+    user = req.user.user_id;
+    var display = "SELECT * FROM insurance_details WHERE userId = " + user;
+    database.query(display, function (error, result) {
+        if (error) {
+            console.log("error in displaying data.");
+            throw errors;
+        }
+        res.render("insurance", {
+            data: result
+        });
+
+    })
+})
 
 // **************************** POST ROUTES *******************************************************
 router.post("/login", passport.authenticate('local-signIn', {
@@ -169,22 +189,22 @@ router.post("/signup", passport.authenticate('local-signup', {
 )
 
 
-router.post("/liabilities/edit/:liability_type", function(req, res){
+router.post("/liabilities/edit/:liability_type", function (req, res) {
 
     let type = req.params.liability_type;
     let liability_type = _.snakeCase(_.lowerCase(type));
-    let amount = liability_type+"_amount";
-    let interest = liability_type+"_interest";
-    let rate = liability_type+"_rate";
+    let amount = liability_type + "_amount";
+    let interest = liability_type + "_interest";
+    let rate = liability_type + "_rate";
 
     let r = req.body.interest_rate;
     let t = req.body.time_period;
     let p = req.body.amount;
     let int = ((p * r * t) / 100);
 
-    let sql = "UPDATE liability_amounts a, liability_interests b, liability_interest_rates c SET a."+amount+" = ?, b."+interest+" = ?, c."+rate+" = ? WHERE a.user_id = b.user_id AND b.user_id = c.user_id AND a.user_id = ?";
+    let sql = "UPDATE liability_amounts a, liability_interests b, liability_interest_rates c SET a." + amount + " = ?, b." + interest + " = ?, c." + rate + " = ? WHERE a.user_id = b.user_id AND b.user_id = c.user_id AND a.user_id = ?";
 
-    database.query(sql, [p, int, r, req.user.user_id], function(err, result){
+    database.query(sql, [p, int, r, req.user.user_id], function (err, result) {
 
         if (err) throw err;
         console.log(result);
@@ -193,6 +213,35 @@ router.post("/liabilities/edit/:liability_type", function(req, res){
 
     res.redirect("/liabilities");
 });
+
+
+router.post("/insurance", isloggedin, function (req, res) {
+
+    database.query("CREATE TABLE IF NOT EXISTS insurance_details (userId varchar(30), type varchar(30), insurer varchar(30), startingDate varchar(10), endingDate varchar(10), Fee_of_Contract int)", function (err, result) {
+        if (err) throw err;
+        console.log("table created successfully!");
+    })
+    var userid = req.user.user_id;
+    var ins_type = req.body.type;
+    var insurer = req.body.insurerCompany;
+    var start = req.body.startingAt;
+    var end = req.body.endingAt;
+    var fee = req.body.contractFee;
+
+    var insert = "INSERT INTO insurance_details VALUES (?)";
+    var values = [userid, ins_type, insurer, start, end, fee];
+
+    db.query(insert, [values], function (err, result) {
+        if (err) {
+            console.log("error inserting insurance data to the database.");
+            throw err;
+        }
+        console.log("1 record added to the table successfully.");
+    })
+
+    res.redirect("/insurance");
+})
+
 
 
 router.get("/stocks", async function (req, res) {
@@ -222,12 +271,12 @@ router.get("/stocks", async function (req, res) {
             obj_array.forEach(company => {
                 // res.write(company.symbol + "\t" + company.name + "\t" + company.currency + "\t" + company.exchange + "\t" + company.country + "\t" + company.type + "\n");
                 let newobj = {
-                symbol:  company.symbol,
-                name:  company.name,
-                currency:  company.currency,
-                exchange:  company.exchange,
-                country:  company.country,
-                type:  company.type
+                    symbol: company.symbol,
+                    name: company.name,
+                    currency: company.currency,
+                    exchange: company.exchange,
+                    country: company.country,
+                    type: company.type
                 }
                 list.push(newobj);
                 // res.write(obj.symbol + " " + obj.name + "\n");
@@ -240,15 +289,15 @@ router.get("/stocks", async function (req, res) {
             // })
             // console.log(html);
             // res.send(html);
-            
-        }catch (error) {
+
+        } catch (error) {
             console.log(error);
         }
     }
     getdata();
     // const html = ejs.renderFile("stocks.ejs", {list} , {async:true});
     // res.send(html);
-    res.render("stocks", {list});
+    res.render("stocks", { list });
 
 
 })
@@ -256,6 +305,8 @@ router.get("/stocks", async function (req, res) {
 router.get("/test", function (req, res) {
     res.render("test.ejs", { name: "shadab" });
 })
+
+router.get('/insurance')
 
 
 module.exports = router;

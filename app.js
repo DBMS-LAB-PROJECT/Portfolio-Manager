@@ -31,13 +31,13 @@ con.connect(function (err) {
 const app = express();
 
 
-app.use(body_parser.urlencoded({extended: true}));
+app.use(body_parser.urlencoded({ extended: true }));
 
 app.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie:{
+    cookie: {
         maxAge: 1000 * 60 * 24
     }
 }));
@@ -54,10 +54,10 @@ app.use(express.static("public"));
 
 
 app.engine('ejs', async (path, data, cb) => {
-    try{
-        let html = await ejs.renderFile(path, data, {async: true});
+    try {
+        let html = await ejs.renderFile(path, data, { async: true });
         cb(null, html);
-    }catch (e){
+    } catch (e) {
         cb(e, '');
     }
 });
@@ -100,12 +100,12 @@ app.get("/stocks", async function (req, res) {
             obj_array.forEach(company => {
                 // res.write(company.symbol + "\t" + company.name + "\t" + company.currency + "\t" + company.exchange + "\t" + company.country + "\t" + company.type + "\n");
                 let newobj = {
-                symbol:  company.symbol,
-                name:  company.name,
-                currency:  company.currency,
-                exchange:  company.exchange,
-                country:  company.country,
-                type:  company.type
+                    symbol: company.symbol,
+                    name: company.name,
+                    currency: company.currency,
+                    exchange: company.exchange,
+                    country: company.country,
+                    type: company.type
                 }
                 list.push(newobj);
                 // res.write(obj.symbol + " " + obj.name + "\n");
@@ -115,14 +115,14 @@ app.get("/stocks", async function (req, res) {
 
 
             // res.send(list);
-            const filePath = path.join(__dirname , "../views/stocks.ejs"); 
-            const html = ejs.renderFile(filePath, {list} , {async: true}, function(err,data ){
+            const filePath = path.join(__dirname, "../views/stocks.ejs");
+            const html = ejs.renderFile(filePath, { list }, { async: true }, function (err, data) {
                 // console.log(data);
 
             })
             // console.log(html);
             res.send(html);
-            
+
 
         } catch (error) {
             console.log(error);
