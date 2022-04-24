@@ -1,0 +1,75 @@
+@import url(colors.css);
+
+#currentHoldingModal{
+	position: fixed;
+	z-index: 101;
+	background-color: rgba(0,0,0,0.4);
+	width: 100%;
+	height: 100%;
+    font-size: 1rem;
+    color: var(--darkBlue);
+}
+
+.modal-content3 {
+	background-color: #fefefe;
+	margin: 10rem auto 0; 
+	padding: 3.125rem;
+	border: 1px solid #888;
+	max-width: 60rem;
+    height: 70vh;
+    border-radius: 1rem;
+    overflow: scroll;
+}
+
+#currentHoldingDataDiv{
+    margin-top: 2rem;
+}
+
+#currentHoldingDataDiv div{
+	display: grid;
+	grid-template-columns: minmax(3rem,8rem) minmax(5rem,8rem) minmax(5rem,8rem) minmax(5rem,8rem) minmax(5rem,8rem) minmax(5rem,15rem)  minmax(5rem,8rem);
+    text-align: center;
+    max-width: 60rem;
+}
+
+#currentHoldingDataDiv div span{
+    margin-right: 2rem;
+}
+
+#currentHoldingDataDiv hr{
+    margin: 0.5rem 0;
+    max-width: 50rem;
+}
+
+#currentHoldingModalHeading{
+    font-size: 1.125rem;
+}
+#currentHoldingModalHeading span{
+    font-weight: 500;
+}
+
+
+.currentHoldingModalTableHeading{
+    font-weight: 500;
+}
+
+
+.alignLeft{
+    text-align: left;    
+}
+
+#currentHoldingModalError{
+    /* display: flex; */
+    text-align: center;
+    position: relative;
+    top: 4rem;
+}
+
+#currentHoldingModalError div{
+    margin-bottom: 1rem;
+}
+
+.heightclass{
+    height: 40vh;
+}
+
