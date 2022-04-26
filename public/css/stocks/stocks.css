@@ -1,143 +1,31 @@
-@import url("colors.css");
 
-*, *::after, *::before {
-    box-sizing: inherit;
-    margin: 0;
-    padding: 0;
-    font-family: 'Brandon Grotesque','Lato';
-    /* font-family: 'Lato'; */
-    font-weight: inherit;
+#loading {
+    background:  url("/images/spinner.gif") no-repeat center center;
+    /* background-color: black;   */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-size: 20%;
+    z-index: 9999999;
 }
 
-html{
-    box-sizing: border-box;
-    font-weight: 400;
+/* body{
+    background-color: black;
+    color: wheat;
+}
+button{
+    background-color: black;
+    color: wheat;
+} */
+
+.hide{
+    display: none;
 }
 
-body{
-    background-color: var(--darkBlue);
-    color: var(--offwhite);
-}
+/* #search_list{
+    color: red;
+} */
 
-.navigationBar{
-    margin-top: 3.125rem;
-    margin-left: 3.125rem;
-    margin-right: 3.125rem;
-}
-
-.navigationBar ul{
-    display: flex;
-    justify-content: right;
-}
-
-.navigationBar ul li {
-    margin-left: 2rem;
-    color: var(--offwhite);
-    text-transform: uppercase;
-    list-style: none;
-}
-
-.navigationBar ul li a{
-    text-decoration: none;
-    color: var(--offwhite);
-}
-
-main{
-    margin-top: 7rem;
-    margin-left: 10rem;
-    margin-right: 10rem;
-}
-
-.mainContentSection{
-    display: flex;
-    justify-content: space-between;
-}
-
-h1{
-    font-size: 4.5rem;
-    text-transform: uppercase;
-    font-weight: 900;
-    line-height: 1.3;
-}
-
-.mainContentDiv p{
-    font-size: 1.125rem;
-    width: 40ch;
-    margin-top: 1rem;
-}
-
-.mainImage img{
-    width: 30rem;
-}
-
-.inputSection{
-    position: relative;
-    top: -rem;
-}
-
-.inputDiv{
-    background-color: var(--offwhite);
-    width: 30rem;
-    height: 2.5rem;
-    border-radius: 10rem;
-}
-
-.inputDiv input{
-    padding: 1rem;
-    width: 30rem;
-    height: 2.5rem;
-    color: var(--darkBlue);
-    background-color: var(--offwhite);
-    border-radius: 10rem;
-    border: none;
-    border: 1px solid rgb(17, 45, 78, 0.5);
-}
-
-.inputDiv input::placeholder { 
-    color: var(--darkBlue);
-    opacity: 0.5;
-}
-
-.infoDiv i::before{
-    background:transparent;
-}
-
-.inputDiv svg{
-    position: relative;
-    top: -2rem;
-    left: 28rem;
-    background-color: var(--offwhite);
-    width: 1rem;
-    opacity: 0.5;
-}
-
-#searchResultDiv{
-    width: 30rem;
-    background-color: var(--offwhite);
-    padding: 1rem;
-    margin-top: 1rem;
-    border-radius: 0.5rem;
-}
-
-#search_list button{
-    text-transform: uppercase;
-    width: 28rem;
-    background-color: var(--offwhite);
-    color: var(--darkBlue);
-    display: flex;
-    justify-content: space-between;
-    border: none;
-}
-
-.companyName{
-    text-align: left;
-}
-
-.symbol{
-    text-align: right;
-}
-
-#search_list button div:hover{
-    cursor: pointer;
-}
 
