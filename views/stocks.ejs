@@ -1,39 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/stocks.css">
-    <title>Stocks</title>
+
+    <!-- Cascading StyleSheets -->
+    <!-- <link rel="stylesheet" href="../public/css/stocks/colors.css"> -->
+    <!-- <link rel="stylesheet" href="../public/css/stocks/stocks.css"> -->
+
+    <link rel="stylesheet" href="css/stocks/colors.css">
+    <link rel="stylesheet" href="css/stocks/stocks.css">
+
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <script src="https://kit.fontawesome.com/40989200a5.js" crossorigin="anonymous"></script>
+
+    <title>Stocks Manager</title>
 </head>
- 
 <body>
-    <div id="loading" class="hide"></div>
-    <input type="text" id="searchbar" placeholder="Search company here" name="hello">
     <header>
-        <span>Symbol</span>
-        <span>Name</span>
-        <span>Currency</span>
-        <span>Exchange</span>
-        <span>Country</span>
-        <span>Type</span>
+        <nav class="navigationBar">
+            <ul>
+                <li id="home"><a href="/">home</a></li>
+                <li id="about"><a href="/about">about</a></li>
+                <li id="contact"><a href="/contact">contact us</a></li>
+                <li class="currentStocksHoldings"><a href="/currentHoldings">Current Holdings</a></li>
+                <li id="dashboard"><a href="/dashboard">dashboard</a></li>
+            </ul>
+        </nav>
     </header>
-    <div id="search_list">
+
+    <main>
+        <div class="mainContentSection">
+            <div class="mainContentDiv">
+                <h1>stocks <br> manager</h1>
+                <p>Here you can see your favourite stocks info, historical prices upto 2 yrs along with the company dividend history and any stock splits company had in the past.</p>
+            </div>
+            <div class="mainImage">
+                <!-- <img src="../public/images/main image.png" alt="" width="600px"> -->
+                <img src="images/main_image.png" alt="" width="600px">
+            </div>
+        </div>
+
+        <section class="inputSection">
+            <div class="inputDiv">
+                <input type="text" id="searchbar" placeholder="Search by company or symbol">
+                <!-- <i class="fa-solid fa-magnifying-glass"  style="color: var(--darkBlue);"></i> -->
+                <i class="fa-solid fa-magnifying-glass"  style="color: var(--darkBlue);"></i>
+            </div>
+            <div id="searchResultDiv">
+                <div id="search_list">
         
-    </div>
-    <div id="list">
-    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
 
-    
-    <script>
-        
-        
-    </script>
     <script src="js/config.js"></script>
     <script src="js/stocks.js"></script>
 </body>
-
 </html>

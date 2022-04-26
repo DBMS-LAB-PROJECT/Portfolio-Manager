@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/stocks/currentHoldings.css">
+
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <script src="https://kit.fontawesome.com/40989200a5.js" crossorigin="anonymous"></script>
+
+
+    <title>Current Holdings</title>
+</head>
+
+<body>
+    <div class="mainContent">
+        <h1><p>Greetings,</p><div> <%= userName %> </div></h1>
+        <p class="notice">Below is the list of all current holdings you have in stocks:</p>
+    </div>
+
+    <section class="inputSection">
+        <div class="inputDiv">
+            <input type="text" id="searchbar" placeholder="Search by company or symbol">
+            <!-- <i class="fa-solid fa-magnifying-glass"  style="color: var(--darkBlue);"></i> -->
+            <i class="fa-solid fa-magnifying-glass"  style="color: var(--darkBlue);"></i>
+        </div>
+        <div id="searchResultDiv">
+            <div id="search_list">
+    
+            </div>
+        </div>
+    </section>
+
+
+
+    <div id="currentHoldingDataDiv">
+    </div>
+
+    <div id="currentHoldingModalError">
+        <div class="errorIcon">
+            <i class="fa-solid fa-2x fa-circle-exclamation"></i>
+        </div>
+        <p class="error">
+            You haven't added any stock into your portfolio yet.
+        </p>
+    </div>
+
+    <script src="js/currentHoldings.js"></script>
+</body>
+
+</html>

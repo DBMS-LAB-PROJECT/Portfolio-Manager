@@ -1,0 +1,62 @@
+@import url("colors.css");
+
+#infoDiv{
+    margin-left: 3.125rem;
+    margin-right: 3.125rem;
+    margin-bottom: 5rem;
+    font-size: 1.25rem;
+    color: var(--darkBlue);
+}
+
+#description{
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.keyDataDiv{
+    margin-top: 2.5rem;
+}
+
+.keyData{
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    /* text-decoration: underline; */
+    margin-bottom: 1rem;
+}
+
+.dataDiv{
+    display: flex;
+    font-size: 1rem;
+}
+
+.dataDiv hr{
+    width: 28rem;
+}
+
+.dataDivHeading{
+    font-weight: 500;
+}
+
+.leftDataDiv, .rightDataDiv{
+    width: 27.875rem;
+}
+
+.rightDataDiv{
+    margin-left: 3.125rem;
+}
+
+.leftDataDiv p, .rightDataDiv p{
+    display: flex;
+    justify-content: space-between;
+}
+
+#homepage_url a{
+    text-decoration: none;
+    color: var(--mediumBlue);
+}
+
+#infoDivError{
+    color: red;
+    font-size: 1.125rem;
+}

@@ -1,4 +1,10 @@
+const mediumBlue = '#3F72AF';
+const offwhite = '#F9F7F7';
+const darkBlue = '#112D4E';
+const lightBlue = '#DBE2EF'
+
 const symbol = document.getElementById("symbol").textContent.trim();
+const companyName = document.getElementById('companyName').textContent.trim();
 let interval = "1min";
 let date = new Date(new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" })).getTime() + 24 * 60 * 60 * 1000);
 // console.log("p\t" + date);
@@ -65,19 +71,31 @@ let high = [];
 let low = [];
 
 const info = document.getElementById("info");
-const historicalData = document.getElementById("historicalData");
 const infoDiv = document.getElementById("infoDiv");
+const infoDivContent = document.getElementById('infoDivContent');
+const infoDivError = document.getElementById('infoDivError');
+const historicalData = document.getElementById("historicalData");
 const historicalDataDiv = document.getElementById("historicalDataDiv");
+const historicaldivHeading = document.getElementById('historicaldivHeading');
 const stockSplitHistory = document.getElementById("stockSplitHistory");
 const stockSplitHistoryDiv = document.getElementById("stockSplitHistoryDiv");
+const stockSplitHistoryDivContent = document.getElementById("stockSplitHistoryDivContent");
+const stockSplitHistoryDivError = document.getElementById('stockSplitHistoryDivError');
 const dividendHistory = document.getElementById("dividendHistory");
 const dividendHistoryDiv = document.getElementById("dividendHistoryDiv");
-const news = document.getElementById("news");
-const newsDiv = document.getElementById("newsDiv");
+const dividendHistoryDivContent = document.getElementById("dividendHistoryDivContent");
+const dividendHistoryDivError = document.getElementById("dividendHistoryDivError");
+const dividendHistoryDivHeading = document.getElementById('dividendHistoryDivHeading');
+// const news = document.getElementById("news");
+// const newsDiv = document.getElementById("newsDiv");
+infoDiv.style.display = "";
 historicalDataDiv.style.display = "none";
 dividendHistoryDiv.style.display = "none";
-newsDiv.style.display = "none";
+// newsDiv.style.display = "none";
 stockSplitHistoryDiv.style.display = "none";
+
+infoDivError.style.display = "none";
+stockSplitHistoryDivError.style.display = "none";
 
 // *****************************************************************************************
 let myChart;
@@ -159,7 +177,7 @@ async function getChart(time, low, high, open, high) {
                     ticks: {
                         // Include a dollar sign in the ticks
                         callback: function (value, index, ticks) {
-                            return '$' + value.toFixed(2);
+                            return '$' + value.toFixed(0);
                         }
                     }
                 }
@@ -252,6 +270,7 @@ const get_interval_data = async (preInterval, interval, start_date, end_date) =>
         time_series_div.style.display = "none";
         notice.textContent = "Selected Date is in the future. You can only see historical data.";
         notice.style.display = "";
+        historicaldivHeading.style.display = "none";
         return;
     }
 
@@ -260,8 +279,21 @@ const get_interval_data = async (preInterval, interval, start_date, end_date) =>
         notice.style.display = "";
         canvas.style.display = "none";
         time_series_div.style.display = "none";
-        return
+        historicaldivHeading.style.display = "none";
+        return;
     }
+
+    if ((sd.getDay() == 0 || sd.getDay() == 6) && (interval != "1week" && interval != "1month")) {
+        // isMarketcloseTag.style.display = "block";
+        canvas.style.display = "none";
+        time_series_div.style.display = "none";
+        notice.textContent = "Market is close on weekends";
+        notice.style.display = "";
+        historicaldivHeading.style.display = "none";
+        return;
+    }
+
+
     if (new Date(start_date).getDate() === new Date(yesterday).getDate() && currentTime < marketOpenTime && (preInterval != "1week" && preInterval != "1month")) {
         // console.log(currentTime);
         // console.log(marketOpenTime);
@@ -270,30 +302,57 @@ const get_interval_data = async (preInterval, interval, start_date, end_date) =>
         notice.style.display = "block";
         canvas.style.display = "none";
         time_series_div.style.display = "none";
+        historicaldivHeading.style.display = "none";
         return;
     }
 
-
-    if ((sd.getDay() == 0 || sd.getDay() == 6) && (interval != "1week" && interval != "1month")) {
-        // isMarketcloseTag.style.display = "block";
-        canvas.style.display = "none";
-        time_series_div.style.display = "none";
-        notice.textContent = "Market is close today";
-        notice.style.display = "";
-        return;
-    }
 
     canvas.style.display = "block";
     time_series_div.style.display = "block";
+    historicaldivHeading.style.display = "";
     // futureDataTag.style.display = "none";
     notice.style.display = "none";
 
     let min = arr.length;
-    let html = "";
-    for (let i = 0; i < min; i++) {
-        html +=
-            `<div><span>${arr[i].datetime}</span> <span>${parseFloat(arr[i].open).toFixed(2)}</span> <span>${parseFloat(arr[i].high).toFixed(2)}</span> <span>${parseFloat(arr[i].low).toFixed(2)}</span> <span>${parseFloat(arr[i].close).toFixed(2)}</span></div>`
+    if (min != 0) {
+        let html2 = `<div class="historicaldivHeading">
+        <span class="alignLeft">Date</span>
+        <span>Time</span>
+        <span>Open</span>
+        <span>High</span>
+        <span>Low</span>
+        <span>Close</span>
+        </div>`;
+        document.getElementById('historicaldivHeading').innerHTML = html2;
     }
+    let html = "<hr>";
+    if (arr[0].datetime.length > 10) {
+        for (let i = 0; i < min; i++) {
+            html +=
+                `<div>
+            <span class="alignLeft">${arr[i].datetime.substring(0, 10)}</span> 
+            <span>${arr[i].datetime.substring(10, arr[i].length)}</span> 
+            <span>${parseFloat(arr[i].open).toFixed(2)}</span> 
+            <span>${parseFloat(arr[i].high).toFixed(2)}</span> 
+            <span>${parseFloat(arr[i].low).toFixed(2)}</span> 
+            <span>${parseFloat(arr[i].close).toFixed(2)}</span>
+            </div><hr>`
+        }
+    }
+    else {
+        for (let i = 0; i < min; i++) {
+            html +=
+                `<div>
+            <span class="alignLeft">${arr[i].datetime.substring(0, 10)}</span> 
+            <span>-</span> 
+            <span>${parseFloat(arr[i].open).toFixed(2)}</span> 
+            <span>${parseFloat(arr[i].high).toFixed(2)}</span> 
+            <span>${parseFloat(arr[i].low).toFixed(2)}</span> 
+            <span>${parseFloat(arr[i].close).toFixed(2)}</span>
+            </div><hr>`
+        }
+    }
+
     time_series_div.innerHTML = html;
 
     time = [];
@@ -317,13 +376,15 @@ const get_interval_data = async (preInterval, interval, start_date, end_date) =>
 }
 
 const getCompanyDetails = async () => {
+    infoDivError.style.display = "none";
     let url = 'https://api.polygon.io/v3/reference/tickers/' + symbol + '?apiKey=' + config.polygonAPI1;
     // console.log(url);
     const data = await fetch(url);
     const dataJSON = await data.json();
     // console.log(dataJSON.status);
     if (dataJSON.status == 'NOT_FOUND') {
-        infoDiv.innerHTML = "<h1>DATA NOT AVAILABLE</h1>";
+        infoDivContent.style.display = "none";
+        infoDivError.style.display = "";
         return;
     }
 
@@ -335,7 +396,7 @@ const getCompanyDetails = async () => {
     let share_class_figi = document.getElementById("share_class_figi");
     let market_cap = document.getElementById("market_cap");
     let phone_number = document.getElementById("phone_number");
-    let address = document.getElementById("address");
+    // let address = document.getElementById("address");
     let sic_code = document.getElementById("sic_code");
     let sic_description = document.getElementById("sic_description")
     let homepage_url = document.getElementById("homepage_url");
@@ -346,32 +407,41 @@ const getCompanyDetails = async () => {
 
     let homepageUrl = dataJSON.results.homepage_url;
 
+    var formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+
+        // These options are needed to round to whole numbers if that's what you want.
+        //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+        //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+    });
+
     description.textContent = dataJSON.results.description;
-    locale.textContent = 'Locale: ' + dataJSON.results.locale;
-    primaryExchange.textContent = 'Primary Exchange: ' + dataJSON.results.primary_exchange;
-    typeOfStock.textContent = 'Type Of Stock: ' + dataJSON.results.type;
-    cik.textContent = 'CIK Number: ' + dataJSON.results.cik;
-    composite_figi.textContent = 'Composite Figi Number: ' + dataJSON.results.composite_figi;
-    share_class_figi.textContent = 'Share Class Figi Number: ' + dataJSON.results.share_class_figi;
-    market_cap.textContent = 'Market Cap: ' + '$' + dataJSON.results.market_cap;
-    phone_number.textContent = 'Phone Number: ' + dataJSON.results.phone_number;
-    address.innerHTML = `Address: <div>${dataJSON.results.address.address1} <br> 
-                        <p>${dataJSON.results.address.city}</p> 
-                        <p>${dataJSON.results.address.state} </p>
-                        <p>${dataJSON.results.address.postal_code}</p><div>`;
-    sic_code.textContent = 'SIC Code: ' + dataJSON.results.sic_code;
-    sic_description.textContent = 'SIC Description: ' + dataJSON.results.sic_description;
-    homepage_url.innerHTML = `Homepage URL: <a href='${homepageUrl}'>  ${dataJSON.results.homepage_url}  </a>`;
-    total_employees.textContent = 'Total Employees: ' + dataJSON.results.total_employees;
-    list_date.textContent = 'List Date: ' + dataJSON.results.list_date;
-    share_class_shares_outstanding.textContent = 'Share Class Outstanding Shares: ' + dataJSON.results.share_class_shares_outstanding;
-    weighted_shares_outstanding.textContent = 'Weighted Outstanding Shares: ' + dataJSON.results.weighted_shares_outstanding;
-
-
+    locale.innerHTML = '<div class="dataDivHeading">Locale</div> <div>' + dataJSON.results.locale + '</div>';
+    primaryExchange.innerHTML = '<div class="dataDivHeading">Primary Exchange</div> <div>' + dataJSON.results.primary_exchange + '</div>';
+    typeOfStock.innerHTML = '<div class="dataDivHeading">Type Of Stock</div> <div>' + dataJSON.results.type + '</div>';
+    cik.innerHTML = '<div class="dataDivHeading">CIK Number</div> <div>' + dataJSON.results.cik + '</div>';
+    composite_figi.innerHTML = '<div class="dataDivHeading">Composite Figi Number</div> <div>' + dataJSON.results.composite_figi + '</div>';
+    share_class_figi.innerHTML = '<div class="dataDivHeading">Share Class Figi Number</div> <div>' + dataJSON.results.share_class_figi + '</div>';
+    market_cap.innerHTML = '<div class="dataDivHeading">Market Cap</div> <div>' + formatter.format(dataJSON.results.market_cap) + '</div>';
+    phone_number.innerHTML = '<div class="dataDivHeading">Phone Number</div> <div>' + dataJSON.results.phone_number + '</div>';
+    // address.innerHTML = `<div class="dataDivHeading">Address</div> <div>${dataJSON.results.address.address1} <br> 
+    //                     ${dataJSON.results.address.city},
+    //                     ${dataJSON.results.address.state}<br>
+    //                     ${dataJSON.results.address.postal_code}<div>`;
+    sic_code.innerHTML = '<div class="dataDivHeading">SIC Code</div> <div>' + dataJSON.results.sic_code + '</div>';
+    sic_description.innerHTML = '<div class="dataDivHeading">SIC Description</div> <div>' + dataJSON.results.sic_description + '</div>';
+    homepage_url.innerHTML = `<div class="dataDivHeading">Homepage URL</div> <div><a href='${homepageUrl}'>  ${dataJSON.results.homepage_url}  </a></div>`;
+    total_employees.innerHTML = '<div class="dataDivHeading">Total Employees</div> <div>' + dataJSON.results.total_employees + '</div>';
+    list_date.innerHTML = '<div class="dataDivHeading">List Date</div> <div>' + dataJSON.results.list_date + '</div>';
+    share_class_shares_outstanding.innerHTML = '<div class="dataDivHeading">Share Class Outstanding Shares</div> <div>' + dataJSON.results.share_class_shares_outstanding + '</div>';
+    weighted_shares_outstanding.innerHTML = '<div class="dataDivHeading">Weighted Outstanding Shares</div> <div>' + dataJSON.results.weighted_shares_outstanding + '</div>';
 
 }
 
 const getStockSplitHistory = async () => {
+    stockSplitHistoryDivError.style.display = "none";
+
     const stockSplitData = document.getElementById("stockSplitData");
     const url = 'https://api.polygon.io/v3/reference/splits?ticker=' + symbol + '&apiKey=' + config.polygonAPI1;
     const data = await fetch(url);
@@ -379,92 +449,131 @@ const getStockSplitHistory = async () => {
     const arr = dataJSON.results;
     // console.log("ssssss---->  " + arr.length);
     if (arr.length === 0) {
-        stockSplitHistoryDiv.innerHTML = "<h1>DATA NOT AVAILABLE</h1>";
+        stockSplitHistoryDivContent.style.display = "none";
+        stockSplitHistoryDivError.style.display = "";
         return;
     }
-    let html = "";
+    let html = "<hr>";
     for (let i = 0; i < arr.length; i++) {
         html += `<div>
-                    <span>${arr[i].execution_date}</span>
+                    <span class="alignLeft">${arr[i].execution_date}</span>
                     <span>${arr[i].split_from}</span>
                     <span>${arr[i].split_to}</span>
-                </div>`
+                </div><hr>`
     }
     stockSplitData.innerHTML = html;
 
 }
 
-const getNews = async () => {
-    const url = 'https://api.polygon.io/v2/reference/news?ticker=' + symbol + '&apiKey=' + config.polygonAPI2;
-    const data = await fetch(url);
-    // console.log(data);
-    const dataJSON = await data.json();
-    const arr = dataJSON.results;
-    // console.log(arr.length);
-    if (arr.length === 0) {
-        newsDiv.innerHTML = "<h1>DATA NOT AVAILABLE</h1>";
-        return;
-    }
-    let html = "";
-    for (let i = 0; i < arr.length; i++) {
-        let homepage = arr[i].publisher.homepage_url;
-        homepage = homepage.substring(0, homepage.length - 1);
-        let description = arr[i].description;
-        // console.log(description);
-        // console.log(homepage);
-        // homepage_url = homepage_url.substr(0, homepage_url.length - 1)
-        html += `<div id="newsDiv">
-                    <img src="${arr[i].image_url}" alt="" width="400rem">
-                    <a href="${arr[i].article_url}"><h3>${arr[i].title}</h3></a>`
-        if (description != undefined) {
-            html += `<p>${arr[i].description}</p>`
+// const getNews = async () => {
+//     const url = 'https://api.polygon.io/v2/reference/news?ticker=' + symbol + '&apiKey=' + config.polygonAPI2;
+//     const data = await fetch(url);
+//     // console.log(data);
+//     const dataJSON = await data.json();
+//     const arr = dataJSON.results;
+//     // console.log(arr.length);
+//     if (arr.length === 0) {
+//         newsDiv.innerHTML = "<h1>DATA NOT AVAILABLE</h1>";
+//         return;
+//     }
+//     let html = "";
+//     for (let i = 0; i < arr.length; i++) {
+//         let homepage = arr[i].publisher.homepage_url;
+//         homepage = homepage.substring(0, homepage.length - 1);
+//         let description = arr[i].description;
+//         // console.log(description);
+//         // console.log(homepage);
+//         // homepage_url = homepage_url.substr(0, homepage_url.length - 1)
+//         html += `<div id="newsDiv">
+//                     <img src="${arr[i].image_url}" alt="" width="400rem">
+//                     <a href="${arr[i].article_url}"><h3>${arr[i].title}</h3></a>`
+//         if (description != undefined) {
+//             html += `<p>${arr[i].description}</p>`
 
-        }
-        html += `<a href="${homepage}">
-                        <p><img src="${arr[i].publisher.favicon_url}" alt="" width="20px"> Published by ${arr[i].publisher.name}</p>
-                    </a>
-                </div>`
-    }
-    newsDiv.innerHTML = html;
+//         }
+//         html += `<a href="${homepage}">
+//                         <p><img src="${arr[i].publisher.favicon_url}" alt="" width="20px"> Published by ${arr[i].publisher.name}</p>
+//                     </a>
+//                 </div>`
+//     }
+//     newsDiv.innerHTML = html;
 
-}
+// }
 
 const getDividendHistory = async () => {
+    dividendHistoryDivError.style.display = "none";
     const url = 'https://api.polygon.io/v3/reference/dividends?ticker=' + symbol + '&apiKey=' + config.polygonAPI3;
     let data = await fetch(url);
     let json_data = await data.json();
-    console.log(json_data.results.length);
+    // console.log(json_data.results.length);
     if (json_data.results.length === 0) {
-        dividendHistoryDiv.innerHTML = "<h1>DATA NOT AVAILABLE</h1>";
+        dividendHistoryDivContent.style.display = "none";
+        dividendHistoryDivError.style.display = "";
         return;
     }
     let arr = [];
     let temp_arr = json_data.results;
+    // console.log(temp_arr);
     const dividendData = document.getElementById('dividendData');
     // let html = "";
-    arr.push(temp_arr);
+    for (let i = 0; i < temp_arr.length; i++) {
+        arr.push(temp_arr[i]);
+    }
+    // console.log(arr);
+    // console.log(json_data.next_url);
     let next_url = json_data.next_url + '&apiKey=' + config.polygonAPI3;
+
+    dividendHistoryDivHeading.style.display = "";
+    let html2 = "";
+    if (temp_arr.length > 0) {
+        html2 = `<div class="dividendHistoryDivHeading">
+                    <span class="alignLeft">Dividend Type</span>
+                    <span>Declaration Date</span>
+                    <span>Pay Date</span>
+                    <span>Record Date</span>
+                    <span>Cash Amount Per Share</span>
+                </div>`
+        dividendHistoryDivHeading.innerHTML = html2;
+    }
+
+    let html = `<hr>`;
+
+    for (let i = 0; i < temp_arr.length; i++) {
+        html += `<div>
+        <span class="alignLeft">${temp_arr[i].dividend_type}</span>
+        <span>${temp_arr[i].declaration_date}</span>
+        <span>${temp_arr[i].pay_date}</span>
+        <span>${temp_arr[i].record_date}</span>
+        <span>${temp_arr[i].cash_amount.toFixed(2)}</span>
+        </div><hr>`;
+        // arr.push(temp_arr[i]);
+    }
+
+
     for (let j = 0; j < 4; j++) {
-        if (next_url.length > 0) {
+        if (json_data.next_url != undefined) {
             data = await fetch(next_url);
             json_data = await data.json();
             temp_arr = json_data.results;
             for (let i = 0; i < temp_arr.length; i++) {
-                const html = `<div>
-                <span>${temp_arr[i].dividend_type}</span>
+                html += `<div>
+                <span class="alignLeft">${temp_arr[i].dividend_type}</span>
                 <span>${temp_arr[i].declaration_date}</span>
                 <span>${temp_arr[i].pay_date}</span>
                 <span>${temp_arr[i].record_date}</span>
                 <span>${temp_arr[i].cash_amount.toFixed(2)}</span>
-                </div>`;
-                dividendData.insertAdjacentHTML('beforeend', html);
+                </div><hr>`;
                 arr.push(temp_arr[i]);
             }
             next_url = json_data.next_url + '&apiKey=' + config.polygonAPI3;
         }
     }
+    dividendData.innerHTML = html;
+
+    // CHART 
     let dividendPayDate = [];
     let dividendAmount = [];
+    console.log(arr);
     for (let i = 0; i < arr.length; i++) {
         dividendPayDate.push(arr[i].pay_date)
         dividendAmount.push(arr[i].cash_amount);
@@ -541,7 +650,7 @@ get_interval_data(preInterval, interval, yesterday, today);
 getChart(time, low, high, open, close);
 getStockSplitHistory();
 getDividendHistory();
-getNews();
+// getNews();
 
 function updateChart() {
     // console.log("Update Chart is running");
@@ -756,46 +865,61 @@ function isIntervalMonth() {
     return;
 }
 
+
+info.parentElement.classList.add('selectedButton');
+
 info.addEventListener("click", function () {
     // console.log(info);
     historicalDataDiv.style.display = "none";
     dividendHistoryDiv.style.display = "none";
-    newsDiv.style.display = "none";
+    // newsDiv.style.display = "none";
     stockSplitHistoryDiv.style.display = "none";
     infoDiv.style.display = "block";
+
+    info.parentElement.classList.add('selectedButton');
+    historicalData.parentElement.classList.remove('selectedButton');
+    dividendHistory.parentElement.classList.remove('selectedButton');
+    stockSplitHistory.parentElement.classList.remove('selectedButton');
 })
 
 historicalData.addEventListener("click", function () {
     // console.log(historicalData);
     infoDiv.style.display = "none";
     dividendHistoryDiv.style.display = "none";
-    newsDiv.style.display = "none";
+    // newsDiv.style.display = "none";
     stockSplitHistoryDiv.style.display = "none";
     historicalDataDiv.style.display = "block";
+
+    info.parentElement.classList.remove('selectedButton');
+    historicalData.parentElement.classList.add('selectedButton');
+    dividendHistory.parentElement.classList.remove('selectedButton');
+    stockSplitHistory.parentElement.classList.remove('selectedButton');
 })
 
 dividendHistory.addEventListener("click", function () {
     infoDiv.style.display = "none";
     historicalDataDiv.style.display = "none";
-    newsDiv.style.display = "none";
+    // newsDiv.style.display = "none";
     stockSplitHistoryDiv.style.display = "none";
     dividendHistoryDiv.style.display = "block";
-})
 
-news.addEventListener("click", function () {
-    infoDiv.style.display = "none";
-    dividendHistoryDiv.style.display = "none";
-    historicalDataDiv.style.display = "none";
-    stockSplitHistoryDiv.style.display = "none";
-    newsDiv.style.display = "block";
+    info.parentElement.classList.remove('selectedButton');
+    historicalData.parentElement.classList.remove('selectedButton');
+    dividendHistory.parentElement.classList.add('selectedButton');
+    stockSplitHistory.parentElement.classList.remove('selectedButton');
 })
 
 stockSplitHistory.addEventListener("click", function () {
     infoDiv.style.display = "none";
     dividendHistoryDiv.style.display = "none";
     historicalDataDiv.style.display = "none";
-    newsDiv.style.display = "none";
+    // newsDiv.style.display = "none";
     stockSplitHistoryDiv.style.display = "block";
+
+    info.parentElement.classList.remove('selectedButton');
+    historicalData.parentElement.classList.remove('selectedButton');
+    dividendHistory.parentElement.classList.remove('selectedButton');
+    stockSplitHistory.parentElement.classList.add('selectedButton');
 })
 
 function increaseValue() {
@@ -813,43 +937,222 @@ function decreaseValue() {
     document.getElementById('number').value = value;
 }
 
-// document.getElementById('number').addEventListener('keypress', function (event) {
-//     console.log('hello');
-//     console.log(event.key);
-//     if (event.key === 'Enter') {
-//         event.preventDefault();
-//     }
-// })
-
+const addToPortfolio = document.getElementById('addToPortfolio');
 const addButton = document.getElementById('addButton');
 addButton.style.display = "none";
 const successfullyAdded = document.getElementById('successfullyAdded')
 successfullyAdded.style.display = "none";
-const successfullyUpdated = document.getElementById('successfullyUpdated')
-successfullyUpdated.style.display = "none";
-const alreadyHaveSelectedStock = document.getElementById('alreadyHaveSelectedStock');
-alreadyHaveSelectedStock.style.display = "none";
-const alreadyHaveSelectedStockMessage = document.getElementById('alreadyHaveSelectedStockMessage');
+const addToPortfolioModal = document.getElementById('addToPortfolioModal');
+addToPortfolioModal.style.display = "none";
+const confirmAdd = document.getElementById('confirmAdd');
+confirmAdd.style.display = "none";
 
-setInterval(() => {
-    const quantity = document.getElementById('number').value;
-    if (!isNaN(quantity) && parseInt(quantity) > 0) {
-        addButton.style.display = "";
-    }
-    else {
-        addButton.style.display = "none";
-    }
-}, 100);
+// ERROR MESSAGES IN ADD TO PORTFOLIO MODAL
+const quantityMessage = document.getElementById('quantityMessage');
+const pricePerShareMessage = document.getElementById('pricePerShareMessage');
+const dateOfBuyingMessage = document.getElementById('dateOfBuyingMessage');
+quantityMessage.style.display = "none";
+pricePerShareMessage.style.display = "none";
+dateOfBuyingMessage.style.display = "none";
 
-let timer;
-const runtimer = () => {
-    console.log("runtimer");
-    timer = setTimeout(() => {
-        successfullyAdded.style.display = "none";
-    }, 5000);
+let price;
+
+getCurrentPrice = async () => {
+    const data = await fetch('https://api.twelvedata.com/time_series?apikey=a7d873a9ef674f3991558d933153c0c9&symbol=' + symbol + '&interval=1min');
+    const json = await data.json();
+    // console.log(json);
+    const arr = json.values;
+    // console.log(arr[0]);
+    // console.log(arr[0].open);
+    let value = arr[0].open;
+    value = parseFloat(value).toFixed(2);
+    // console.log(value);
+    price = value;
+    return value;
+    // console.log(((arr[0].open + arr[0].close)/2).toFixed(2));
 }
 
-getCurrentQunatity = async () => {
+getCurrentPrice();
+
+let buyDate = yDate.getFullYear() + '-' + (yDate.getMonth() + 1) + '-' + yDate.getDate();
+console.log(buyDate);
+// console.log(price);
+
+
+const getError = () => {
+    setInterval(() => {
+        // QUANTITY ERROR 
+        const quantity = document.getElementById('number').value;
+        if (quantity.length === 0) {
+            quantityMessage.innerText = "Quantity cannot be empty";
+            quantityMessage.style.display = "";
+        }
+        else if (isNaN(quantity)) {
+            quantityMessage.innerHTML = "Quantity must be a number";
+            quantityMessage.style.display = "";
+        }
+        else if (parseInt(quantity) == 0) {
+            quantityMessage.innerHTML = "Quantity should be greater than 0";
+            quantityMessage.style.display = "";
+        }
+        else {
+            quantityMessage.style.display = "none";
+        }
+
+        // PRICE ERROR 
+        const customPriceInput = document.getElementById('customPriceInput');
+        if (price.length === 0) {
+            pricePerShareMessage.innerText = "Price field cannot be empty";
+            pricePerShareMessage.style.display = "";
+        }
+        else if (isNaN(customPriceInput.value)) {
+            pricePerShareMessage.innerText = "Price must be a number";
+            pricePerShareMessage.style.display = "";
+        }
+        else {
+            pricePerShareMessage.style.display = "none";
+        }
+
+        // BUY DATE ERROR 
+        let buyday = new Date(buyDate).getDay();
+        let marketOpenTime = "09:30:00";
+        let timeDate = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }))
+        let currentTime = timeDate.toTimeString().substring(0, 8);
+        // console.log("buyDate\t" + new Date(buyDate));
+        // console.log(compare2Date);
+        if (buyDate.length === 0) {
+            dateOfBuyingMessage.innerText = "Date field cannot be empty";
+            dateOfBuyingMessage.style.display = "";
+        }
+        else if (new Date(new Date(buyDate).setHours(0, 0, 0, 0)) > compare2Date) {
+            dateOfBuyingMessage.innerText = "Selected date is in the future";
+            dateOfBuyingMessage.style.display = "";
+        }
+        else if (buyday === 0 || buyday === 6) {
+            dateOfBuyingMessage.innerText = "Market is closed on weekends";
+            dateOfBuyingMessage.style.display = "";
+            dateOfBuyingMessage.style.display = "";
+        }
+        else if (new Date(buyDate).getDate() === new Date(yesterday).getDate() && currentTime < marketOpenTime) {
+            dateOfBuyingMessage.innerText = "Today's market is not open yet";
+            dateOfBuyingMessage.style.display = "";
+        }
+        else {
+            dateOfBuyingMessage.style.display = "none";
+        }
+    }, 20);
+}
+
+getError();
+
+const noError = () => {
+    if (quantityMessage.style.display == "none"
+        && pricePerShareMessage.style.display == "none"
+        && dateOfBuyingMessage.style.display == "none") {
+        return true;
+    }
+    return false;
+}
+
+function getCustomDate() {
+    const customDateInput = document.getElementById('customDateInput');
+    buyDate = customDateInput.value;
+    // console.log("customDate---->   " + buyDate);
+    // console.log(new Date(new Date(buyDate).setHours(0,0,0,0)));
+}
+
+function getCustomPrice() {
+    const customPriceInput = document.getElementById('customPriceInput');
+    price = customPriceInput.value;
+    // console.log("custommPrice----->" + price);
+}
+
+let dateInterval;
+let priceInterval;
+// let dateInterval = setInterval(getCustomDate , 100);
+// let priceInterval = setInterval(getCustomPrice, 100);
+
+const customPriceInput = document.getElementById('customPriceInput');
+const customDateInput = document.getElementById('customDateInput');
+const customPrice = document.getElementById('customPrice');
+const customDate = document.getElementById('customDate');
+const currentPrice = document.getElementById('currentPrice');
+const currentDate = document.getElementById('currentDate');
+
+customDateInput.value = "";
+customPriceInput.style.display = "none";
+customDateInput.style.display = "none";
+currentPrice.classList.add('red');
+currentDate.classList.add('red');
+
+addToPortfolio.addEventListener('click', () => {
+    document.querySelector('#addToPortfolio button').classList.add('selectedButton');
+    addToPortfolioModal.style.display = "";
+    currentDate.style.setProperty('color', offwhite);
+
+    currentDate.style.setProperty('background-color', mediumBlue);
+    currentPrice.style.setProperty('color', offwhite);
+    currentPrice.style.setProperty('background-color', mediumBlue);
+
+    customPrice.addEventListener('click', () => {
+        customPriceInput.style.display = "";
+        customPrice.style.setProperty('color', offwhite);
+        customPrice.style.setProperty('background-color', mediumBlue);
+        currentPrice.style.setProperty('color', darkBlue);
+        currentPrice.style.setProperty('background-color', offwhite);
+        clearInterval(priceInterval);
+        priceInterval = setInterval(getCustomPrice, 100);
+    })
+    customDate.addEventListener('click', () => {
+        customDateInput.style.display = "";
+        customPriceInput.style.display = "";
+        customDate.style.setProperty('color', offwhite);
+        customDate.style.setProperty('background-color', mediumBlue);
+        customPrice.style.setProperty('color', offwhite);
+        customPrice.style.setProperty('background-color', mediumBlue);
+        currentDate.style.setProperty('color', darkBlue);
+        currentDate.style.setProperty('background-color', offwhite);
+        currentPrice.style.setProperty('color', darkBlue);
+        currentPrice.style.setProperty('background-color', offwhite);
+        clearInterval(dateInterval);
+        dateInterval = setInterval(getCustomDate, 100);
+        clearInterval(priceInterval);
+        priceInterval = setInterval(getCustomPrice, 100);
+    })
+    currentPrice.addEventListener('click', async () => {
+        customPriceInput.style.display = "none";
+        currentPrice.style.setProperty('color', offwhite);
+        currentPrice.style.setProperty('background-color', mediumBlue);
+        customPrice.style.setProperty('color', darkBlue);
+        customPrice.style.setProperty('background-color', offwhite);
+        clearInterval(priceInterval);
+        price = await getCurrentPrice();
+        // console.log("currentPrice--->" + price);
+    })
+    currentDate.addEventListener('click', () => {
+        currentDate.style.setProperty('color', offwhite);
+        currentDate.style.setProperty('background-color', mediumBlue);
+        customDate.style.setProperty('color', darkBlue);
+        customDate.style.setProperty('background-color', offwhite);
+        clearInterval(dateInterval);
+        customDateInput.style.display = "none";
+        const date = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
+        buyDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+        // console.log("today----->" + buyDate);
+    })
+
+    setInterval(() => {
+        if (noError()) {
+            addButton.style.display = "";
+        }
+        else {
+            addButton.style.display = "none";
+        }
+    }, 0);
+})
+
+
+getCurrentQuantity = async () => {
     const postData = {
         symbol: symbol
     }
@@ -863,106 +1166,316 @@ getCurrentQunatity = async () => {
     const jsonData = await data.json();
     const prevQuantity = jsonData.prevQuantity;
     document.getElementById('currentQuantity').innerHTML = "Current Holding: " + prevQuantity;
-    document.getElementById('number').value = 0;
-
+    document.getElementById('number').value = 1;
 }
 
-// setInterval(() => {
-getCurrentQunatity();
-// }, 1000);
+// getCurrentQuantity();
 
 addButton.addEventListener('click', function () {
-    async function getdata() {
-        const postData = {
-            symbol: symbol,
-            quantity: document.getElementById('number').value
-        }
-        console.log(symbol);
-        const data = await fetch('http://localhost:3000/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(postData),
-        });
+    console.log("addbutton is loaded");
+    addToPortfolioModal.style.display = "none";
+    confirmAdd.style.display = "";
+    const quantity = document.getElementById('quantity');
+    const pricePerShare = document.getElementById('pricePerShare');
+    const dateOfBuying = document.getElementById('dateOfBuying');
+    console.log('price---->' + price);
+    console.log('buydate--->' + buyDate);
+    quantity.innerText = document.getElementById('number').value;
+    pricePerShare.innerText = price;
+    dateOfBuying.innerText = buyDate;
+})
 
-        const jsonData = await data.json();
-        const prevQuantity = jsonData.prevQuantity;
-        // console.log(jsonData);
-        if (prevQuantity == 0) {
-            successfullyAdded.style.display = "block";
-            // console.log("prevquantity---->" + prevQuantity);
+backButton.addEventListener('click', function () {
+    addToPortfolioModal.style.display = "";
+    confirmAdd.style.display = "none";
+})
 
-            setTimeout(() => {
-                successfullyAdded.style.display = "none";
-            }, 2000);
-            getCurrentQunatity();
-            // document.getElementById('number').value = 0;
-        }
+const successfullyAddedHide = () => {
+    successfullyAdded.style.display = "none";
+}
 
-        if (prevQuantity > 0) {
-            alreadyHaveSelectedStockMessage.innerHTML = "You already have " + prevQuantity + " " + symbol + " stocks in your portfolio.";
-            alreadyHaveSelectedStock.style.display = "block";
-        }
+let timeout;
 
-        const alreadyHaveSelectedStockButtonUpdate = document.getElementById('alreadyHaveSelectedStockButtonUpdate');
-        const alreadyHaveSelectedStockButtonAdd = document.getElementById('alreadyHaveSelectedStockButtonAdd');
+confirmButton.addEventListener('click', function () {
+    document.querySelector('#addToPortfolio button').classList.remove('selectedButton');
+    const quantity = document.getElementById('quantity').innerText;
+    let pricePerShare = document.getElementById('pricePerShare').innerText;
+    pricePerShare = parseFloat(pricePerShare);
+    pricePerShare = pricePerShare.toFixed(2);
+    console.log(pricePerShare);
+    const dateOfBuying = document.getElementById('dateOfBuying').innerText;
 
-        alreadyHaveSelectedStockButtonAdd.addEventListener('click', async function () {
-            const postData = {
-                symbol: symbol,
-                quantity: document.getElementById('number').value,
-                prevQuantity: prevQuantity
-            }
-            fetch('http://localhost:3000/alreadyHaveSelectedStockButtonAdd', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(postData),
-            });
-            alreadyHaveSelectedStock.style.display = "none";
-            successfullyAdded.style.display = "block";
-            setTimeout(() => {
-                successfullyAdded.style.display = "none";
-            }, 2000);
-            getCurrentQunatity();
-            // document.getElementById('number').value = 0;
-        })
-
-        alreadyHaveSelectedStockButtonUpdate.addEventListener('click', async function () {
-            fetch('http://localhost:3000/alreadyHaveSelectedStockButtonUpdate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(postData),
-            });
-            alreadyHaveSelectedStock.style.display = "none";
-            successfullyUpdated.style.display = "block";
-            setTimeout(() => {
-                successfullyUpdated.style.display = "none";
-            }, 2000);
-            // successfullyUpdated.style.animation = 'none';
-            // successfullyUpdated.offsetHeight; /* trigger reflow */
-            // successfullyUpdated.style.animation = null;
-            // runtimer();
-            // alreadyHaveSelectedStock.style.display = "none";
-            getCurrentQunatity();
-            // document.getElementById('number').value = 0;
-
-        })
+    const postData = {
+        companyName: companyName,
+        symbol: symbol,
+        quantity: quantity,
+        pricePerShare: pricePerShare,
+        dateOfBuying: dateOfBuying
     }
-    getdata();
+
+    fetch('http://localhost:3000/stocks/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+    });
+    confirmAdd.style.display = "none";
+    clearTimeout(timeout)
+    successfullyAdded.style.display = "";
+    timeout = setTimeout(successfullyAddedHide, 2000);
+})
+
+
+
+const currentHoldingModal = document.getElementById('currentHoldingModal');
+currentHoldingModal.style.display = "none";
+const currentHolding = document.getElementById('currentHolding');
+const currentHoldingModalError = document.getElementById('currentHoldingModalError');
+currentHoldingModalError.style.display = "none";
+const currentHoldingModalHeading = document.getElementById('currentHoldingModalHeading');
+
+const getCurrentHolding = async () => {
+    document.querySelector('#currentHolding button').classList.add('selectedButton');
+    currentHoldingModalError.style.display = "none";
+    const postData = {
+        symbol: symbol
+    }
+    const data = await fetch('http://localhost:3000/currentHoldingModal', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+    });
+    const json = await data.json();
+    // console.log(json[0].price.toFixed(2));
+    const currentHoldingDataDiv = document.getElementById('currentHoldingDataDiv');
+    currentHoldingModal.style.display = "";
+    if (json.length === 0) {
+        document.getElementsByClassName('modal-content3')[0].style.height = '40vh';
+        currentHoldingDataDiv.style.display = "none";
+        currentHoldingModalHeading.style.display = "none";
+        currentHoldingModalError.style.display = "";
+    }
+    else {
+        document.getElementsByClassName('modal-content3')[0].style.height = '70vh';
+        currentHoldingModalHeading.style.display = "";
+        currentHoldingModalError.style.display = "none";
+        currentHoldingDataDiv.style.display = "";
+        let html = "";
+        html += `<div class="currentHoldingModalTableHeading">
+                    <span class="alignLeft">S.No</span>
+                    <span>Symbol</span>
+                    <span>Quantity</span>
+                    <span>Price Per Share</span>
+                    <span>Date of purchase</span>
+                    <span>Total Cost Price</span>
+                    <span style="visibility: hidden;">Remove</span>
+                </div><hr>`
+        for (let index = 0; index < json.length; index++) {
+            const price = json[index].price.toFixed(2);
+            let costprice = json[index].quantity * json[index].price;
+            costprice = costprice.toFixed(2);
+            // console.log(price);
+            html += `<div>
+                        <span class="alignLeft">${index + 1}</span>
+                        <span>${json[index].symbol}</span>
+                        <span>${json[index].quantity}</span>
+                        <span>${price}</span>
+                        <span>${json[index].buyDate.substring(0, 10)}</span>
+                        <span>${costprice}</span>
+                        <span name="${json[index].stock_id}" class="removeTag" onclick='remove(this)'><i class="fa-solid fa-circle-minus"></i></span>
+                    </div><hr>`
+        };
+        currentHoldingDataDiv.innerHTML = html;
+    }
+}
+
+const remove = async (e) => {
+    const id = e.getAttribute('name');
+    console.log(id);
+    const postData = {
+        symbol: symbol,
+        stock_id: id,
+    }
+    await fetch('http://localhost:3000/currentHoldingModal/remove', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+    });
+
+    await getCurrentHolding();
+}
+
+currentHolding.addEventListener('click', async () => {
+    await getCurrentHolding();
 })
 
 window.onclick = function (event) {
-    if (event.target == alreadyHaveSelectedStock) {
-        alreadyHaveSelectedStock.style.display = "none";
+    if (event.target == addToPortfolioModal) {
+        addToPortfolioModal.style.display = "none";
+        document.querySelector('#addToPortfolio button').classList.remove('selectedButton');
+    }
+    if (event.target == currentHoldingModal) {
+        document.querySelector('#currentHolding button').classList.remove('selectedButton');
+        currentHoldingModal.style.display = "none";
+    }
+    if (event.target == confirmAdd) {
+        confirmAdd.style.display = "none";
     }
 }
 
+// Selection Button Event Listeners 
 
+document.getElementById('today').style.setProperty('color', offwhite, '');
+document.getElementById('today').style.setProperty('background-color', mediumBlue, '');
+document.getElementById('1m').style.setProperty('color', offwhite, '');
+document.getElementById('1m').style.setProperty('background-color', mediumBlue, '');
+document.getElementById('date').value = '';
 
+document.getElementById('today').addEventListener('click', () => {
+    document.getElementById('today').style.setProperty('color', offwhite, '');
+    document.getElementById('today').style.setProperty('background-color', mediumBlue, '');
+    document.getElementById('yesterday').style = "";
+})
+document.getElementById('yesterday').addEventListener('click', () => {
+    document.getElementById('yesterday').style.setProperty('color', offwhite, '');
+    document.getElementById('yesterday').style.setProperty('background-color', mediumBlue, '');
+    document.getElementById('today').style = '';
+})
+document.getElementById('date').addEventListener('change', () => {
+    document.getElementById('today').style = '';
+    document.getElementById('yesterday').style = '';
+})
 
+document.getElementById('1m').addEventListener('click', () => {
+    document.getElementById('1m').style.setProperty('color', offwhite, '');
+    document.getElementById('1m').style.setProperty('background-color', mediumBlue, '');
+    document.getElementById('1m').style.setProperty('font-weight', '700', '');
+
+    document.getElementById('5m').style = '';
+    document.getElementById('15m').style = '';
+    document.getElementById('30m').style = '';
+    document.getElementById('45m').style = '';
+    document.getElementById('1h').style = '';
+    document.getElementById('1D').style = '';
+    document.getElementById('1W').style = '';
+    document.getElementById('1M').style = '';
+})
+document.getElementById('5m').addEventListener('click', () => {
+    document.getElementById('5m').style.setProperty('color', offwhite, '');
+    document.getElementById('5m').style.setProperty('background-color', mediumBlue, '');
+    document.getElementById('5m').style.setProperty('font-weight', '700', '');
+
+    document.getElementById('1m').style = '';
+    document.getElementById('15m').style = '';
+    document.getElementById('30m').style = '';
+    document.getElementById('45m').style = '';
+    document.getElementById('1h').style = '';
+    document.getElementById('1D').style = '';
+    document.getElementById('1W').style = '';
+    document.getElementById('1M').style = '';
+})
+document.getElementById('15m').addEventListener('click', () => {
+    document.getElementById('15m').style.setProperty('color', offwhite, '');
+    document.getElementById('15m').style.setProperty('background-color', mediumBlue, '');
+    document.getElementById('15m').style.setProperty('font-weight', '700', '');
+
+    document.getElementById('5m').style = '';
+    document.getElementById('1m').style = '';
+    document.getElementById('30m').style = '';
+    document.getElementById('45m').style = '';
+    document.getElementById('1h').style = '';
+    document.getElementById('1D').style = '';
+    document.getElementById('1W').style = '';
+    document.getElementById('1M').style = '';
+})
+document.getElementById('30m').addEventListener('click', () => {
+    document.getElementById('30m').style.setProperty('color', offwhite, '');
+    document.getElementById('30m').style.setProperty('background-color', mediumBlue, '');
+    document.getElementById('30m').style.setProperty('font-weight', '700', '');
+
+    document.getElementById('5m').style = '';
+    document.getElementById('15m').style = '';
+    document.getElementById('1m').style = '';
+    document.getElementById('45m').style = '';
+    document.getElementById('1h').style = '';
+    document.getElementById('1D').style = '';
+    document.getElementById('1W').style = '';
+    document.getElementById('1M').style = '';
+})
+document.getElementById('45m').addEventListener('click', () => {
+    document.getElementById('45m').style.setProperty('color', offwhite, '');
+    document.getElementById('45m').style.setProperty('background-color', mediumBlue, '');
+    document.getElementById('45m').style.setProperty('font-weight', '700', '');
+
+    document.getElementById('5m').style = '';
+    document.getElementById('15m').style = '';
+    document.getElementById('30m').style = '';
+    document.getElementById('1m').style = '';
+    document.getElementById('1h').style = '';
+    document.getElementById('1D').style = '';
+    document.getElementById('1W').style = '';
+    document.getElementById('1M').style = '';
+})
+document.getElementById('1h').addEventListener('click', () => {
+    document.getElementById('1h').style.setProperty('color', offwhite, '');
+    document.getElementById('1h').style.setProperty('background-color', mediumBlue, '');
+    document.getElementById('1h').style.setProperty('font-weight', '700', '');
+
+    document.getElementById('5m').style = '';
+    document.getElementById('15m').style = '';
+    document.getElementById('30m').style = '';
+    document.getElementById('45m').style = '';
+    document.getElementById('1m').style = '';
+    document.getElementById('1D').style = '';
+    document.getElementById('1W').style = '';
+    document.getElementById('1M').style = '';
+})
+document.getElementById('1D').addEventListener('click', () => {
+    document.getElementById('1D').style.setProperty('color', offwhite, '');
+    document.getElementById('1D').style.setProperty('background-color', mediumBlue, '');
+    document.getElementById('1D').style.setProperty('font-weight', '700', '');
+
+    document.getElementById('5m').style = '';
+    document.getElementById('15m').style = '';
+    document.getElementById('30m').style = '';
+    document.getElementById('45m').style = '';
+    document.getElementById('1h').style = '';
+    document.getElementById('1m').style = '';
+    document.getElementById('1W').style = '';
+    document.getElementById('1M').style = '';
+})
+document.getElementById('1W').addEventListener('click', () => {
+    document.getElementById('1W').style.setProperty('color', offwhite, '');
+    document.getElementById('1W').style.setProperty('background-color', mediumBlue, '');
+    document.getElementById('1W').style.setProperty('font-weight', '700', '');
+
+    document.getElementById('5m').style = '';
+    document.getElementById('15m').style = '';
+    document.getElementById('30m').style = '';
+    document.getElementById('45m').style = '';
+    document.getElementById('1h').style = '';
+    document.getElementById('1D').style = '';
+    document.getElementById('1m').style = '';
+    document.getElementById('1M').style = '';
+})
+document.getElementById('1M').addEventListener('click', () => {
+    document.getElementById('1M').style.setProperty('color', offwhite, '');
+    document.getElementById('1M').style.setProperty('background-color', mediumBlue, '');
+    document.getElementById('1M').style.setProperty('font-weight', '700', '');
+
+    document.getElementById('5m').style = '';
+    document.getElementById('15m').style = '';
+    document.getElementById('30m').style = '';
+    document.getElementById('45m').style = '';
+
+    document.getElementById('1h').style = '';
+    document.getElementById('1D').style = '';
+    document.getElementById('1W').style = '';
+    document.getElementById('1m').style = '';
+})
 

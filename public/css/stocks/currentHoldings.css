@@ -1,0 +1,129 @@
+@import url("colors.css");
+
+*, *::after, *::before {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+    font-family: 'Brandon Grotesque','Lato';
+    font-weight: inherit;
+}
+
+html{
+    box-sizing: border-box;
+    font-weight: 400;
+}
+
+.mainContent{
+    /* height: 40vh; */
+    background-color: var(--darkBlue);
+    color: var(--offwhite);
+    padding: 3.125rem;
+}
+
+h1{
+    font-weight: 900;
+    font-size: 4rem;
+}
+
+h1 p{
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+.notice{
+    margin-top: 2rem;
+    font-size: 1.25rem;
+}
+
+
+.inputSection{
+    position: relative;
+    margin-top: 2rem;
+    margin-left: 3.125rem;
+}
+
+.inputDiv{
+    background-color: var(--offwhite);
+    width: 30rem;
+    height: 2.5rem;
+    border-radius: 10rem;
+}
+
+.inputDiv input{
+    padding: 1rem;
+    width: 30rem;
+    height: 2.5rem;
+    color: var(--darkBlue);
+    background-color: var(--offwhite);
+    border-radius: 10rem;
+    border: none;
+    border: 1px solid rgb(17, 45, 78, 0.5);
+}
+
+.inputDiv input::placeholder { 
+    color: var(--darkBlue);
+    opacity: 0.5;
+}
+
+.infoDiv i::before{
+    background:transparent;
+}
+
+.inputDiv svg{
+    position: relative;
+    top: -2rem;
+    left: 28rem;
+    background-color: var(--offwhite);
+    width: 1rem;
+    opacity: 0.5;
+}
+
+/* CURRENT HOLDING PART  */
+#currentHoldingDataDiv{
+    margin-top: 2rem;
+    margin-left: 3.125rem;
+    margin-bottom: 3.125rem;
+}
+
+#currentHoldingDataDiv div{
+	display: grid;
+	grid-template-columns: minmax(5rem,5rem) minmax(5rem,20rem) minmax(5rem,20rem) minmax(5rem,20rem) minmax(5rem,20rem) minmax(5rem,20rem) minmax(5rem,20rem)  minmax(5rem,20rem);
+    text-align: center;
+    max-width: 140rem;
+}
+
+#currentHoldingDataDiv div span{
+    margin-right: 2rem;
+}
+
+#currentHoldingDataDiv hr{
+    margin: 0.5rem 0;
+    max-width: 82rem;
+}
+
+.currentHoldingModalTableHeading{
+    font-weight: 500;
+}
+
+
+.alignLeft{
+    text-align: left;    
+}
+
+
+
+/* ERROR PART  */
+#currentHoldingModalError{
+    /* display: flex; */
+    text-align: center;
+    position: relative;
+    top: 4rem;
+}
+
+#currentHoldingModalError div{
+    margin-bottom: 1rem;
+}
+
+/* .error{
+    color: var(--red);
+} */
