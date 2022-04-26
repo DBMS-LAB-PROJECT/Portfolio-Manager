@@ -307,7 +307,6 @@ const get_interval_data = async (preInterval, interval, start_date, end_date) =>
     }
 
 
-
     canvas.style.display = "block";
     time_series_div.style.display = "block";
     historicaldivHeading.style.display = "";
