@@ -1,0 +1,155 @@
+@import url("colors.css");
+
+#addToPortfolioModal{
+	position: fixed;
+	z-index: 101;
+	background-color: rgba(0,0,0,0.4);
+	width: 100%;
+	height: 100%;
+    font-size: 1.125rem;
+    color: var(--darkBlue);
+}
+
+.modal-content {
+	background-color: #fefefe;
+	margin: 10rem auto 0; 
+	padding: 3.125rem;
+	border: 1px solid #888;
+	max-width: 40rem;
+    border-radius: 1rem;
+}
+
+.counterDiv{
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.value-button {
+    display: flex;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--offwhite);
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.value-button:hover {
+   color: var(--offwhite);
+   background-color: var(--mediumBlue);
+   cursor: pointer;
+}
+  
+#decrease {
+    border-radius: 8px 0 0 8px;
+}
+  
+#increase {
+    border-radius: 0 8px 8px 0;
+}
+
+.counterDiv input{
+    max-width: 4rem;
+    height: 2.5rem;
+    display: inline-block;
+}
+.counterDiv input:focus{
+    outline: 2px solid var(--mediumBlue);
+    outline-offset: -2px;
+}
+  
+input#number {
+    text-align: center;
+    border: none;
+    border-top: 1px solid var(--lightBlue);
+    border-bottom: 1px solid var(--lightBlue);
+}
+  
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+}
+
+
+#buyDateDiv, #buyDatePrice{
+    margin-top: 2.5rem;
+}
+
+.buyDateButtonsDiv, .buyDatePriceButtonsDiv{
+    display: flex;
+    margin-top: 1rem;
+}
+
+.buyDateButtonsDiv button, .buyDatePriceButtonsDiv button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 8rem;
+    height: 2rem;
+    background-color: var(--offwhite);
+    color: var(--darkBlue);
+    border: none;
+    margin-right: 1rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+}
+
+#buyDateDiv button:hover, #buyDatePrice button:hover{
+    cursor: pointer;
+    color: var(--offwhite);
+    background-color: var(--mediumBlue);
+}
+
+.buyDateButtonsDiv input, .buyDatePriceButtonsDiv input{
+    width: 8rem;
+    text-align: center;
+    height: 2rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+    border: none;
+    border: 1px solid var(--darkBlue);
+    color: var(--darkBlue);
+    /* font-weight: 500; */
+}
+
+.buyDateButtonsDiv input:hover{
+    cursor: pointer;
+}
+
+.buyDateButtonsDiv input:focus , .buyDatePriceButtonsDiv input:focus{
+    outline: 2px solid var(--mediumBlue);
+}
+
+.addButtonDiv{
+    display: flex;
+    justify-content: right;
+    margin: 2rem 2rem;
+}
+
+#addButton{
+    width: 4rem;
+    height: 2rem;
+    border: none;
+    background-color: var(--offwhite);
+    color: var(--darkBlue);
+    font-size: 1rem;
+    border: 1px solid var(--darkBlue);
+    position: fixed;
+    border-radius: 0.5rem;
+}
+
+#addButton:hover{
+    background-color: var(--mediumBlue);
+    color: var(--offwhite);
+    cursor: pointer;
+}
+
+#quantityMessage,#pricePerShareMessage,#dateOfBuyingMessage{
+	color: var(--red);
+	position: fixed;
+	z-index: 100;
+    /* letter-spacing: 0.1rem; */
+	font-size: 14px;
+}
