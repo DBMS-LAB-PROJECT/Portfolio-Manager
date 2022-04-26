@@ -201,7 +201,7 @@ router.get("/stocks", async function (req, res) {
     con.query("use portfolio_manager");
     // const user = req.user;
     // console.log("this is get test route------->" + user);
-    res.render("stocks2");
+    res.render("stocks");
 })
 
 router.post("/stocks", async function (req, res) {
