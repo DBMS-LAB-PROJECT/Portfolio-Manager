@@ -1,0 +1,10 @@
+create table a(
+    stock_id int primary key auto_increment,
+    user_id varchar(100) not null,
+    quantity int not null,
+    symbol varchar(20) not null,
+    price float not null,
+    buydate date not null,
+    companyName varchar(300) not null,
+    foreign key (user_id) references login_credentials (user_id)
+);
