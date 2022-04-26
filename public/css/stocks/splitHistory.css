@@ -1,0 +1,49 @@
+@import url("colors.css");
+
+#stockSplitHistoryDiv{
+    margin-left: 3.125rem;
+    margin-right: 3.125rem;
+    color: var(--darkBlue);
+    text-align: center;
+}
+
+.stockSplitHistoryDivHeading{
+    font-weight: 500;
+    font-size: 1.125rem;
+    display: grid;
+    /* grid-template-columns: minmax(7rem,15rem) minmax(4rem,15rem) minmax(7rem,15rem); */
+    grid-template-columns: minmax(7rem,10rem) minmax(4rem,10rem) minmax(7rem,10rem);
+
+}
+
+.stockSplitHistoryDivHeading span{
+    max-width: 10rem;
+}
+
+#stockSplitData div{
+    display: grid;
+    /* grid-template-columns: auto auto auto; */
+    /* grid-template-columns: max-content max-content max-content; */
+    /* grid-template-columns: 10rem 10rem 10rem; */
+    grid-template-columns: minmax(7rem,10rem) minmax(4rem,10rem) minmax(7rem,10rem);
+    justify-content: center;
+    max-width: 30rem;
+} 
+
+#stockSplitData div span{
+    max-width: 15rem;
+}
+
+#stockSplitData hr{
+    max-width: 27rem;
+}
+
+.alignLeft{
+    text-align: left;    
+}
+
+#stockSplitHistoryDivError{
+    color: var(--red);
+    text-align: left;
+    font-size: 1.125rem;
+}
