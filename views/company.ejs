@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Cascading Style Sheets  -->
+    <!-- <link rel="stylesheet" href="css/stocks/company.css"> -->
+    <link rel="stylesheet" href="css/stocks/common.css">
+    <link rel="stylesheet" href="css/stocks/info.css">
+    <link rel="stylesheet" href="css/stocks/splitHistory.css">
+    <link rel="stylesheet" href="css/stocks/dividend.css">
+    <link rel="stylesheet" href="css/stocks/historicalData.css">
+    <link rel="stylesheet" href="css/stocks/addToPortfolio.css">
+    <link rel="stylesheet" href="css/stocks/confirmAdd.css">
+    <link rel="stylesheet" href="css/stocks/currentHoldingModal.css">
+    <link rel="stylesheet" href="css/stocks/selectedButton.css">
+    <link rel="stylesheet" href="css/stocks/successfullyAdded.css">
+
+
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <script src="https://kit.fontawesome.com/40989200a5.js" crossorigin="anonymous"></script>
+
+    <!-- CHARTJS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+
+    <title>
+        <%= name %>
+    </title>
+</head>
+
+<body>
+    <div id="successfullyAdded">
+        Successfully Added
+    </div>
+
+    <div id="addToPortfolioModal">
+        <div class="modal-content">
+            <div id="stockCount">
+                <p>Choose the quantity of shares to add</p>
+                <div class="counterDiv">
+                    <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+                    <input type="text" id="number" value="1" autocomplete="off" name="quantity" />
+                    <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+                    <!-- <button type="button" id="addButton">Add</button> -->
+                </div>
+                <div id="quantityMessage"></div>
+            </div>
+            <div id="buyDateDiv">
+                <p>Add Buy Date</p>
+                <div class="buyDateButtonsDiv">
+                    <button id="currentDate">Today</button>
+                    <button id="customDate">Custom Date</button>
+                    <input type="date" name="customDate" id="customDateInput">
+                </div>
+                <div id="dateOfBuyingMessage"></div>
+            </div>
+            <div id="buyDatePrice">
+                <p>Add Price Per Share</p>
+                <div class="buyDatePriceButtonsDiv">
+                    <button id="currentPrice">Current Price</button>
+                    <button id="customPrice">Set Custom price</button>
+                    <input type="text" name="customPrice" autocomplete="off" id="customPriceInput">
+                </div>
+                <div id="pricePerShareMessage"></div>
+
+            </div>
+            <div class="addButtonDiv">
+                <button type="button" id="addButton">ADD</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="currentHoldingModal">
+        <div class="modal-content3">
+            <div id="currentHoldingModalHeading">List of current holdings in <span><%= symbol %></span> stocks:</div>
+            <div id="currentHoldingDataDiv">
+
+            </div>
+            <div id="currentHoldingModalError">
+                <div>
+                    <i class="fa-solid fa-2x fa-circle-exclamation"></i>
+                </div>
+                <p>
+                    You haven't added this stock in to your portfolio yet
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmAdd">
+        <div class="modal-content2">
+            <p>Press <span class="bold">confirm</span> to add the stocks with these details:</p>
+            <div>
+                <div class="confirmAttributeDiv">
+                    <div>Quantity</div>
+                    <div>-</div>
+                    <div id="quantity" class="bold"></div>
+                </div>
+                <!-- <div>Quantity: <p id="quantity"> </p>
+                </div> -->
+            </div>
+            <div>
+                <div class="confirmAttributeDiv">
+                    <div>Date of buying</div>
+                    <div>-</div>
+                    <div id="dateOfBuying" class="bold"></div>
+                </div>
+                <!-- <div>Date of buying: <p id="dateOfBuying"></p>
+                </div> -->
+            </div>
+            <div>
+                <div class="confirmAttributeDiv">
+                    <div>Price Per Share</div>
+                    <div>-</div>
+                    <div id="pricePerShare" class="bold"></div>
+                </div>
+                <!-- <div>Price Per Share: <p id="pricePerShare"></p>
+                </div> -->
+                <div class="confirmAddButtonsDiv" >
+                    <button id="backButton">back</button>
+                    <button id="confirmButton">confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1 id="companyName">
+            <%= name %>
+            <!-- Apple In -->
+        </h1>
+
+        <div>
+            <h2 id="symbol">
+                <%= symbol %>
+                <!-- AAPL -->
+            </h2>
+            <h3>
+                <%= exchange %>
+                <!-- NASDAQ -->
+            </h3>
+        </div>
+    </div>
+
+
+    <div class="navigatorsButtonDiv">
+        <div id="addToPortfolio">
+            <button class="navigatorsButton">
+                Add To Portfolio
+            </button>
+        </div>
+
+        <div id="currentHolding">
+            <button class="navigatorsButton">Current Holding</button>
+        </div>
+    </div>
+
+    <div class="functionButtonDiv">
+        <button class="functionButton">
+            <span id="info">Info</span>
+        </button>
+        <button class="functionButton">
+            <span id="historicalData">Historical Data</span>
+        </button>
+        <button class="functionButton">
+            <span id="dividendHistory">Dividend History</span>
+        </button>
+        <button class="functionButton">
+            <span id="stockSplitHistory">Stock Split History</span>
+        </button>
+    </div>
+
+
+    <div id="infoDiv">
+        <div id="infoDivError">DATA NOT AVAILABLE</div>
+        <div id="infoDivContent">
+            <p id="description"></p>
+            <div class="keyDataDiv">
+                <div class="keyData">
+                    Key Data
+                </div>
+                <div class="dataDiv">
+                    <div class="leftDataDiv">
+                        <hr>
+                        <p id="locale"></p>
+                        <hr>
+                        <p id="primaryExchange"></p>
+                        <hr>
+                        <p id="typeOfStock"></p>
+                        <hr>
+                        <p id="cik"></p>
+                        <hr>
+                        <p id="composite_figi"></p>
+                        <hr>
+                        <p id="share_class_figi"></p>
+                        <hr>
+                        <p id="market_cap"></p>
+                        <hr>
+                        <p id="phone_number"></p>
+                        <hr>
+                    </div>
+                    <div class="rightDataDiv">
+                        <hr>
+                        <p id="sic_code"></p>
+                        <hr>
+                        <p id="sic_description"></p>
+                        <hr>
+                        <p id="homepage_url"></p>
+                        <hr>
+                        <p id="total_employees"></p>
+                        <hr>
+                        <p id="list_date"></p>
+                        <hr>
+                        <p id="share_class_shares_outstanding"></p>
+                        <hr>
+                        <p id="weighted_shares_outstanding"></p>
+                        <hr>
+                        <!-- <p id="address"></p><hr> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+
+    <div id="historicalDataDiv">
+        <div class="dateChanger">
+            <button onclick="change_date(this)" id="yesterday">Yesterday</button>
+            <button onclick="change_date(this)" id="today">Today</button>
+            <input type="date" id="date" onchange="change_date(this)">
+        </div>
+        <br>
+
+        <!-- *******************************************************°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° -->
+        <div id="interval" class="intervalButtons">
+            <button onclick="change_interval(this)" value="1min" id="1m">1m</button>
+            <button onclick="change_interval(this)" value="5min" id="5m">5m</button>
+            <button onclick="change_interval(this)" value="15min" id="15m">15m</button>
+            <button onclick="change_interval(this)" value="30min" id="30m">30m</button>
+            <button onclick="change_interval(this)" value="45min" id="45m">45m</button>
+            <button onclick="change_interval(this)" value="1h" id="1h">1h</button>
+            <button onclick="change_interval(this)" value="1day" id="1D">1D</button>
+            <button onclick="change_interval(this)" value="1week" id="1W">1W</button>
+            <button onclick="change_interval(this)" value="1month" id="1M">1M</button>
+        </div>
+
+        <div id="historicaldiv">
+            <p id="notice"></p>
+            <canvas id="myChart" height="100px"></canvas>
+            <br>
+            <div id="historicaldivHeading">
+                <div class="historicaldivHeading">
+                </div>
+            </div>
+            <div id="time_series_duration"></div>
+        </div>
+    </div>
+
+    <div id="stockSplitHistoryDiv">
+        <div id="stockSplitHistoryDivError">DATA NOT AVAILABLE</div>
+        <div id="stockSplitHistoryDivContent">
+            <div class="stockSplitHistoryDivHeading">
+                <span class="alignLeft">Execution Date</span>
+                <span>From</span>
+                <span>To</span>
+            </div>
+            <div id="stockSplitData">
+            </div>
+        </div>
+    </div>
+        
+    <div id="dividendHistoryDiv">
+        <div id="dividendHistoryDivError">
+            Dividend History information is presently unavailable for this company. This could indicate that the company has never provided a dividend or that a dividend is pending.
+        </div>
+        <div id="dividendHistoryDivContent">
+            <canvas id="dividendChart" height="100px"></canvas>
+            <div id="dividendHistoryDivHeading">
+                <div class="dividendHistoryDivHeading">
+                </div>
+            </div>
+            <div id="dividendData">
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/config.js"></script>
+    <script src="js/company.js"></script>
+
+</body>
+
+
+</html>
