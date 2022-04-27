@@ -411,8 +411,18 @@ router.post('/url_time_series', async (req, res) => {
     const url_time_series = "https://api.twelvedata.com/time_series?apikey=" + API_KEY + "&interval=" + interval + "&symbol=" + symbol + "&end_date=" + end_date + "&start_date=" + start_date;
     const data = await fetch(url_time_series);
     const jsondata = await data.json();
-    console.log(jsondata);
+    // console.log(jsondata);
     res.send(jsondata);
+})
+
+router.post('/info', async (req, res) => {
+    const symbol = req.body.symbol;
+    let url = 'https://api.polygon.io/v3/reference/tickers/' + symbol + '?apiKey=' + process.env.polygonAPI1;
+    const data = await fetch(url);
+    const jsondata = await data.json();
+    // console.log(jsondata);
+    res.send(jsondata);
+
 })
 
 module.exports = router;

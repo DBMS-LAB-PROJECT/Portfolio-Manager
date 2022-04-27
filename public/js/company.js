@@ -395,10 +395,23 @@ const get_interval_data = async (preInterval, interval, start_date, end_date) =>
 
 const getCompanyDetails = async () => {
     infoDivError.style.display = "none";
-    let url = 'https://api.polygon.io/v3/reference/tickers/' + symbol + '?apiKey=' + config.polygonAPI1;
+
+    const postData = {
+        symbol: symbol
+    }
+
+    const data2 = await fetch('http://localhost:3000/info', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+    });
+
+    // let url = 'https://api.polygon.io/v3/reference/tickers/' + symbol + '?apiKey=' + config.polygonAPI1;
     // console.log(url);
-    const data = await fetch(url);
-    const dataJSON = await data.json();
+    // const data = await fetch(url);
+    const dataJSON = await data2.json();
     // console.log(dataJSON.status);
     if (dataJSON.status == 'NOT_FOUND') {
         infoDivContent.style.display = "none";
