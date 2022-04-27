@@ -401,4 +401,18 @@ router.post('/currentHoldings/search', (req, res) => {
     })
 })
 
+router.post('/url_time_series', async (req, res) => {
+    const symbol = req.body.symbol;
+    const interval = req.body.interval
+    const API_KEY = process.env.API_KEY;
+    const start_date = req.body.start_date;
+    const end_date = req.body.end_date;
+
+    const url_time_series = "https://api.twelvedata.com/time_series?apikey=" + API_KEY + "&interval=" + interval + "&symbol=" + symbol + "&end_date=" + end_date + "&start_date=" + start_date;
+    const data = await fetch(url_time_series);
+    const jsondata = await data.json();
+    console.log(jsondata);
+    res.send(jsondata);
+})
+
 module.exports = router;

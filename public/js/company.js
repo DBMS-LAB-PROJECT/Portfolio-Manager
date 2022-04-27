@@ -252,11 +252,29 @@ const get_interval_data = async (preInterval, interval, start_date, end_date) =>
     // console.log("getintervaldata end");
     // isMarketcloseTag.style.display = "none";
 
-    url_time_series = "https://api.twelvedata.com/time_series?apikey=" + config.api + "&interval=" + interval + "&symbol=" + symbol + "&end_date=" + new Date(end_date).toDateString() + "&start_date=" + new Date(start_date).toDateString();
+    const postData = {
+        symbol: symbol,
+        interval: interval,
+        end_date: new Date(end_date).toDateString(),
+        start_date: new Date(start_date).toDateString()
+    }
+
+    const data2 = await fetch('http://localhost:3000/url_time_series', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+    });
+    // console.log("data2");
+    // const data3 = await data2.json();
+    // console.log(data3);
+
+    // url_time_series = "https://api.twelvedata.com/time_series?apikey=" + config.api + "&interval=" + interval + "&symbol=" + symbol + "&end_date=" + new Date(end_date).toDateString() + "&start_date=" + new Date(start_date).toDateString();
     // console.log(start_date);
     // console.log(url_time_series);
-    const data = await fetch(url_time_series);
-    const json_data = await data.json();
+    // const data = await fetch(url_time_series);
+    const json_data = await data2.json();
     const arr = await json_data.values;
     // console.log(start_date);
     // if(arr === undefined){
@@ -573,7 +591,7 @@ const getDividendHistory = async () => {
     // CHART 
     let dividendPayDate = [];
     let dividendAmount = [];
-    console.log(arr);
+    // console.log(arr);
     for (let i = 0; i < arr.length; i++) {
         dividendPayDate.push(arr[i].pay_date)
         dividendAmount.push(arr[i].cash_amount);
@@ -975,7 +993,7 @@ getCurrentPrice = async () => {
 getCurrentPrice();
 
 let buyDate = yDate.getFullYear() + '-' + (yDate.getMonth() + 1) + '-' + yDate.getDate();
-console.log(buyDate);
+// console.log(buyDate);
 // console.log(price);
 
 
@@ -1172,14 +1190,14 @@ getCurrentQuantity = async () => {
 // getCurrentQuantity();
 
 addButton.addEventListener('click', function () {
-    console.log("addbutton is loaded");
+    // console.log("addbutton is loaded");
     addToPortfolioModal.style.display = "none";
     confirmAdd.style.display = "";
     const quantity = document.getElementById('quantity');
     const pricePerShare = document.getElementById('pricePerShare');
     const dateOfBuying = document.getElementById('dateOfBuying');
-    console.log('price---->' + price);
-    console.log('buydate--->' + buyDate);
+    // console.log('price---->' + price);
+    // console.log('buydate--->' + buyDate);
     quantity.innerText = document.getElementById('number').value;
     pricePerShare.innerText = price;
     dateOfBuying.innerText = buyDate;
@@ -1202,7 +1220,7 @@ confirmButton.addEventListener('click', function () {
     let pricePerShare = document.getElementById('pricePerShare').innerText;
     pricePerShare = parseFloat(pricePerShare);
     pricePerShare = pricePerShare.toFixed(2);
-    console.log(pricePerShare);
+    // console.log(pricePerShare);
     const dateOfBuying = document.getElementById('dateOfBuying').innerText;
 
     const postData = {
@@ -1294,7 +1312,7 @@ const getCurrentHolding = async () => {
 
 const remove = async (e) => {
     const id = e.getAttribute('name');
-    console.log(id);
+    // console.log(id);
     const postData = {
         symbol: symbol,
         stock_id: id,
