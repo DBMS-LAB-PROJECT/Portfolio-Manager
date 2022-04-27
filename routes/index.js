@@ -433,4 +433,13 @@ router.post('/stockSplitHistory', async(req,res) => {
     res.send(jsondata);
 })
 
+router.post('/dividendHistory', async(req,res) => {
+    const symbol = req.body.symbol;
+    const url = 'https://api.polygon.io/v3/reference/dividends?ticker=' + symbol + '&apiKey=' + process.env.polygonAPI3;
+    const data = await fetch(url);
+    const jsondata = await data.json();
+    // console.log(jsondata);
+    res.send(jsondata);
+})
+
 module.exports = router;

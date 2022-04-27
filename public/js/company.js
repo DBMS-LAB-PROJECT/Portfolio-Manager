@@ -546,9 +546,22 @@ const getStockSplitHistory = async () => {
 
 const getDividendHistory = async () => {
     dividendHistoryDivError.style.display = "none";
-    const url = 'https://api.polygon.io/v3/reference/dividends?ticker=' + symbol + '&apiKey=' + config.polygonAPI3;
-    let data = await fetch(url);
-    let json_data = await data.json();
+
+    const postData = {
+        symbol: symbol
+    }
+
+    const data2 = await fetch('http://localhost:3000/dividendHistory', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+    });
+
+    // const url = 'https://api.polygon.io/v3/reference/dividends?ticker=' + symbol + '&apiKey=' + config.polygonAPI3;
+    // let data = await fetch(url);
+    let json_data = await data2.json();
     // console.log(json_data.results.length);
     if (json_data.results.length === 0) {
         dividendHistoryDivContent.style.display = "none";
