@@ -472,11 +472,24 @@ const getCompanyDetails = async () => {
 
 const getStockSplitHistory = async () => {
     stockSplitHistoryDivError.style.display = "none";
-
+    
     const stockSplitData = document.getElementById("stockSplitData");
-    const url = 'https://api.polygon.io/v3/reference/splits?ticker=' + symbol + '&apiKey=' + config.polygonAPI1;
-    const data = await fetch(url);
-    const dataJSON = await data.json();
+
+    const postData = {
+        symbol: symbol
+    }
+
+    const data2 = await fetch('http://localhost:3000/stockSplitHistory', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+    });
+
+    // const url = 'https://api.polygon.io/v3/reference/splits?ticker=' + symbol + '&apiKey=' + config.polygonAPI1;
+    // const data = await fetch(url);
+    const dataJSON = await data2.json();
     const arr = dataJSON.results;
     // console.log("ssssss---->  " + arr.length);
     if (arr.length === 0) {

@@ -422,7 +422,15 @@ router.post('/info', async (req, res) => {
     const jsondata = await data.json();
     // console.log(jsondata);
     res.send(jsondata);
+})
 
+router.post('/stockSplitHistory', async(req,res) => {
+    const symbol = req.body.symbol;
+    const url = 'https://api.polygon.io/v3/reference/splits?ticker=' + symbol + '&apiKey=' + process.env.polygonAPI1;
+    const data = await fetch(url);
+    const jsondata = await data.json();
+    // console.log(jsondata);
+    res.send(jsondata);
 })
 
 module.exports = router;
