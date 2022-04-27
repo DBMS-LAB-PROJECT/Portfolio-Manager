@@ -56,7 +56,8 @@ let compare2Date = new Date(yesterday);
 
 
 const time_series_div = document.getElementById("time_series_duration");
-let url_time_series = "https://api.twelvedata.com/time_series?apikey=" + config.api + "&interval=" + interval + "&outputsize=8&symbol=" + symbol + "&end_date=" + today;
+// let url_time_series = "https://api.twelvedata.com/time_series?apikey=" + config.api + "&interval=" + interval + "&outputsize=8&symbol=" + symbol + "&end_date=" + today;
+let url_time_series;
 const date_input = document.getElementById("date");
 let canvas = document.getElementById('myChart');
 // const isMarketcloseTag = document.getElementById("isMarketclose");
@@ -548,10 +549,11 @@ const getDividendHistory = async () => {
     dividendHistoryDivError.style.display = "none";
 
     const postData = {
-        symbol: symbol
+        symbol: symbol,
+        url: 'https://api.polygon.io/v3/reference/dividends?ticker=' + symbol + '&apiKey='
     }
 
-    const data2 = await fetch('http://localhost:3000/dividendHistory', {
+    let data2 = await fetch('http://localhost:3000/dividendHistory', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -578,7 +580,7 @@ const getDividendHistory = async () => {
     }
     // console.log(arr);
     // console.log(json_data.next_url);
-    let next_url = json_data.next_url + '&apiKey=' + config.polygonAPI3;
+    let next_url = json_data.next_url + '&apiKey=';
 
     dividendHistoryDivHeading.style.display = "";
     let html2 = "";
@@ -609,8 +611,19 @@ const getDividendHistory = async () => {
 
     for (let j = 0; j < 4; j++) {
         if (json_data.next_url != undefined) {
-            data = await fetch(next_url);
-            json_data = await data.json();
+            const postData = {
+                symbol: symbol,
+                url: next_url
+            }
+            data2 = await fetch('http://localhost:3000/dividendHistory', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+            });
+            // data2 = await fetch(next_url);
+            json_data = await data2.json();
             temp_arr = json_data.results;
             for (let i = 0; i < temp_arr.length; i++) {
                 html += `<div>
@@ -622,7 +635,7 @@ const getDividendHistory = async () => {
                 </div><hr>`;
                 arr.push(temp_arr[i]);
             }
-            next_url = json_data.next_url + '&apiKey=' + config.polygonAPI3;
+            next_url = json_data.next_url + '&apiKey=';
         }
     }
     dividendData.innerHTML = html;

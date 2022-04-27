@@ -401,6 +401,14 @@ router.post('/currentHoldings/search', (req, res) => {
     })
 })
 
+router.post('/getAllCompanies', async (req, res) => {
+    let url = "https://api.twelvedata.com/stocks?apikey=" + process.env.API_KEY + "&country=usa";
+    const data = await fetch(url);
+    const jsondata = await data.json();
+    // console.log(jsondata);
+    res.send(jsondata);
+})
+
 router.post('/url_time_series', async (req, res) => {
     const symbol = req.body.symbol;
     const interval = req.body.interval
@@ -435,7 +443,8 @@ router.post('/stockSplitHistory', async(req,res) => {
 
 router.post('/dividendHistory', async(req,res) => {
     const symbol = req.body.symbol;
-    const url = 'https://api.polygon.io/v3/reference/dividends?ticker=' + symbol + '&apiKey=' + process.env.polygonAPI3;
+    let url = req.body.url;
+    url += process.env.polygonAPI3;
     const data = await fetch(url);
     const jsondata = await data.json();
     // console.log(jsondata);
