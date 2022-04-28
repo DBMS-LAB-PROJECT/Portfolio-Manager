@@ -1,0 +1,55 @@
+@import url("colors.css");
+
+#dividendHistoryDiv{
+    margin: 3.125rem 3.125rem 5rem 3.125rem ;
+    color: var(--darkBlue);
+    text-align: center;
+    
+}
+
+.dividendHistoryDivHeading{
+    font-weight: 500;
+    font-size: 1.125rem;
+    display: grid;
+    grid-template-columns: minmax(5rem,10rem) minmax(7rem,10rem) minmax(7rem,10rem) minmax(7rem,10rem) minmax(7rem,10rem);
+    margin-top: 4rem;
+}
+
+.dividendHistoryDivHeading span{
+    max-width: 10rem;
+}
+
+#dividendData{
+    max-width: 70vw;
+    max-height: 25rem;
+    overflow: scroll;
+}
+
+#dividendData div{
+    display: grid;
+    /* grid-template-columns: 10rem 10rem 10rem 10rem 10rem; */
+    grid-template-columns: minmax(5rem,10rem) minmax(7rem,10rem) minmax(7rem,10rem) minmax(7rem,10rem) minmax(7rem,10rem);
+    justify-content: center;
+    max-width: 50rem;
+} 
+
+#dividendData div span{
+    max-width: 10rem;
+}
+
+#dividendData hr{
+    max-width: 50rem;
+}
+.alignLeft{
+    text-align: left;    
+}
+.alignright{
+    text-align: right;    
+}
+
+#dividendHistoryDivError{
+    color: var(--red);
+    text-align: left;
+    font-size: 1.125rem;
+}
+

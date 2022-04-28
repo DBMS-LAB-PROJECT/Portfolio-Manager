@@ -1,0 +1,28 @@
+@import url(colors.css);
+
+#successfullyAdded{
+	position: fixed;
+	z-index: 100;
+	background-color: var(--offwhite);	
+	color: var(--darkBlue);
+	border-radius: 0.5rem;
+	max-width: 15rem;
+	padding: 0.5rem 1rem;
+	text-align: center;
+	right: 50%;
+	margin-right: -4.6875rem;
+	top: 5%;
+	animation-name: animate;
+	animation-duration: 1s;
+}
+
+
+@keyframes animate {
+	from{top: -10%;}
+	to{top: 5%;}
+}
+
+@keyframes hide {
+	from{opacity: 100%;}
+	to{opacity: 0%;}
+}
