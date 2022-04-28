@@ -401,4 +401,54 @@ router.post('/currentHoldings/search', (req, res) => {
     })
 })
 
+router.post('/getAllCompanies', async (req, res) => {
+    let url = "https://api.twelvedata.com/stocks?apikey=" + process.env.API_KEY + "&country=usa";
+    const data = await fetch(url);
+    const jsondata = await data.json();
+    // console.log(jsondata);
+    res.send(jsondata);
+})
+
+router.post('/url_time_series', async (req, res) => {
+    const symbol = req.body.symbol;
+    const interval = req.body.interval
+    const API_KEY = process.env.API_KEY;
+    const start_date = req.body.start_date;
+    const end_date = req.body.end_date;
+
+    const url_time_series = "https://api.twelvedata.com/time_series?apikey=" + API_KEY + "&interval=" + interval + "&symbol=" + symbol + "&end_date=" + end_date + "&start_date=" + start_date;
+    const data = await fetch(url_time_series);
+    const jsondata = await data.json();
+    // console.log(jsondata);
+    res.send(jsondata);
+})
+
+router.post('/info', async (req, res) => {
+    const symbol = req.body.symbol;
+    let url = 'https://api.polygon.io/v3/reference/tickers/' + symbol + '?apiKey=' + process.env.polygonAPI1;
+    const data = await fetch(url);
+    const jsondata = await data.json();
+    // console.log(jsondata);
+    res.send(jsondata);
+})
+
+router.post('/stockSplitHistory', async(req,res) => {
+    const symbol = req.body.symbol;
+    const url = 'https://api.polygon.io/v3/reference/splits?ticker=' + symbol + '&apiKey=' + process.env.polygonAPI1;
+    const data = await fetch(url);
+    const jsondata = await data.json();
+    // console.log(jsondata);
+    res.send(jsondata);
+})
+
+router.post('/dividendHistory', async(req,res) => {
+    const symbol = req.body.symbol;
+    let url = req.body.url;
+    url += process.env.polygonAPI3;
+    const data = await fetch(url);
+    const jsondata = await data.json();
+    // console.log(jsondata);
+    res.send(jsondata);
+})
+
 module.exports = router;

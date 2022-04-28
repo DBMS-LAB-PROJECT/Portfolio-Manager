@@ -7,10 +7,19 @@ let index = 0;
 const loader = document.getElementById('loading');
 
 const getpost = async () => {
-    let url_stocks = "https://api.twelvedata.com/stocks?apikey=" + config.api + "&country=usa";
+    // let url_stocks = "https://api.twelvedata.com/stocks?apikey=" + config.api + "&country=usa";
     if (stocks_data === undefined) {
-        stocks_data = await fetch(url_stocks);
-        obj_data = await stocks_data.json();
+        const postData = {};
+        const data2 = await fetch('http://localhost:3000/getAllCompanies', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(postData),
+        });
+        // stocks_data = await fetch(url_stocks);
+        // obj_data = await stocks_data.json();
+        obj_data = await data2.json();
     }
     obj_array = await obj_data.data;
 
@@ -64,7 +73,7 @@ getpost();
 // })
 
 const searchbar = document.getElementById("searchbar");
-searchbar.value="";
+searchbar.value = "";
 const search_list = document.getElementById("search_list");
 
 const searchResultDiv = document.getElementById('searchResultDiv');
@@ -85,14 +94,14 @@ searchbar.addEventListener("keyup", (e) => {
         }
     });
     // console.log(symbol_arr.length);
-    if(symbol_arr.length == 0){
+    if (symbol_arr.length == 0) {
         searchResultDiv.style.display = "none";
     }
 
     let html = ''
     let n = 4;
-    if(n > symbol_arr.length){
-        n = symbol_arr.length 
+    if (n > symbol_arr.length) {
+        n = symbol_arr.length
     }
     for (let i = 0; i < n; i++) {
         html += `<form action="/stocks" method="post">
@@ -111,10 +120,10 @@ searchbar.addEventListener("keyup", (e) => {
 })
 
 setInterval(() => {
-    if(searchbar.value.length == 0 || symbol_arr.length == 0){
+    if (searchbar.value.length == 0 || symbol_arr.length == 0) {
         searchResultDiv.style.display = "none";
     }
-    else{
+    else {
         searchResultDiv.style.display = "";
     }
 }, 0);
