@@ -20,6 +20,7 @@ const _ = require("lodash");
 // const request = require('request');
 
 router.use(bodyParser.urlencoded({ extended: false }))
+
 // ***************************************************************************************
 
 // ***************************************************************************************
@@ -93,6 +94,7 @@ router.get("/dashboard", isloggedin, function (req, res) {
         console.log(userName);
     })
     
+
 });
 
 router.get("/logout", function (req, res) {
@@ -159,6 +161,25 @@ router.get("/liabilities/edit/:liability_type", isloggedin, function (req, res, 
 
 });
 
+router.get("/addInsurance", function (req, res) {
+    res.sendFile(__dirname + "/views/addInsurance.ejs")
+})
+
+router.get("/insurance", isloggedin, function (req, res) {
+
+    user = req.user.user_id;
+    var display = "SELECT * FROM insurance_details WHERE userId = " + user;
+    database.query(display, function (error, result) {
+        if (error) {
+            console.log("error in displaying data.");
+            throw errors;
+        }
+        res.render("insurance", {
+            data: result
+        });
+
+    })
+})
 
 // **************************** POST ROUTES *******************************************************
 router.post("/login", passport.authenticate('local-signIn', {
@@ -206,6 +227,35 @@ router.post("/liabilities/edit/:liability_type", function (req, res) {
 
     res.redirect("/liabilities");
 });
+
+
+router.post("/insurance", isloggedin, function (req, res) {
+
+    database.query("CREATE TABLE IF NOT EXISTS insurance_details (userId varchar(30), type varchar(30), insurer varchar(30), startingDate varchar(10), endingDate varchar(10), Fee_of_Contract int)", function (err, result) {
+        if (err) throw err;
+        console.log("table created successfully!");
+    })
+    var userid = req.user.user_id;
+    var ins_type = req.body.type;
+    var insurer = req.body.insurerCompany;
+    var start = req.body.startingAt;
+    var end = req.body.endingAt;
+    var fee = req.body.contractFee;
+
+    var insert = "INSERT INTO insurance_details VALUES (?)";
+    var values = [userid, ins_type, insurer, start, end, fee];
+
+    db.query(insert, [values], function (err, result) {
+        if (err) {
+            console.log("error inserting insurance data to the database.");
+            throw err;
+        }
+        console.log("1 record added to the table successfully.");
+    })
+
+    res.redirect("/insurance");
+})
+
 
 
 router.get("/stocks", async function (req, res) {
@@ -317,6 +367,7 @@ router.post('/currentHoldingModal', function (req, res) {
     })
 })
 
+
 router.post('/currentHoldingModal/remove', function (req, res) {
     con.query("use portfolio_manager");
     // const user_id = req.user;
@@ -356,6 +407,7 @@ router.get('/currentHoldings', (req, res) => {
         console.log(userName);
     })
 })
+
 
 router.post('/currentHoldings', function (req, res) {
     con.query('use portfolio_manager');
@@ -461,5 +513,6 @@ router.post('/dividendHistory', async(req,res) => {
     // console.log(jsondata);
     res.send(jsondata);
 })
+
 
 module.exports = router;

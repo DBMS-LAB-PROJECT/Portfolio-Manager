@@ -41,6 +41,7 @@ app.use(session({
     saveUninitialized: true,
     cookie:{
         // secure: true
+
     }
 }));
 
@@ -55,10 +56,10 @@ app.use(express.static("public"));
 
 
 app.engine('ejs', async (path, data, cb) => {
-    try{
-        let html = await ejs.renderFile(path, data, {async: true});
+    try {
+        let html = await ejs.renderFile(path, data, { async: true });
         cb(null, html);
-    }catch (e){
+    } catch (e) {
         cb(e, '');
     }
 });
@@ -66,8 +67,6 @@ app.engine('ejs', async (path, data, cb) => {
 
 // ALL ROUTES 
 app.use(routes);
-
-
 
 
 app.listen(3000, function () {
