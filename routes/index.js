@@ -80,8 +80,19 @@ router.get("/auth/failure", function (req, res) {
 })
 
 router.get("/dashboard", isloggedin, function (req, res) {
-
-    res.render("dashboard", { username: req.user.user_name });
+    con.query('use portfolio_manager');
+    const user_id = req.user;
+    // const user_id = '113720373204677842542';
+    let userName;
+    let sql = 'select user_name from login_credentials where user_id = ?';
+    con.query(sql, user_id, function(err, rows){
+        if(err) console.log(err);
+        // console.log(rows);
+        res.render("dashboard", { username: rows[0].user_name });
+        // userName = rows[0].user_name;
+        console.log(userName);
+    })
+    
 });
 
 router.get("/logout", function (req, res) {
@@ -388,7 +399,7 @@ router.post('/currentHoldings/search', (req, res) => {
     const searchItem = req.body.searchItem;
     // console.log(searchItem);
     // console.log("this is post route------->" + user_id); 
-    let sql = "select stock_id,quantity,symbol,price,buyDate,companyName from stocks where symbol   like '%" + searchItem + "%' or companyName like '%" + searchItem + "%' and user_id = '" + user_id + "'"; 
+    let sql = "select stock_id,quantity,symbol,price,buyDate,companyName from stocks where symbol like '%" + searchItem + "%' or companyName like '%" + searchItem + "%' and user_id = '" + user_id + "'"; 
     con.query(sql, [searchItem, searchItem, user_id], function (err, rows) {
         if (err) console.log(err);
         // console.log(rows);
