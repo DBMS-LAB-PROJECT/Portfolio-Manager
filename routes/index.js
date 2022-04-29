@@ -166,17 +166,18 @@ router.get("/liabilities/edit/:liability_type", isloggedin, function(req, res){
 });
 
 router.get("/addInsurance", function (req, res) {
-    res.sendFile(__dirname + "/views/addInsurance.ejs")
+    // res.sendFile(__dirname + "/views/addInsurance.ejs")
+    res.render("addInsurance");
 })
 
 router.get("/insurance", isloggedin, function (req, res) {
 
-    user = req.user.user_id;
-    var display = "SELECT * FROM insurance_details WHERE userId = " + user;
-    database.query(display, function (error, result) {
+    let user = req.user;
+    let display = "SELECT * FROM insurance_details WHERE userId = ?";
+    database.query(display, user, function (error, result) {
         if (error) {
             console.log("error in displaying data.");
-            throw errors;
+            throw error;
         }
         res.render("insurance", {
             data: result
@@ -244,17 +245,17 @@ router.post("/insurance", isloggedin, function (req, res) {
         if (err) throw err;
         console.log("table created successfully!");
     })
-    var userid = req.user.user_id;
-    var ins_type = req.body.type;
-    var insurer = req.body.insurerCompany;
-    var start = req.body.startingAt;
-    var end = req.body.endingAt;
-    var fee = req.body.contractFee;
+    let userid = req.user;
+    let ins_type = req.body.type;
+    let insurer = req.body.insurerCompany;
+    let start = req.body.startingAt;
+    let end = req.body.endingAt;
+    let fee = req.body.contractFee;
 
-    var insert = "INSERT INTO insurance_details VALUES (?)";
-    var values = [userid, ins_type, insurer, start, end, fee];
+    let insert = "INSERT INTO insurance_details VALUES (?)";
+    let values = [userid, ins_type, insurer, start, end, fee];
 
-    db.query(insert, [values], function (err, result) {
+    database.query(insert, [values], function (err, result) {
         if (err) {
             console.log("error inserting insurance data to the database.");
             throw err;

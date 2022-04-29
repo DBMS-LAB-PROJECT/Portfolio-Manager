@@ -1,0 +1,10 @@
+
+CREATE TABLE insurance_details(
+	userId varchar(100) NOT NULL, 
+    type varchar(30) NOT NULL, 
+    insurer varchar(30), 
+    startingDate varchar(10), 
+    endingDate varchar(10), 
+    Fee_of_Contract int, 
+    PRIMARY KEY (userId, type)
+);
