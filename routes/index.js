@@ -13,6 +13,7 @@ const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require("path");
 const database = require("../database");
+const liabilities = require("../liabilities_queries");
 const _ = require("lodash");
 // const stream = require("stream");
 // const JSONStream = require('JSONStream');
@@ -107,58 +108,61 @@ router.get("/terms_and_conditions", function (req, res) {
     res.render("terms_and_conditions");
 });
 
-router.get("/liabilities", isloggedin, function (req, res) {
+router.get("/liabilities", isloggedin, function(req, res){
 
-    let sql = "SELECT * FROM ((liability_amounts a INNER JOIN liability_interests b ON a.user_id = b.user_id) INNER JOIN liability_interest_rates c ON a.user_id = c.user_id) WHERE a.user_id  = ?";
-
-    database.query(sql, req.user.user_id, function (err, result, fields) {
-
-        let total_amount = result[0].car_loan_amount;
-        total_amount += result[0].property_loan_amount;
-        total_amount += result[0].educational_loan_amount;
-        total_amount += result[0].home_loan_amount;
-        total_amount += result[0].bills_payable_amount;
-        total_amount += result[0].mortgage_payable_amount;
-        total_amount += result[0].capital_leases_amount;
-        total_amount += result[0].bank_account_overdrafts_amount;
-
-        let total_interest = result[0].car_loan_interest;
-        total_interest += result[0].property_loan_interest;
-        total_interest += result[0].educational_loan_interest;
-        total_interest += result[0].home_loan_interest;
-        total_interest += result[0].bills_payable_interest;
-        total_interest += result[0].mortgage_payable_interest;
-        total_interest += result[0].capital_leases_interest;
-        total_interest += result[0].bank_account_overdrafts_interest;
-
-        if (err) throw err;
-        res.render("liabilities", {
-            liabilities: result,
-            total_amount: total_amount,
-            total_interest: total_interest
+    liabilities.liabilityData(req.user).then(result => {
+      
+        res.render("liabilities", { 
+            income_expense: result[0],
+            liabilities: result[1], 
+            total_amount: result[2], 
+            total_interest: result[3], 
         });
 
+    }).catch(error => {
+        console.log('error:', error);
+    });
+    
+});
+
+router.get("/getLiabilityNames.json", isloggedin, function(req, res){
+
+    liabilities.liabilityData(req.user).then(result => {
+      
+        res.json({ liabilities: result[1] });
+
+    }).catch(error => {
+        console.log('error:', error);
+    });
+    
+});
+
+router.get("/getMonthlyIncomeExpense.json", isloggedin, function(req, res){
+
+    liabilities.getMonthlyIn_Ex(req.user).then(result => {
+        res.json(result);
     });
 
 });
 
-router.get("/liabilities/edit/:liability_type", isloggedin, function (req, res, next) {
+router.get("/liabilities/edit/:liability_type", isloggedin, function(req, res){
+
     let type = req.params.liability_type;
-    let liability_type = _.snakeCase(_.lowerCase(type));
-    let amount = liability_type + "_amount";
-    let interest = liability_type + "_interest";
-    let rate = liability_type + "_rate";
+    liabilities.editLiabilities(type, req.user).then(result => {
 
-    let sql = "SELECT a." + amount + ", b." + interest + ", c." + rate + " FROM ((liability_amounts a INNER JOIN liability_interests b ON a.user_id = b.user_id) INNER JOIN liability_interest_rates c ON a.user_id = c.user_id) WHERE a.user_id = ?";
+        res.json({
+            liability_name: type, 
+            liability: result[0], 
+            amount: result[1], 
+            rate: result[2], 
+            duration: result[3],
+            date: result[4]
+        });
 
-    database.query(sql, req.user.user_id, function (err, result) {
-
-        if (err) throw err;
-        console.log(result);
-        res.render("edit_liability", { liability_name: type, liability: result[0], amount: amount, rate: rate });
-
+    }).catch(error => {
+        console.log('error:', error);
     });
-
+    
 });
 
 router.get("/addInsurance", function (req, res) {
@@ -203,29 +207,34 @@ router.post("/signup", passport.authenticate('local-signup', {
 )
 
 
-router.post("/liabilities/edit/:liability_type", function (req, res) {
+router.post("/liabilities/edit/:liability_type", function(req, res){
 
     let type = req.params.liability_type;
-    let liability_type = _.snakeCase(_.lowerCase(type));
-    let amount = liability_type + "_amount";
-    let interest = liability_type + "_interest";
-    let rate = liability_type + "_rate";
-
     let r = req.body.interest_rate;
-    let t = req.body.time_period;
+    let t = req.body.duration;
     let p = req.body.amount;
-    let int = ((p * r * t) / 100);
+    let date = req.body.date;
 
-    let sql = "UPDATE liability_amounts a, liability_interests b, liability_interest_rates c SET a." + amount + " = ?, b." + interest + " = ?, c." + rate + " = ? WHERE a.user_id = b.user_id AND b.user_id = c.user_id AND a.user_id = ?";
+    liabilities.calInterest(type, r, t, p, date, req.user).then(result => {
+        res.redirect("/liabilities");
 
-    database.query(sql, [p, int, r, req.user.user_id], function (err, result) {
+    }).catch(error => {
+        console.log('error:', error);
+    });
+});
 
-        if (err) throw err;
-        console.log(result);
+router.post("/liabilities/update/:label", function(req, res){
 
+    let name = req.params.label;
+    let updateValue = req.body.amount;
+
+    liabilities.updateIn_Ex(name, updateValue, req.user).then(result => {
+        res.redirect("/liabilities");
+
+    }).catch(error => {
+        console.log('error:', error);
     });
 
-    res.redirect("/liabilities");
 });
 
 

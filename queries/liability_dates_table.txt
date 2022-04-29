@@ -1,0 +1,13 @@
+CREATE TABLE liability_dates(
+	user_id VARCHAR(100) NOT NULL,
+    data_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	car_loan_date VARCHAR(11), 
+	property_loan_date VARCHAR(11),
+    educational_loan_date VARCHAR(11),
+    home_loan_date VARCHAR(11),
+    bills_payable_date VARCHAR(11),
+    mortgage_payable_date VARCHAR(11),
+    capital_leases_date VARCHAR(11),
+    bank_account_overdrafts_date VARCHAR(11),
+    FOREIGN KEY(user_id) REFERENCES login_credentials(user_id)
+);

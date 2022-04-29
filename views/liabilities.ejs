@@ -8,157 +8,103 @@
 
     <title>Liabilities</title>
 
+    <link rel="stylesheet" href="/css/liability.css">
+
+    <!-- for edit symbol -->
+    <script src="https://kit.fontawesome.com/1542790c88.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
 
-    <div>
+    <div class="nav-bar">
         <h1>LIABILITIES</h1>
+
+        <ul class="nav-list">
+            <li><button id="homeBtn" class="nav-btn">HOME</button></li>
+            <li><button id="aboutBtn" class="nav-btn">ABOUT</button></li>
+            <li><button id="contactBtn" class="nav-btn">CONTACT US</button></li>
+            <li><button id="dashboardBtn" class="nav-btn">DASHBOARD</button></li>
+        </ul>
     </div>
 
-    <div>
-        <table>
+    <div class="container-1 container">
+
+        <div id="annualIn" class="item">
+            Annual Income: <span><%= income_expense.annualIncome %></span> 
+        </div>
+        
+        <div id="monthlyIn" class="item">
+            Monthly Income: <span><%= income_expense.monthlyIncome %></span> 
+        </div>
+
+        <div id="annualEx" class="item">
+            Annual Expenses: <span><%= income_expense.annualExpense %></span> 
+        </div>
+
+        <div id="monthlyEx" class="item">
+            Monthly Expenses: <span><%= income_expense.monthlyExpense %></span> 
+        </div>
+
+    </div>
+
+    <h2 class="container">LONG TERM LIABILITIES</h2>
+    <div class="container">
+
+        <table align="center">
+
             <thead>
                 <tr>
-                    <th> Type </th>
-                    <th> Amount </th>
-                    <th> Interest </th>
-                    <th> Interest Rate </th>
+                    <th scope="col"> Type </th>
+                    <th scope="col"> Amount </th>
+                    <th scope="col"> Interest </th>
+                    <th scope="col"> Interest Rate </th>
+                    <th scope="col"> Loan Term </th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody id="tableData">
+                <% liabilities.forEach(function(liability){ %>
 
-                <tr>
-                    <td>Car Loan</td>
-                    <td>
-                        $<%= liabilities[0].car_loan_amount %>
-                    </td>
-                    <td>
-                        $<%= liabilities[0].car_loan_interest %>
-                    </td>
-                    <td>
-                        <%= liabilities[0].car_loan_rate %>%
-                    </td>
-                    <td><a href="/liabilities/edit/Car Loan">Edit</a></td>
-                </tr>
+                    <tr>
+                        <td><%= liability.type %></td>
+                        <td><%= liability.amount %></td>
+                        <td><%= liability.interest %></td>
+                        <td><%= liability.rate %></td>
+                        <td><%= liability.duration %></td>
+                        <td><a id="<%= liability.type %>" class="edit-btn"><i class="fa fa-pencil"></i></a></td>
+                    </tr>
 
-                <tr>
-                    <td>Property Loan</td>
-                    <td>
-                        $<%= liabilities[0].property_loan_amount %>
-                    </td>
-                    <td>
-                        $<%= liabilities[0].property_loan_interest %>
-                    </td>
-                    <td>
-                        <%= liabilities[0].property_loan_rate %>%
-                    </td>
-                    <td><a href="/liabilities/edit/Property Loan">Edit</a></td>
-                </tr>
-
-                <tr>
-                    <td>Educational Loan</td>
-                    <td>
-                        $<%= liabilities[0].educational_loan_amount %>
-                    </td>
-                    <td>
-                        $<%= liabilities[0].educational_loan_interest %>
-                    </td>
-                    <td>
-                        <%= liabilities[0].educational_loan_rate %>%
-                    </td>
-                    <td><a href="/liabilities/edit/Educational Loan">Edit</a></td>
-                </tr>
-
-                <tr>
-                    <td>Home Loan</td>
-                    <td>
-                        $<%= liabilities[0].home_loan_amount %>
-                    </td>
-                    <td>
-                        $<%= liabilities[0].home_loan_interest %>
-                    </td>
-                    <td>
-                        <%= liabilities[0].home_loan_rate %>%
-                    </td>
-                    <td><a href="/liabilities/edit/Home Loan">Edit</a></td>
-                </tr>
-
-                <tr>
-                    <td>Bills Payable</td>
-                    <td>
-                        $<%= liabilities[0].bills_payable_amount %>
-                    </td>
-                    <td>
-                        $<%= liabilities[0].bills_payable_interest %>
-                    </td>
-                    <td>
-                        <%= liabilities[0].bills_payable_rate %>%
-                    </td>
-                    <td><a href="/liabilities/edit/Bills Payable">Edit</a></td>
-                </tr>
-
-                <tr>
-                    <td>Mortgage Payable</td>
-                    <td>
-                        $<%= liabilities[0].mortgage_payable_amount %>
-                    </td>
-                    <td>
-                        $<%= liabilities[0].mortgage_payable_interest %>
-                    </td>
-                    <td>
-                        <%= liabilities[0].mortgage_payable_rate %>%
-                    </td>
-                    <td><a href="/liabilities/edit/Mortgage Payable">Edit</a></td>
-                </tr>
-
-                <tr>
-                    <td>Capital Leases</td>
-                    <td>
-                        $<%= liabilities[0].capital_leases_amount %>
-                    </td>
-                    <td>
-                        $<%= liabilities[0].capital_leases_interest %>
-                    </td>
-                    <td>
-                        <%= liabilities[0].capital_leases_rate %>%
-                    </td>
-                    <td><a href="/liabilities/edit/Capital Leases">Edit</a></td>
-                </tr>
-
-                <tr>
-                    <td>Bank Account Overdrafts</td>
-                    <td>
-                        $<%= liabilities[0].bank_account_overdrafts_amount %>
-                    </td>
-                    <td>
-                        $<%= liabilities[0].bank_account_overdrafts_interest %>
-                    </td>
-                    <td>
-                        <%= liabilities[0].bank_account_overdrafts_rate %>%
-                    </td>
-                    <td><a href="/liabilities/edit/Bank Account Overdrafts">Edit</a></td>
-                </tr>
-
+                <% }); %>
+            </tbody>
+                
+            <tfoot>
                 <tr>
                     <td> Total </td>
-                    <td> 
-                        $<%=total_amount%>
-                    </td>
-                    <td> 
-                        $<%=total_interest%>
-                    </td>
+                    <td id="totalAmount"><%=total_amount%></td>
+                    <td id="totalInterest"><%=total_interest%></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
-
-            </tbody>
+            </tfoot>
 
         </table>
 
     </div>
 
+    <div id="myModal" class="modal">
+        <div id="formData" class="modal-content"></div>
+    </div>
+    
+    <div id="alert-modal" class="modal">
+        <div id="msg" class="modal-content"></div>
+    </div>
+
+    <footer>This is footer</footer>
+
+    <script src="/js/liabilities.js"></script>
 </body>
 
 </html>

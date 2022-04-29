@@ -34,7 +34,7 @@ passport.use(new GoogleStrategy({
                     console.log("1 record inserted");
                 });
 
-                insertNewUserRows.insertRows(User.userId);
+                insertNewUserRows.insertRows(userId);
             }
             else {
                 // console.log(result);
