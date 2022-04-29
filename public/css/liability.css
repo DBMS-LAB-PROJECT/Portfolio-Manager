@@ -1,0 +1,304 @@
+/* ----------------------------- BODY OF PAGE ---------------------------- */
+body {
+    font-family: 'Brandon Grotesque','Lato';
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ---------------------------- Naviation Bar ---------------------------- */
+.nav-bar {
+    background-color: #112D4E;
+    margin-bottom: 2rem;
+}
+.nav-bar h1 {
+    font-size: 2.4rem;
+    color: #F9F7F7;
+    display: inline;
+    position: relative;
+    bottom: -3.5rem;
+    left: 2rem;
+}
+.nav-bar ul li{
+    list-style: none;
+}
+.nav-list{
+    display: flex;
+    height: 3rem;
+    gap: 2rem;
+    margin-right: 2rem;
+    justify-content: flex-end;
+}
+.nav-btn {
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0.6rem;
+    color: #F9F7F7;
+    border-radius: 0.8rem;
+    font-weight: 500;
+}
+
+
+/* -------------------- Long term liabilities heading -------------------- */
+h2 {
+    color: #112D4E;
+}
+
+
+/* ---------------------- INCOME AND EXPENCE BOXES ----------------------- */
+.container-1 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+.item {
+    background: url("../images/income_box.png") center no-repeat;
+    background-position: 130% 77%;
+    background-size: 18.75rem;
+    border: 1px solid #d0d0d06e;
+    border-radius: 10px;
+    box-shadow: #0000000c 0 2px 3px 0px, #0000000e 0 2px 3px 0, #00000010 0 1px 3px 0;
+    padding: 2.1875rem;
+    color: #112D4E;
+    background-color: #f9f7f79d;
+    font-weight: 600;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.item:hover {
+    border: 2px solid #d0d0d091;
+    margin: -1px;
+}
+.item span {
+    color: #3F72AF;
+    font-size: larger;
+    margin-left: 1%;
+}
+
+
+/* ------------- class for TABLE, LOAN HEADING, INCOME boxes ------------- */
+.container {
+    width: 71.875rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+/* -------------------------------- TABLE -------------------------------- */
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    overflow: hidden;
+    width: 100%;
+    color: #112D4E;
+    border-radius: 0.625rem;
+    box-shadow: #0000000c 0 3px 5px 0px, #0000000e 0 3px 5px 0, #00000010 0 1px 5px 0;
+}
+thead {
+    border-collapse: collapse;
+    background-color: #112D4E;
+    color: #F9F7F7;
+    font-weight: bold;
+}
+th, td {
+    padding: 0.9375rem;
+}
+th {
+    letter-spacing: 0.03125rem;
+}
+td {
+    letter-spacing: 0.03125rem;
+    border-bottom: 1px solid #abb7cc70;
+}
+tbody td {
+    text-align: center;
+}
+tbody td:nth-child(1) {
+    text-align: left;
+}
+tfoot td {
+    font-weight: 900;
+    font-size: large;
+    text-align: center;
+    color: #112D4E;
+    border: none;
+    background-color: #dbe2efd0;
+}
+
+
+/* ----------------------------- EDIT BUTTON ----------------------------- */
+a {
+    text-decoration: none;
+    color: #112D4E;
+    font-weight: 500;
+}
+.edit-btn {
+    background: none;
+    background-color: #faf8f8;
+    border-style: none;
+    border-radius: 1.25rem;
+    box-shadow: #0000000c 0 1px 2px 0px, #0000000e 0 1px 2px 0, #00000010 0 1px 2px 0;
+    box-sizing: border-box;
+    color: #112D4E;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: normal;
+    padding: 0.3125rem 0.625rem;
+    cursor: pointer;
+}
+.edit-btn:hover {
+    background: #DBE2EF;
+}
+.edit-btn:active {
+    outline: none;
+    border: 2px solid #112D4E;
+}
+
+
+/* ----------------------- EVERYTHING IN MODAL --------------------------- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.8);
+}
+.modal-content {
+    background-color: #ffffff;
+    margin: 8% auto;
+    padding: 1.5625rem;
+    border: 1px solid #888;
+    border-radius: 0.625rem;
+    width: 30%;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+@-webkit-keyframes animatetop {
+    from {
+        top: -18.75rem;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+@keyframes animatetop {
+    from {
+        top: -18.75rem;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+.close {
+    color: #c5d1e9;
+    float: right;
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: #112D4E;
+    text-decoration: none;
+    cursor: pointer;
+}
+form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+form div {
+    width: 100%;
+    margin: 0.625rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+input {
+    border: none;
+    outline: none;
+    background: none;
+    background-color: #dbe2ef87;
+    width: 13.5625rem;
+    padding: 0.3125rem;
+    border-radius: 0.4375rem;
+    font-size: 0.9375rem;
+    color: #112D4E;
+}
+label {
+    letter-spacing: 0.03125rem;
+    color: #112D4E;
+}
+.saveBtn {
+    position: relative;
+    top: 3.125rem;
+    outline: none;
+    line-height: normal;
+    border-style: none;
+    box-sizing: border-box;
+    box-shadow: #0000000c 0 2px 4px -1px, #0000000e 0 5px 9px 0, #00000010 0 0px 17px 0;
+    padding: 0.5rem 0.9375rem;
+    width: -webkit-fill-available;
+    margin-left: 2%;
+    margin-right: 2%;
+    background-color: #3F72AF;
+    border-radius: 1rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: 0.03125rem;
+    color: #ffffff;
+    cursor: pointer;
+}
+.saveBtn:hover {
+    background-color: #DBE2EF;
+    color: #3F72AF;
+}
+/* .saveBtn:active {
+    outline: none;
+    border-style: none;
+    border: 2px solid #112D4E;
+} */
+h3 {
+    color: #3F72AF;
+    letter-spacing: 0.03125rem;
+    font-weight: bolder;
+    font-size: 1.4375rem;
+    margin-left: 0.5rem;
+}
+.modal p {
+    padding: 0.1875rem;
+    margin-left: 2%;
+    margin-right: 2%;
+    border-radius: 0.625rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #704589;
+    position: relative;
+    top: -2.75rem;
+}
+.modal p i{
+    font-size: 0.9375rem;
+    margin-right: 1%;
+}
+
+
+/* ------------------------------- FOOTER -------------------------------- */
+footer {
+    background-color: #112d4eb6;
+    padding: 0.625rem;
+    margin-top: 3.125rem;
+    text-align: center;
+    color: #ffffff;
+}

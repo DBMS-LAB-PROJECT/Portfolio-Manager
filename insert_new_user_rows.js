@@ -21,6 +21,24 @@ exports.insertRows = function (userID) {
         console.log("1 record inserted");
     });
 
+    database.query("INSERT INTO liability_durations(user_id) VALUES(?)", userID, function (err, result){
+        if (err) throw err;
+        console.log("result");
+        console.log("1 record inserted");
+    });
+
+    database.query("INSERT INTO liability_dates(user_id) VALUES(?)", userID, function (err, result){
+        if (err) throw err;
+        console.log("result");
+        console.log("1 record inserted");
+    });
+
+    database.query("INSERT INTO user_profile(user_id) VALUES(?)", userID, function (err, result){
+        if (err) throw err;
+        console.log("result");
+        console.log("1 record inserted");
+    });
 } 
+
 
 module.exports;
