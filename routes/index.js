@@ -87,14 +87,14 @@ router.get("/dashboard", isloggedin, function (req, res) {
     // const user_id = '113720373204677842542';
     let userName;
     let sql = 'select user_name from login_credentials where user_id = ?';
-    con.query(sql, user_id, function(err, rows){
-        if(err) console.log(err);
+    con.query(sql, user_id, function (err, rows) {
+        if (err) console.log(err);
         // console.log(rows);
         res.render("dashboard", { username: rows[0].user_name });
         // userName = rows[0].user_name;
         console.log(userName);
     })
-    
+
 
 });
 
@@ -108,36 +108,36 @@ router.get("/terms_and_conditions", function (req, res) {
     res.render("terms_and_conditions");
 });
 
-router.get("/liabilities", isloggedin, function(req, res){
+router.get("/liabilities", isloggedin, function (req, res) {
 
     liabilities.liabilityData(req.user).then(result => {
-      
-        res.render("liabilities", { 
+
+        res.render("liabilities", {
             income_expense: result[0],
-            liabilities: result[1], 
-            total_amount: result[2], 
-            total_interest: result[3], 
+            liabilities: result[1],
+            total_amount: result[2],
+            total_interest: result[3],
         });
 
     }).catch(error => {
         console.log('error:', error);
     });
-    
+
 });
 
-router.get("/getLiabilityNames.json", isloggedin, function(req, res){
+router.get("/getLiabilityNames.json", isloggedin, function (req, res) {
 
     liabilities.liabilityData(req.user).then(result => {
-      
+
         res.json({ liabilities: result[1] });
 
     }).catch(error => {
         console.log('error:', error);
     });
-    
+
 });
 
-router.get("/getMonthlyIncomeExpense.json", isloggedin, function(req, res){
+router.get("/getMonthlyIncomeExpense.json", isloggedin, function (req, res) {
 
     liabilities.getMonthlyIn_Ex(req.user).then(result => {
         res.json(result);
@@ -145,16 +145,16 @@ router.get("/getMonthlyIncomeExpense.json", isloggedin, function(req, res){
 
 });
 
-router.get("/liabilities/edit/:liability_type", isloggedin, function(req, res){
+router.get("/liabilities/edit/:liability_type", isloggedin, function (req, res) {
 
     let type = req.params.liability_type;
     liabilities.editLiabilities(type, req.user).then(result => {
 
         res.json({
-            liability_name: type, 
-            liability: result[0], 
-            amount: result[1], 
-            rate: result[2], 
+            liability_name: type,
+            liability: result[0],
+            amount: result[1],
+            rate: result[2],
             duration: result[3],
             date: result[4]
         });
@@ -162,7 +162,7 @@ router.get("/liabilities/edit/:liability_type", isloggedin, function(req, res){
     }).catch(error => {
         console.log('error:', error);
     });
-    
+
 });
 
 router.get("/addInsurance", function (req, res) {
@@ -179,11 +179,34 @@ router.get("/insurance", isloggedin, function (req, res) {
             console.log("error in displaying data.");
             throw error;
         }
+
         res.render("insurance", {
-            data: result
+            insurances,
         });
 
     })
+})
+
+router.get("insurance/edit/:ins_type", isloggedin, function (req, res) {
+    let user = req.user;
+    let type = req.params.ins_type;
+
+    res.render("editInsurance", { typeof: type });
+
+})
+
+router.get("insurance/delete/:ins_type", isloggedin, function (req, res) {
+    let user = req.user;
+    let type = req.params.ins_type;
+
+    let delete_command = "DELETE FROM insurance_details WHERE userId = ? AND type = ?";
+    let values = [user, type];
+
+    database.query(delete_command, values, function (err, result) {
+        if (err) throw err;
+        console.log("row deleted successfully.");
+    })
+    res.redirect("/insurance");
 })
 
 // **************************** POST ROUTES *******************************************************
@@ -208,7 +231,7 @@ router.post("/signup", passport.authenticate('local-signup', {
 )
 
 
-router.post("/liabilities/edit/:liability_type", function(req, res){
+router.post("/liabilities/edit/:liability_type", function (req, res) {
 
     let type = req.params.liability_type;
     let r = req.body.interest_rate;
@@ -224,7 +247,7 @@ router.post("/liabilities/edit/:liability_type", function(req, res){
     });
 });
 
-router.post("/liabilities/update/:label", function(req, res){
+router.post("/liabilities/update/:label", function (req, res) {
 
     let name = req.params.label;
     let updateValue = req.body.amount;
@@ -263,6 +286,24 @@ router.post("/insurance", isloggedin, function (req, res) {
         console.log("1 record added to the table successfully.");
     })
 
+    res.redirect("/insurance");
+})
+
+router.post("insurance/edit/:ins_type", isloggedin, function (req, res) {
+
+    let user = req.user;
+    let type = req.params.ins_type;
+    let insurer = req.body.insurerCompany;
+    let start = req.body.startingAt;
+    let end = req.body.endingAt;
+    let fee = req.body.contractFee;
+
+    let update = "UPDATE insurance_details SET insurer = ? , startingDate = ? , endingDate = ? , Fee_of_contract = ? WHERE userId = ? AND type = ?";
+    let values = [insurer, start, end, fee, user, type];
+    database.query(update, values, function (err, result) {
+        if (err) throw err;
+        console.log("table updated successfully.");
+    })
     res.redirect("/insurance");
 })
 
@@ -409,10 +450,10 @@ router.get('/currentHoldings', (req, res) => {
     const user_id = '113720373204677842542';
     let userName;
     let sql = 'select user_name from login_credentials where user_id = ?';
-    con.query(sql, user_id, function(err, rows){
-        if(err) console.log(err);
+    con.query(sql, user_id, function (err, rows) {
+        if (err) console.log(err);
         // console.log(rows);
-        res.render('currentHoldings', {userName : rows[0].user_name});
+        res.render('currentHoldings', { userName: rows[0].user_name });
         // userName = rows[0].user_name;
         console.log(userName);
     })
@@ -461,7 +502,7 @@ router.post('/currentHoldings/search', (req, res) => {
     const searchItem = req.body.searchItem;
     // console.log(searchItem);
     // console.log("this is post route------->" + user_id); 
-    let sql = "select stock_id,quantity,symbol,price,buyDate,companyName from stocks where symbol like '%" + searchItem + "%' or companyName like '%" + searchItem + "%' and user_id = '" + user_id + "'"; 
+    let sql = "select stock_id,quantity,symbol,price,buyDate,companyName from stocks where symbol like '%" + searchItem + "%' or companyName like '%" + searchItem + "%' and user_id = '" + user_id + "'";
     con.query(sql, [searchItem, searchItem, user_id], function (err, rows) {
         if (err) console.log(err);
         // console.log(rows);
@@ -505,7 +546,7 @@ router.post('/info', async (req, res) => {
     res.send(jsondata);
 })
 
-router.post('/stockSplitHistory', async(req,res) => {
+router.post('/stockSplitHistory', async (req, res) => {
     const symbol = req.body.symbol;
     const url = 'https://api.polygon.io/v3/reference/splits?ticker=' + symbol + '&apiKey=' + process.env.polygonAPI1;
     const data = await fetch(url);
@@ -514,7 +555,7 @@ router.post('/stockSplitHistory', async(req,res) => {
     res.send(jsondata);
 })
 
-router.post('/dividendHistory', async(req,res) => {
+router.post('/dividendHistory', async (req, res) => {
     const symbol = req.body.symbol;
     let url = req.body.url;
     url += process.env.polygonAPI3;

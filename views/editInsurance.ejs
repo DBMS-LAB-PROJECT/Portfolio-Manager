@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit insurance Details</title>
+</head>
+
+<body>
+    <h2>Edit your insurance details:</h2>
+
+    <form action="/insurance/edit/<%=typeof%>" method="post">
+        <label for="type">Type of Insurance: </label>
+        <input type="text" name="type" id="" placeholder="Insurance Type" value="<%=typeof%>" readonly><br>
+        <label for="insurer">Insurer Company: </label>
+        <input type="text" name="insurerCompany" placeholder="Insurer"><br>
+        <label for="start">Starting date of the plan: </label>
+        <input type="date" name="startingAt" id="" placeholder="start"><br>
+        <label for="end">Ending date of the plan: </label>
+        <input type="date" name="endingAt" id="" placeholder="ending"><br>
+        <label for="fee">Fee of the contract: </label>
+        <input type="number" name="contractFee" id="" placeholder="fee of contract"><br>
+        <button type="submit">save</button>
+    </form>
+</body>
+
+</html>
