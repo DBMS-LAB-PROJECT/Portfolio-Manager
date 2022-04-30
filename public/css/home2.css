@@ -72,7 +72,7 @@ body{
 }
 
 .content{
-    margin-top: 10rem;
+    margin-top: 20vh;
     line-height: 1.1;
     color: var(--darkBlue);
     /* color: var(--offwhite); */
@@ -103,7 +103,7 @@ h1{
 }
 
 .pic img{
-    max-width: 35rem;
+    max-width: 35vw;
 }
 
 
@@ -116,7 +116,7 @@ h1{
   
 .container nav ul li a:hover {
     color: var(--darkBlue);
-    color: var(--offwhite);
+    /* color: var(--offwhite); */
 }
   
 .container nav ul li a::before {
