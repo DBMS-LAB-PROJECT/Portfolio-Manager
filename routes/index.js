@@ -181,7 +181,7 @@ router.get("/insurance", isloggedin, function (req, res) {
         }
 
         res.render("insurance", {
-            insurances,
+            data: result
         });
 
     })

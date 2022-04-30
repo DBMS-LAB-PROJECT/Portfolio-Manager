@@ -48,7 +48,7 @@
 
     <form action="/addInsurance"><input type="submit" value="Insert new record"></form>
 
-    <% if (insurances.length> 0){ %>
+    <% if (data.length> 0){ %>
         <table>
             <thead>
                 <tr>
@@ -61,34 +61,35 @@
             </thead>
 
             <tbody>
-                <% insurances.map((insurance, index)=>{ %>
+                <% for (let i=0; i< data.length; i++){ %>
                     <tr>
                         <td>
-                            <%=insurance.type%>
+                            <%= data[i].type %>
                         </td>
                         <td>
-                            <%=insurance.insurer%>
+                            <%= data[i].insurer %>
                         </td>
                         <td>
-                            <%=insurance.startingDate%>
+                            <%= data[i].startingDate %>
                         </td>
                         <td>
-                            <%=insurance.endingDate%>
+                            <%= data[i].endingDate %>
                         </td>
                         <td>
-                            <%=insurance.Fee_of_Contract%>
+                            $<%= data[i].Fee_of_Contract %>
                         </td>
                         <td><a href="/insurance/edit/<%=insurance.type%>">🖊</a></td>
                         <td><a href="/insurance/delete/<%=insurance.type%>">🗑</a></td>
                     </tr>
-                    <% }); %>
+
+                    <% } %>
+
             </tbody>
         </table>
 
         <% } else{ %>
             <h3>No data available</h3>
             <% } %>
-
 </body>
 
 </html>
