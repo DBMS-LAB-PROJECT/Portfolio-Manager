@@ -43,8 +43,8 @@ database.query("use portfolio_manager");
 
 // ****************************     GET ROUTES    ********************************************************
 router.get("/", function (req, res) {
-    console.log("home");
-    res.render("home");
+    // console.log("home");
+    res.render("home2");
 })
 
 router.get("/login", function (req, res) {

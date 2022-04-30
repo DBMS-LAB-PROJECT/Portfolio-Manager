@@ -1,0 +1,140 @@
+@import url("stocks/colors.css");
+
+*, *::after, *::before {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+    font-family: 'Brandon Grotesque','Lato';
+    font-weight: inherit;
+}
+
+html{
+    box-sizing: border-box;
+    font-weight: 400;
+}
+
+body{
+    background-color: var(--lightBlue);
+    /* background-color: var(--darkBlue); */
+    /* color: var(--offwhite); */
+    /* background-color: var(--offwhite); */
+    font-family: 'Brandon Grotesque','Lato';
+}
+
+.container{
+    margin-left: 3rem;
+    margin-top: 2rem;
+    margin-right: 3rem;
+}
+
+.head{
+    position: absolute;
+    top: 2rem;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--darkBlue);
+    /* color: var(--offwhite); */
+}
+
+.head-later{
+    font-size: 1.5rem;
+    /* color: #3DB2FF; */
+    color: var(--mediumBlue);
+    /* color: var(--offwhite); */
+    position: absolute;
+    left: 3rem;
+    top: 1.6rem;
+}
+
+.container nav ul {
+    display: flex;
+    justify-content: right;
+}
+
+.container nav ul li{
+    list-style: none;
+    font-size: 1rem;
+    margin-left: 1.5rem;
+}
+
+.container nav ul li:hover{
+    font-weight: 500;
+}
+
+.container nav ul li a{
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #3DB2FF;
+    /* color: var(--mediumBlue); */
+    color: var(--darkBlue);
+    /* color: var(--offwhite); */
+
+}
+
+.content{
+    margin-top: 10rem;
+    line-height: 1.1;
+    color: var(--darkBlue);
+    /* color: var(--offwhite); */
+    display: flex;
+    justify-content: space-around;
+}
+
+h1{
+    font-size: 3.5rem;
+    font-weight: 900;
+}
+
+.content h2{
+    font-size: 3.5rem;
+    font-weight: 700;
+}
+
+.content p{
+    max-width: 40ch;
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    line-height: 1.4;
+}
+
+.pic{
+    position: relative;
+    top: -5rem;
+}
+
+.pic img{
+    max-width: 35rem;
+}
+
+
+.container nav ul li a{
+    position: relative;
+    color: var(--darkBlue);
+    /* color: var(--offwhite); */
+    text-decoration: none;
+}
+  
+.container nav ul li a:hover {
+    color: var(--darkBlue);
+    color: var(--offwhite);
+}
+  
+.container nav ul li a::before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--darkBlue);
+    /* background-color: var(--offwhite); */
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+  
+.container nav ul li a:hover::before {
+    transform: scaleX(1);
+}
+
+
