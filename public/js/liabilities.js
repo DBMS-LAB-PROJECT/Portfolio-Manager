@@ -1,19 +1,3 @@
-document.getElementById("homeBtn").addEventListener("click", () => {
-    location.href = "/";
-});
-
-document.getElementById("aboutBtn").addEventListener("click", () => {
-    location.href = "/about";
-});
-
-document.getElementById("contactBtn").addEventListener("click", () => {
-    location.href = "/contact";
-});
-
-document.getElementById("dashboardBtn").addEventListener("click", () => {
-    location.href = "/dashboard";
-});
-
 
 let modal = document.getElementById("myModal");
 let MIn, MEx;

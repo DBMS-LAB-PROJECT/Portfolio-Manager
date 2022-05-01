@@ -166,7 +166,6 @@ router.get("/liabilities/edit/:liability_type", isloggedin, function (req, res) 
 });
 
 router.get("/addInsurance", function (req, res) {
-    // res.sendFile(__dirname + "/views/addInsurance.ejs")
     res.render("addInsurance");
 })
 
@@ -187,15 +186,21 @@ router.get("/insurance", isloggedin, function (req, res) {
     })
 })
 
-router.get("insurance/edit/:ins_type", isloggedin, function (req, res) {
+router.get("/insurance/edit/:ins_type", isloggedin, function (req, res) {
     let user = req.user;
     let type = req.params.ins_type;
+    let sql = "SELECT * FROM insurance_details WHERE userId = ? AND type = ?"
+    let value = [user, type]
+    
+    database.query(sql, value, function(err, result){
+        res.render("editInsurance", { 
+            type: type,
+            data: result 
+        });
+    });
+});
 
-    res.render("editInsurance", { typeof: type });
-
-})
-
-router.get("insurance/delete/:ins_type", isloggedin, function (req, res) {
+router.get("/insurance/delete/:ins_type", isloggedin, function (req, res) {
     let user = req.user;
     let type = req.params.ins_type;
 
@@ -289,7 +294,7 @@ router.post("/insurance", isloggedin, function (req, res) {
     res.redirect("/insurance");
 })
 
-router.post("insurance/edit/:ins_type", isloggedin, function (req, res) {
+router.post("/insurance/edit/:ins_type", isloggedin, function (req, res) {
 
     let user = req.user;
     let type = req.params.ins_type;

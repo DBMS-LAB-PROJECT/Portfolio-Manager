@@ -6,40 +6,6 @@ body {
 }
 
 
-/* ---------------------------- Naviation Bar ---------------------------- */
-.nav-bar {
-    background-color: #112D4E;
-    margin-bottom: 2rem;
-}
-.nav-bar h1 {
-    font-size: 2.4rem;
-    color: #F9F7F7;
-    display: inline;
-    position: relative;
-    bottom: -3.5rem;
-    left: 2rem;
-}
-.nav-bar ul li{
-    list-style: none;
-}
-.nav-list{
-    display: flex;
-    height: 3rem;
-    gap: 2rem;
-    margin-right: 2rem;
-    justify-content: flex-end;
-}
-.nav-btn {
-    cursor: pointer;
-    border: none;
-    background: none;
-    padding: 0.6rem;
-    color: #F9F7F7;
-    border-radius: 0.8rem;
-    font-weight: 500;
-}
-
-
 /* -------------------- Long term liabilities heading -------------------- */
 h2 {
     color: #112D4E;
@@ -53,7 +19,7 @@ h2 {
     gap: 1.25rem;
 }
 .item {
-    background: url("../images/income_box.png") center no-repeat;
+    background: url("../../images/income_box.png") center no-repeat;
     background-position: 130% 77%;
     background-size: 18.75rem;
     border: 1px solid #d0d0d06e;
@@ -62,7 +28,7 @@ h2 {
     padding: 2.1875rem;
     color: #112D4E;
     background-color: #f9f7f79d;
-    font-weight: 600;
+    font-weight: bold;
     font-size: 1.2rem;
     cursor: pointer;
 }
@@ -91,14 +57,17 @@ table {
     table-layout: fixed;
     overflow: hidden;
     width: 100%;
+    background-color: #F9F7F7;
     color: #112D4E;
     border-radius: 0.625rem;
     box-shadow: #0000000c 0 3px 5px 0px, #0000000e 0 3px 5px 0, #00000010 0 1px 5px 0;
 }
 thead {
     border-collapse: collapse;
-    background-color: #112D4E;
-    color: #F9F7F7;
+    border-bottom: 1px solid #112d4e9c;
+    background-color: #F9F7F7;
+    color: #3F72AF;
+    font-size: 1.1rem;
     font-weight: bold;
 }
 th, td {
@@ -121,17 +90,15 @@ tfoot td {
     font-weight: 900;
     font-size: large;
     text-align: center;
-    color: #112D4E;
+    color: #3F72AF;
     border: none;
-    background-color: #dbe2efd0;
 }
 
 
 /* ----------------------------- EDIT BUTTON ----------------------------- */
-a {
+.edit-btn i {
     text-decoration: none;
-    color: #112D4E;
-    font-weight: 500;
+    color: #3F72AF;
 }
 .edit-btn {
     background: none;
@@ -149,10 +116,6 @@ a {
 }
 .edit-btn:hover {
     background: #DBE2EF;
-}
-.edit-btn:active {
-    outline: none;
-    border: 2px solid #112D4E;
 }
 
 
@@ -214,6 +177,17 @@ a {
     text-decoration: none;
     cursor: pointer;
 }
+
+/* ----------------------- HEADING INSIDE MODAL -------------------------- */
+h3 {
+    color: #3F72AF;
+    letter-spacing: 0.03125rem;
+    font-weight: bolder;
+    font-size: 1.4375rem;
+    margin-left: 0.5rem;
+}
+
+/* ------------------------ FORM INSIDE MODAL ---------------------------- */
 form {
     display: flex;
     flex-wrap: wrap;
@@ -241,6 +215,8 @@ label {
     letter-spacing: 0.03125rem;
     color: #112D4E;
 }
+
+/* ------------------------ SAVE BTN IN MODAL ---------------------------- */
 .saveBtn {
     position: relative;
     top: 3.125rem;
@@ -265,25 +241,15 @@ label {
     background-color: #DBE2EF;
     color: #3F72AF;
 }
-/* .saveBtn:active {
-    outline: none;
-    border-style: none;
-    border: 2px solid #112D4E;
-} */
-h3 {
-    color: #3F72AF;
-    letter-spacing: 0.03125rem;
-    font-weight: bolder;
-    font-size: 1.4375rem;
-    margin-left: 0.5rem;
-}
+
+/* ------------------------ INFO MSG IN MODAL ---------------------------- */
 .modal p {
     padding: 0.1875rem;
     margin-left: 2%;
     margin-right: 2%;
     border-radius: 0.625rem;
-    font-size: 0.8125rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 500;
     color: #704589;
     position: relative;
     top: -2.75rem;
@@ -296,7 +262,7 @@ h3 {
 
 /* ------------------------------- FOOTER -------------------------------- */
 footer {
-    background-color: #112d4eb6;
+    background-color: #ffffff;
     padding: 0.625rem;
     margin-top: 3.125rem;
     text-align: center;

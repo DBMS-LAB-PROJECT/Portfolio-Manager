@@ -5,25 +5,56 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit insurance Details</title>
+    <title>Edit Insurance Details</title>
+
+    <link rel="stylesheet" href="/css/nav-bar.css">
+    <link rel="stylesheet" href="/css/insurance/insurance-form.css">
 </head>
 
 <body>
-    <h2>Edit your insurance details:</h2>
 
-    <form action="/insurance/edit/<%=typeof%>" method="post">
-        <label for="type">Type of Insurance: </label>
-        <input type="text" name="type" id="" placeholder="Insurance Type" value="<%=typeof%>" readonly><br>
-        <label for="insurer">Insurer Company: </label>
-        <input type="text" name="insurerCompany" placeholder="Insurer"><br>
-        <label for="start">Starting date of the plan: </label>
-        <input type="date" name="startingAt" id="" placeholder="start"><br>
-        <label for="end">Ending date of the plan: </label>
-        <input type="date" name="endingAt" id="" placeholder="ending"><br>
-        <label for="fee">Fee of the contract: </label>
-        <input type="number" name="contractFee" id="" placeholder="fee of contract"><br>
-        <button type="submit">save</button>
-    </form>
+    <div class="nav-bar">
+        <h1>EDIT INSURANCE</h1>
+
+        <ul class="nav-list">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/about">ABOUT</a></li>
+            <li><a href="/contact">CONTACT US</a></li>
+            <li><a href="/dashboard">DASHBOARD</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h2>Edit your insurance details</h2>
+    
+        <form action="/insurance/edit/<%= type %>" method="post">
+            <div>
+                <label for="type">Type of Insurance: </label>
+                <input type="text" name="type" placeholder="Insurance Type" value="<%= type %>" readonly>
+            </div>
+            <div>
+                <label for="insurer">Insurer Company: </label>
+                <input type="text" name="insurerCompany" placeholder="Insurer" value="<%=data[0].insurer%>">
+            </div>
+            <div>
+                <label for="start">Starting date of the plan: </label>
+                <input type="date" name="startingAt" placeholder="start" value="<%=data[0].startingDate%>">
+            </div>
+            <div>
+                <label for="end">Ending date of the plan: </label>
+                <input type="date" name="endingAt" placeholder="ending" value="<%=data[0].endingDate%>">
+            </div>
+            <div>
+                <label for="fee">Fee of the contract: </label>
+                <input type="number" name="contractFee" placeholder="fee of contract" value="<%=data[0].Fee_of_Contract%>">
+            </div>
+            <div>
+                <button class="addBtn" type="submit">save</button>
+            </div>
+        </form>
+
+    </div>
+
 </body>
 
 </html>
