@@ -6,90 +6,75 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insurance Details</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            font-family: Tahoma, Geneva, sans-serif;
-            width: 100%;
-        }
 
-        table td {
-            padding: 15px;
-        }
+    <link rel="stylesheet" href="/css/nav-bar.css">
+    <link rel="stylesheet" href="/css/insurance/insurance.css">
 
-        table thead td {
-            background-color: #54585d;
-            color: #ffffff;
-            font-weight: bold;
-            font-size: 13px;
-            border: 1px solid #54585d;
-        }
-
-        table tbody td {
-            color: #636363;
-            border: 1px solid #dddfe1;
-        }
-
-        table tbody tr {
-            background-color: #f9fafb;
-        }
-
-        table tbody tr:nth-child(odd) {
-            background-color: #ffffff;
-        }
-
-        tr:nth-child(even) {
-            background-color: rgba(201, 255, 201, 0.526);
-        }
-    </style>
+    <script src="https://kit.fontawesome.com/1542790c88.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+    <div class="nav-bar">
+        <h1>INSURANCE</h1>
 
-    <form action="/addInsurance"><input type="submit" value="Insert new record"></form>
-
-    <% if (data.length> 0){ %>
-        <table>
-            <thead>
-                <tr>
-                    <thead> Type </thead>
-                    <thead> Insurer </thead>
-                    <thead> Starting Date of the Plan </thead>
-                    <thead> Ending Date of the Plan </thead>
-                    <thead> Fee of Contract </thead>
-                </tr>
-            </thead>
-
-            <tbody>
-                <% for (let i=0; i< data.length; i++){ %>
+        <ul class="nav-list">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/about">ABOUT</a></li>
+            <li><a href="/contact">CONTACT US</a></li>
+            <li><a href="/dashboard">DASHBOARD</a></li>
+        </ul>
+    </div>
+    
+    <div class="container">
+        <% if (data.length > 0){ %>
+            <h2>Insurances you own</h2>
+            <table>
+                <thead>
                     <tr>
-                        <td>
-                            <%= data[i].type %>
-                        </td>
-                        <td>
-                            <%= data[i].insurer %>
-                        </td>
-                        <td>
-                            <%= data[i].startingDate %>
-                        </td>
-                        <td>
-                            <%= data[i].endingDate %>
-                        </td>
-                        <td>
-                            $<%= data[i].Fee_of_Contract %>
-                        </td>
-                        <td><a href="/insurance/edit/<%=data[i].type%>">🖊</a></td>
-                        <td><a href="/insurance/delete/<%=data[i].type%>">🗑</a></td>
+                        <th> Type </th>
+                        <th> Insurer </th>
+                        <th> Starting Date</th>
+                        <th> Ending Date</th>
+                        <th> Contract Fee </th>
+                        <th></td>
+                        <th></th>
                     </tr>
+                </thead>
 
+                <tbody>
+                    <% for (let i = 0; i < data.length; i++){ %>
+                        <tr>
+                            <td><%= data[i].type %></td>
+                            <td><%= data[i].insurer %></td>
+                            <td><%= data[i].startingDate %></td>
+                            <td><%= data[i].endingDate %></td>
+                            <td>$<%= data[i].Fee_of_Contract %></td>
+                            <td><a class="edit-dlt-btn" href="/insurance/edit/<%=data[i].type%>"><i class="fa fa-pencil"></i></a></td>
+                            <td><a class="edit-dlt-btn" href="/insurance/delete/<%=data[i].type%>"><i class="fa-solid fa-trash"></i></a></td>
+                        </tr>
                     <% } %>
+                </tbody>
+            </table>
 
-            </tbody>
-        </table>
+            <form class="addBtn2" action="/addInsurance">
+                <button type="submit"><i class="fa-solid fa-plus"></i></button>
+            </form>
 
         <% } else{ %>
-            <h3>No data available</h3>
-            <% } %>
+
+            <div class="empty-msg">
+                <p id="p1">You have no insurance details added yet</p>
+                
+                <form class="addBtn1" action="/addInsurance">
+                    <input type="submit" value="Add an insurance">
+                </form>
+                
+                <p id="p2">Start adding your insurances today!</p>
+            </div>
+            
+        <% } %>
+    </div>
+
 </body>
 
 </html>
