@@ -1,0 +1,78 @@
+@import url("stocks/colors.css");
+
+*, *::after, *::before {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+    font-family: 'Brandon Grotesque','Lato';
+    font-weight: inherit;
+}
+
+html{
+    box-sizing: border-box;
+    font-weight: 400;
+}
+
+body{
+    color: var(--offwhite);
+}
+
+header{
+    padding: 2rem;
+    max-width: 15rem;
+    height: 100vh;
+    background-color: var(--darkBlue);
+}
+
+h1{
+    font-size: 1.75rem;
+    font-weight: 500;
+}
+
+.page-container{
+    display: flex;
+    align-items: center;
+    margin: 2rem 0;
+    font-weight: 300;
+}
+
+.page-container a{
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: var(--offwhite);
+}
+
+.page-container img{
+    margin-right: 1rem;
+}
+
+.page-container:hover{
+    font-weight: 400;
+    cursor: pointer;
+}
+
+/* 
+.page-container a:hover{
+    font-weight: 400;
+    cursor: pointer;
+} */
+
+.logout a{
+    color: var(--offwhite);
+    text-decoration: none;
+    position: absolute;
+    bottom: 2rem;
+    display: flex;
+    align-items: center;
+    font-weight: 300;
+}
+
+.logout svg{
+    margin-right: 0.5rem;
+    font-weight: 300;
+}
+
+.logout:hover{
+    font-weight: 400;
+}

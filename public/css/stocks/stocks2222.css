@@ -141,3 +141,32 @@ h1{
     cursor: pointer;
 }
 
+a{
+    position: relative;
+    /* color: var(--darkBlue); */
+    color: var(--offwhite);
+    text-decoration: none;
+}
+  
+a:hover {
+    /* color: var(--darkBlue); */
+    color: var(--offwhite);
+}
+  
+a::before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    /* background-color: var(--darkBlue); */
+    background-color: var(--offwhite);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+  
+a:hover::before {
+    transform: scaleX(1);
+}
