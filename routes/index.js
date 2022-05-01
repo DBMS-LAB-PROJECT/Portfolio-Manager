@@ -50,9 +50,15 @@ router.get("/", function (req, res) {
 router.get("/login", function (req, res) {
     res.render("login");
 })
+router.get("/login2", function (req, res) {
+    res.render("login2");
+})
 
 router.get("/signup", function (req, res) {
     res.render("signup");
+})
+router.get("/signup2", function (req, res) {
+    res.render("signup2");
 })
 
 router.get("/auth/google",
