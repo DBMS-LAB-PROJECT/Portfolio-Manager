@@ -89,17 +89,18 @@ router.get("/auth/failure", function (req, res) {
 
 router.get("/dashboard", isloggedin, function (req, res) {
     con.query('use portfolio_manager');
-    const user_id = req.user;
-    // const user_id = '113720373204677842542';
-    let userName;
-    let sql = 'select user_name from login_credentials where user_id = ?';
-    con.query(sql, user_id, function (err, rows) {
-        if (err) console.log(err);
-        // console.log(rows);
-        res.render("dashboard", { username: rows[0].user_name });
-        // userName = rows[0].user_name;
-        console.log(userName);
-    })
+    // const user_id = req.user;
+    // // const user_id = '113720373204677842542';
+    // let userName;
+    // let sql = 'select user_name from login_credentials where user_id = ?';
+    // con.query(sql, user_id, function (err, rows) {
+    //     if (err) console.log(err);
+    //     // console.log(rows);
+    //     res.render("dashboard", { username: rows[0].user_name });
+    //     // userName = rows[0].user_name;
+    //     console.log(userName);
+    // })
+    res.render('dashboard2');
 
 
 });
@@ -571,5 +572,8 @@ router.post('/dividendHistory', async (req, res) => {
     res.send(jsondata);
 })
 
+router.get('/dashboard2', (req, res) => {
+    res.render('dashboard2');
+})
 
 module.exports = router;
