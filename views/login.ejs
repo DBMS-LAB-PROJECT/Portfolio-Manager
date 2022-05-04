@@ -25,12 +25,6 @@
         <div class="main">
             <h1>Sign In</h1>
 
-            <p class="error">
-                <% if (messages.error) { %>
-                    <%= messages.error %>
-                        <% } %>
-            </p>
-
             <div class="signInButtons">
                 <a href="/auth/google"><img class="png1" src="https://img.icons8.com/color/48/000000/google-logo.png"
                         width="18px"><button class="google">
@@ -45,11 +39,18 @@
             <p class="or">-OR-</p>
 
             <form action="/login" method="post">
-                <div>
-                    <input type="text" name="username" placeholder="Username or Email">
+                <div class="input-fields">
+                    <input type="text" name="username" placeholder="Username or Email" id="username">
+                    <div id="usernameError"></div>
+                    <!-- <p class="error">
+                        <% if (messages.error) { %>
+                            <%= messages.error %>
+                                <% } %>
+                    </p> -->
                 </div>
-                <div>
-                    <input type="password" name="password" placeholder="Password">
+                <div class="input-fields">
+                    <input type="password" name="password" placeholder="Password" id="password">
+                    <div id="passwordError"></div>
                 </div>
                 <span class="forgotPassword"><a href=""> Forgot Password?</a></span>
                 <button type="submit" id="submit" name="submit">Sign In</button>
@@ -63,6 +64,8 @@
             <p class="later">Don't have an account? <a href="/signup">Sign Up</a></p>
         </div>
     </div>
+
+    <script src="js/login.js"></script>
 </body>
 
 </html>

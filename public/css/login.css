@@ -107,7 +107,7 @@ h1{
     color: grey;
 }
 
-form div{
+form .input-fields{
     margin-top: 2rem;
 }
 
@@ -178,4 +178,18 @@ form button:hover{
     text-decoration: underline 1px solid rgb(76, 113, 170);
     /* color: var(--mediumBlue); */
     color: rgb(76, 113, 170);
+}
+
+#usernameError, #emailError, #passwordError{
+    color: var(--red);
+    position: absolute;
+    font-size: 0.8rem;
+    font-weight: 300;
+}
+
+.error{
+    color: var(--red);
+    position: absolute;
+    font-size: 0.8rem;
+    font-weight: 300;
 }
