@@ -80,7 +80,7 @@ const verfiyCallbackSignIn = function(req, username, password, done){
             return done(null, false, {message: 'No user with that username'});
         }
         if (!bcrypt.compareSync(password, rows[0].user_id))
-                    return done(null, false, {message:'Wrong password.'});
+                    return done(null, false, {message:"Username or password doesn't match"});
         return done(null, rows[0].user_id);
     });
 }
