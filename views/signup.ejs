@@ -38,11 +38,11 @@
         <div class="main">
             <h1>Create New Account</h1>
 
-            <p class="error">
+            <!-- <p class="error">
                 <% if (messages.error) { %>
                     <%= messages.error %>
                         <% } %>
-            </p>
+            </p> -->
 
             <div class="signInButtons">
                 <a href="/auth/google"><img class="png1" src="https://img.icons8.com/color/48/000000/google-logo.png"
@@ -58,16 +58,19 @@
             <p class="or">-OR-</p>
 
             <form action="/signup" method="post">
-                <div>
-                    <input type="text" name="username" placeholder="Username">
+                <div class="input-fields">
+                    <input type="text" name="username" placeholder="Username" id="username">
+                    <div id="usernameError"></div>
                 </div>
-                <div>
-                    <input type="email" name="email" placeholder="Email">
+                <div class="input-fields">
+                    <input type="email" name="email" placeholder="Email" id="email">
+                    <div id="emailError"></div>
                 </div>
-                <div>
-                    <input type="password" name="password" placeholder="Password">
+                <div class="input-fields">
+                    <input type="password" name="password" placeholder="Password" id="password">
+                    <div id="passwordError"></div>
                 </div>
-                <div>
+                <div class="input-fields">
                     <span>
                         <input type="checkbox" onchange="activateButton(this)" id="checkbox1" class="checkbox"><span></span> 
                     </span>
@@ -86,6 +89,7 @@
 
 
     </div>
+    <script src="js/signup.js"></script>
 </body>
 
 

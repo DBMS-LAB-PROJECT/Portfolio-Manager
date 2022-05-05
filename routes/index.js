@@ -581,4 +581,24 @@ router.get('/dashboard2', (req, res) => {
     res.render('dashboard2');
 })
 
+router.post('/userAlreadyExist', (req, res) => {
+    con.query('use portfolio_manager');
+    const username = req.body.username;
+    let sql = 'select * from login_credentials where user_name = ?';
+    con.query(sql, username, (err, rows) => {
+        if(err) console.log(err);
+        if(rows.length > 0){
+            const existStatus = {
+                status : 200
+            }
+            res.send(existStatus);
+        }
+        else{
+            const existStatus = {
+                status : 404
+            }
+            res.send(existStatus);
+        }
+    })    
+})
 module.exports = router;
