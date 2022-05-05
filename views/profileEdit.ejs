@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile | Edit</title>
+
+    <link rel="stylesheet" href="/css/nav-bar.css">
+    <link rel="stylesheet" href="/css/profile/profileEdit.css">
+
+</head>
+
+<body>
+
+    <div class="nav-bar">
+        <h1>EDIT PROFILE</h1>
+        <ul class="nav-list">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/about">ABOUT</a></li>
+            <li><a href="/contact">CONTACT US</a></li>
+            <li><a href="/dashboard">DASHBOARD</a></li>
+        </ul>
+    </div>
+
+    <div class="wrapper">
+
+        <form action="/profile/edit" method="post">
+
+            <div class="form_wrap">
+
+                <div class="input_grp">
+                    <div class="input_wrap">
+                        <label for="fname">First Name</label>
+                        <input type="text" name="fname" id="fname" value="<%=data.first_name%>">
+                    </div>
+
+                    <div class="input_wrap">
+                        <label for="lname">Last Name</label>
+                        <input type="text" name="lname" id="lname" value="<%=data.last_name%>">
+                    </div>
+                </div>
+
+                <div class="input_wrap">
+                    <label for="pob">Place of Birth</label>
+                    <input type="text" name="pob" id="pob" value="<%=data.birth_place%>">
+                </div>
+
+                <div class="input_wrap">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" name="dob" id="dob" value="<%=data.dob%>">
+                </div>
+
+                <div class="input_wrap">
+                    <label for="ad">Address</label>
+                    <input type="text" name="address" id="ad" value="<%=data.address%>">
+                </div>
+
+                <div class="input_wrap">
+                    <label for="profession">Profession</label>
+                    <input type="text" name="profession" id="pr" value="<%=data.profession%>">
+                </div>
+
+                <div class="group">
+                    <div class="input_wrap">
+                        <label for="qualification">Qualification</label>
+                        <input type="text" name="qualification" id="qualification" value="<%=data.qualification%>">
+                    </div>
+
+                    <div class="input_wrap">
+                        <label for="institute">Institute</label>
+                        <input type="text" name="institute" id="institute" value="<%=data.institute%>">
+                    </div>
+
+                    <div class="input_wrap">
+                        <label for="course">Course</label>
+                        <input type="text" name="course" id="course" value="<%=data.course %>">
+                    </div>
+
+                    <div class="input_wrap">
+                        <label for="grade">Grade</label> 
+                        <input type="text" name="grade" id="grade" value="<%=data.grade %>">
+                    </div>
+                </div>
+
+
+                <div class="input_wrap">
+                    <label for="email">Email</label>
+                    <% if(data.email === null){ %>
+                        <input type="text" name="email" id="email" value="<%=data.user_email %>">
+                    <% } else { %>  
+                        <input type="text" name="email" id="email" value="<%=data.email %>">
+                    <% } %>
+                </div>
+
+                <div class="input_wrap">
+                    <label for="phone_no">Contact Number</label>
+                    <input type="text" name="phone_no" id="phone_no" value="<%=data.mobile_no %>">
+                </div>
+                
+                <div class="input_wrap">
+                    <label>Gender</label>
+                    <ul>
+                        <li>
+                            <label class="radio_wrap">
+                                <input type="radio" id="in-male" name="gender" value="Male" class="input_radio">
+                                <span id="male">Male</span>
+                            </label>
+                        </li>
+
+                        <li>
+                            <label class="radio_wrap">
+                                <input type="radio" id="in-female" name="gender" value="Female" class="input_radio">
+                                <span id="female">Female</span>
+                            </label>
+                        </li>
+
+                        <li>
+                            <label class="radio_wrap">
+                                <input type="radio" id="in-none" name="gender" value="None" class="input_radio">
+                                <span id="none">None</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="input_wrap">
+                    <input type="submit" value="Save" class="submit_btn">
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+
+<script>
+    selectGender();
+
+    async function selectGender(){
+        const response = await fetch("/profileJSONdata");
+        const getData = await response.json();
+
+        if(getData.gender === "Male"){select("in-male", "male")}
+        if(getData.gender === "Female"){select("in-female", "female")}
+        if(getData.gender === "None"){select("in-none", "none")}
+    }
+    
+    function select(inputID ,gender){
+        document.getElementById(inputID).checked = true;
+        document.getElementById(gender).setAttribute("style", "color: #F9F7F7, background = #3F72AF");
+    }
+
+</script>
+
+</html>

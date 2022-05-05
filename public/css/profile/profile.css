@@ -1,0 +1,59 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Brandon Grotesque', 'Lato';
+}
+
+
+.container {
+    width: 43.75rem;
+    height: 43.75rem;
+    background-color: #ffffff;
+    display: grid;
+    grid-template-rows: repeat(12, 2fr);
+    grid-template-columns: 2fr 4fr;
+    row-gap: 0.625rem;
+    column-gap: 0.625rem;
+    margin: auto;
+    margin-top: 5%;
+}
+
+.item {
+    font-size: 1.1rem;
+    border-bottom: 2px solid #DBE2EF;
+    color: #112D4E;
+    padding: 0.3rem 0.3rem;
+    width: 9.375rem;
+}
+
+.entry {
+    font-size: 1.1rem;
+    border-bottom: 2px solid #DBE2EF;
+    color: #112D4E;
+    padding: 0.3rem 0.3rem;
+    width: 31.25rem;
+}
+
+
+.btn-div{
+    display: flex;
+    justify-content: center;
+}
+.editBtn{
+    width: 27%;
+    background: #3F72AF;
+    padding: 0.625rem;
+    border: 0;
+    color: #F9F7F7;
+    font-size: 1rem;
+    border-radius: 0.938rem;
+    text-transform: uppercase;
+    letter-spacing: 0.125rem;
+    cursor: pointer;
+    margin-top: 3%;
+    margin-bottom: 12%;
+}
+.editBtn:hover{
+    background: #DBE2EF;
+    color: #112D4E;
+}

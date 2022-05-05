@@ -581,55 +581,71 @@ router.get('/dashboard2', (req, res) => {
     res.render('dashboard2');
 })
 
-// Saharsh Code Begin
-var createError = require('http-errors');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
 
-var sampledataRouter = require('./routes/sample_data');
+router.get("/profile", isloggedin, function(request, response, next){
 
-router.use(logger('dev'));
-router.use(express.json());
-router.use(express.urlencoded({ extended: false }));
-router.use(cookieParser());
-router.use(express.static(path.join(__dirname, 'public')));
+	let query = `SELECT a.*, b.user_email FROM user_details a, login_credentials b 
+                WHERE a.user_id = b.user_id AND b.user_id = ?`;;
 
-router.use('/', sampledataRouter);
-
-// catch 404 and forward to error handler
-router.use(function(req, res, next) {
-    next(createError(404));
-  });
-
-// error handler
-router.use(function(err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-  
-// render the error page
-res.status(err.status || 500);
-res.render('error');
-});
-
-router.get("/", function(request, response, next){
-
-	var query = "SELECT * FROM user_details WHERE user_id = 4";
-// Put in your database' user_id in the where clause, for indivisual user.
-	database.query(query, function(error, data){
-
-		if(error)
-		{
+	database.query(query, request.user, function(error, data){
+		if(error){
 			throw error; 
+		} else{
+            console.log(data);
+			response.render('profile', { data:data[0] });
 		}
-		else
-		{
-			response.render('sample_data', {title:'USER DETAILS', action:'list', sampleData:data});
-		}
-
 	});
+});
+
+router.get("/profile/edit", isloggedin, function(req, res){
+
+    let query = `SELECT a.*, b.user_email FROM user_details a, login_credentials b 
+                WHERE a.user_id = b.user_id AND b.user_id = ?`;
+    
+    database.query(query, req.user, function(error, data){
+        if(error){ throw error; } else {
+		    res.render('profileEdit', { data: data[0] } );
+		}
+	});
+});
+
+router.get("/profileJSONdata", isloggedin, function(req, res){
+
+    let query = "SELECT * FROM user_details WHERE user_id = ?";
+	database.query(query, req.user, function(error, data){
+		if(error){ throw error; } else {
+			res.json(data[0]);
+		}
+	});
+});
+
+router.post("/profile/edit", isloggedin, function(req, res){
+
+    let fname = req.body.fname;
+    let lname = req.body.lname;
+    let pob = req.body.pob;
+    let dob = req.body.dob;
+    let address = req.body.address;
+    let profession = req.body.profession;
+    let qualification = req.body.qualification;
+    let institute = req.body.institute;
+    let course = req.body.course;
+    let grade = req.body.grade;
+    let email = req.body.email;
+    let phone_no = req.body.phone_no;
+    let gender = req.body.gender;
+
+    let sql = `UPDATE user_details SET first_name = "${fname}", last_name = "${lname}", birth_place = "${pob}", 
+                dob = "${dob}", address = "${address}", profession = "${profession}", 
+                qualification = "${qualification}", institute = "${institute}", course = "${course}", 
+                grade = "${grade}", email = "${email}", mobile_no = "${phone_no}", gender = "${gender}" 
+                WHERE user_id = "${req.user}"`;
+
+    database.query(sql, function(err, result){
+        if(err){ throw err; }
+    });
+    res.redirect("/profile");
 
 });
-// Saharsh Code End
 
 module.exports = router;
