@@ -119,8 +119,8 @@
 
                         <li>
                             <label class="radio_wrap">
-                                <input type="radio" id="in-none" name="gender" value="None" class="input_radio">
-                                <span id="none">None</span>
+                                <input type="radio" id="in-other" name="gender" value="Other" class="input_radio">
+                                <span id="other">Other</span>
                             </label>
                         </li>
                     </ul>
@@ -147,7 +147,7 @@
 
         if(getData.gender === "Male"){select("in-male", "male")}
         if(getData.gender === "Female"){select("in-female", "female")}
-        if(getData.gender === "None"){select("in-none", "none")}
+        if(getData.gender === "Other"){select("in-other", "other")}
     }
     
     function select(inputID ,gender){
