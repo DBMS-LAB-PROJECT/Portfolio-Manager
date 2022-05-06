@@ -581,6 +581,75 @@ router.get('/dashboard2', (req, res) => {
     res.render('dashboard2');
 })
 
+
+
+router.get("/profile", isloggedin, function(request, response, next){
+
+	let query = `SELECT a.*, b.user_email FROM user_details a, login_credentials b 
+                WHERE a.user_id = b.user_id AND b.user_id = ?`;;
+
+	database.query(query, request.user, function(error, data){
+		if(error){
+			throw error; 
+		} else{
+            console.log(data);
+			response.render('profile', { data:data[0] });
+		}
+	});
+});
+
+router.get("/profile/edit", isloggedin, function(req, res){
+
+    let query = `SELECT a.*, b.user_email FROM user_details a, login_credentials b 
+                WHERE a.user_id = b.user_id AND b.user_id = ?`;
+    
+    database.query(query, req.user, function(error, data){
+        if(error){ throw error; } else {
+		    res.render('profileEdit', { data: data[0] } );
+		}
+	});
+});
+
+router.get("/profileJSONdata", isloggedin, function(req, res){
+
+    let query = "SELECT * FROM user_details WHERE user_id = ?";
+	database.query(query, req.user, function(error, data){
+		if(error){ throw error; } else {
+			res.json(data[0]);
+		}
+	});
+});
+
+router.post("/profile/edit", isloggedin, function(req, res){
+
+    let fname = req.body.fname;
+    let lname = req.body.lname;
+    let pob = req.body.pob;
+    let dob = req.body.dob;
+    let address = req.body.address;
+    let profession = req.body.profession;
+    let qualification = req.body.qualification;
+    let institute = req.body.institute;
+    let course = req.body.course;
+    let grade = req.body.grade;
+    let email = req.body.email;
+    let phone_no = req.body.phone_no;
+    let gender = req.body.gender;
+
+    let sql = `UPDATE user_details SET first_name = "${fname}", last_name = "${lname}", birth_place = "${pob}", 
+                dob = "${dob}", address = "${address}", profession = "${profession}", 
+                qualification = "${qualification}", institute = "${institute}", course = "${course}", 
+                grade = "${grade}", email = "${email}", mobile_no = "${phone_no}", gender = "${gender}" 
+                WHERE user_id = "${req.user}"`;
+
+    database.query(sql, function(err, result){
+        if(err){ throw err; }
+    });
+    res.redirect("/profile");
+
+});
+
+
 router.post('/userAlreadyExist', (req, res) => {
     con.query('use portfolio_manager');
     const username = req.body.username;
@@ -601,4 +670,5 @@ router.post('/userAlreadyExist', (req, res) => {
         }
     })    
 })
+
 module.exports = router;

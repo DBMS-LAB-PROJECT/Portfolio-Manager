@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile</title>
+
+    <link rel="stylesheet" href="/css/nav-bar.css">
+    <link rel="stylesheet" href="/css/profile/profile.css">
+</head>
+
+<body>
+    <body>
+        
+    <div class="nav-bar">
+        <h1>PROFILE PAGE</h1>
+        <ul class="nav-list">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/about">ABOUT</a></li>
+            <li><a href="/contact">CONTACT US</a></li>
+            <li><a href="/dashboard">DASHBOARD</a></li>
+        </ul>
+    </div>
+
+    <div class="data">
+
+        <div class="container">
+    
+            <div class="item">First Name:</div>
+            <div class="entry"><%=data.first_name %></div>
+    
+            <div class="item">Last Name:</div>
+            <div class="entry"><%=data.last_name %></div>
+    
+            <div class="item">Birth Place:</div>
+            <div class="entry"><%=data.birth_place %></div>
+    
+            <div class="item">Date of Birth:</div>
+            <div class="entry"><%=data.dob %></div>
+    
+            <div class="item">Address:</div>
+            <div class="entry"><%=data.address %></div>
+    
+            <div class="item">Profession:</div>
+            <div class="entry"><%=data.profession %></div>
+
+            <div class="item">Qualification:</div> 
+            <div class="entry"><%=data.qualification %></div>
+    
+            <div class="item">Institute:</div>
+            <div class="entry"><%=data.institute %></div>
+    
+            <div class="item">Course:</div>
+            <div class="entry"><%=data.course %></div>
+
+            <div class="item">Grade:</div>
+            <div class="entry"><%=data.grade %></div>
+            
+            <div class="item">Email:</div>
+            <% if(data.email === null){ %>
+                <div class="entry"><%=data.user_email %></div>
+            <% } else { %>
+                <div class="entry"><%=data.email %></div>
+            <% } %>
+
+            <div class="item">Contact Number:</div>
+            <div class="entry"><%=data.mobile_no %></div>
+    
+            <div class="item">Gender:</div>
+            <div class="entry"><%=data.gender %></div>
+        </div>
+
+        <div class="btn-div">
+            <button class="editBtn" id="editBtn">Edit</button>
+        </div>
+        
+    </div>
+
+</body>
+
+<script>
+    document.getElementById("editBtn").addEventListener("click", async () => {
+        const response = await fetch("/profile/edit");
+        location.href = response.url;
+    });
+</script>
+
+</html>
