@@ -13,8 +13,9 @@ body {
     padding: 3.75rem;
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
-    background-color: #F9F7F7;
-    box-shadow: #0000000c 0 3px 5px 0px, #0000000e 0 3px 5px 0, #00000010 0 1px 5px 0;
+    border: 1px solid #112d4e57;
+    /* background-color: #F9F7F7; */
+    /* box-shadow: #0000000c 0 3px 5px 0px, #0000000e 0 3px 5px 0, #00000010 0 1px 5px 0; */
 }
 .empty-msg #p1{
     margin-top: 4%;
@@ -25,7 +26,7 @@ body {
 .empty-msg #p2{
     text-align: center;
     font-size: 1.2rem;
-    color: #112d4ead
+    color: #112d4ead;
 }
 
 
@@ -59,6 +60,9 @@ body {
 }
 .container h2{
     color: #112D4E;
+    font-weight: 500;
+    text-align: center;
+    font-size: 1.9rem;
 }
 
 
@@ -67,34 +71,33 @@ table {
     table-layout: fixed;
     overflow: hidden;
     width: 100%;
-    background-color: #F9F7F7;
     color: #112D4E;
     border-radius: 0.625rem;
-    box-shadow: #0000000c 0 3px 5px 0px, #0000000e 0 3px 5px 0, #00000010 0 1px 5px 0;
 }
 thead {
     border-collapse: collapse;
     border-bottom: 1px solid #112d4e9c;
-    background-color: #F9F7F7;
-    color: #3F72AF;
-    font-size: 1.1rem;
-    font-weight: bold;
 }
 th, td {
     padding: 0.9375rem;
 }
 th {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #3F72AF;
     letter-spacing: 0.03125rem;
 }
 td {
+    text-align: center;
+    font-size: 1.04rem;
     letter-spacing: 0.03125rem;
     border-bottom: 1px solid #abb7cc70;
 }
-tbody td {
-    text-align: center;
-}
 tbody td:nth-child(1) {
     text-align: left;
+}
+tbody tr:last-child td{
+    border-bottom: 1px solid #112d4e9c;
 }
 
 
@@ -104,10 +107,8 @@ i {
 }
 .edit-dlt-btn {
     background: none;
-    background-color: #faf8f8;
     border-style: none;
     border-radius: 1.25rem;
-    box-shadow: #0000000c 0 1px 2px 0px, #0000000e 0 1px 2px 0, #00000010 0 1px 2px 0;
     box-sizing: border-box;
     color: #112D4E;
     font-size: 0.875rem;
@@ -117,7 +118,7 @@ i {
     cursor: pointer;
 }
 .edit-dlt-btn:hover {
-    background: #DBE2EF;
+    border: 1px solid #112d4e9c;
 }
 
 
@@ -132,12 +133,9 @@ i {
     margin: 0.8rem;
     padding: 0.5rem;
     width: 3.75rem;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     border-radius: 2rem;
-    background-color: #DBE2EF;
-    box-shadow: #0000000c 0 1px 2px 0px, #0000000e 0 1px 2px 0, #00000010 0 1px 2px 0;
+    background: none;
     cursor: pointer;
-}
-.addBtn2 button:hover{
     background-color: #F9F7F7;
 }

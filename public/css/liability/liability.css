@@ -9,6 +9,7 @@ body {
 /* -------------------- Long term liabilities heading -------------------- */
 h2 {
     color: #112D4E;
+    font-weight: 500;
 }
 
 
@@ -17,24 +18,23 @@ h2 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.25rem;
+    margin-bottom: 4%;
 }
 .item {
     background: url("../../images/income_box.png") center no-repeat;
     background-position: 130% 77%;
     background-size: 18.75rem;
-    border: 1px solid #d0d0d06e;
+    border: 1px solid #112d4e3d;
     border-radius: 10px;
-    box-shadow: #0000000c 0 2px 3px 0px, #0000000e 0 2px 3px 0, #00000010 0 1px 3px 0;
     padding: 2.1875rem;
     color: #112D4E;
-    background-color: #f9f7f79d;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 1.2rem;
     cursor: pointer;
 }
 .item:hover {
-    border: 2px solid #d0d0d091;
-    margin: -1px;
+    border: 1px solid #112d4e86;
+    /* margin: -1px; */
 }
 .item span {
     color: #3F72AF;
@@ -57,38 +57,38 @@ table {
     table-layout: fixed;
     overflow: hidden;
     width: 100%;
-    background-color: #F9F7F7;
     color: #112D4E;
     border-radius: 0.625rem;
-    box-shadow: #0000000c 0 3px 5px 0px, #0000000e 0 3px 5px 0, #00000010 0 1px 5px 0;
+    border: 1px solid #d0d0d06e;
+    margin-bottom: 15%;
 }
 thead {
     border-collapse: collapse;
     border-bottom: 1px solid #112d4e9c;
-    background-color: #F9F7F7;
+    /* background-color: #F9F7F7; */
+}
+thead th{
+    font-weight: 500;
+    font-size: 1.2rem;
     color: #3F72AF;
-    font-size: 1.1rem;
-    font-weight: bold;
+    letter-spacing: 0.03125rem;
+}
+tbody td {
+    letter-spacing: 0.03125rem;
+    font-size: 1.04rem;
+    border-bottom: 1px solid #abb7cc70;
+    text-align: center;
 }
 th, td {
     padding: 0.9375rem;
 }
-th {
-    letter-spacing: 0.03125rem;
-}
-td {
-    letter-spacing: 0.03125rem;
-    border-bottom: 1px solid #abb7cc70;
-}
-tbody td {
-    text-align: center;
-}
 tbody td:nth-child(1) {
     text-align: left;
+    column-width: auto;
 }
 tfoot td {
-    font-weight: 900;
-    font-size: large;
+    font-weight: 500;
+    font-size: 1.2rem;
     text-align: center;
     color: #3F72AF;
     border: none;
@@ -102,10 +102,8 @@ tfoot td {
 }
 .edit-btn {
     background: none;
-    background-color: #faf8f8;
     border-style: none;
     border-radius: 1.25rem;
-    box-shadow: #0000000c 0 1px 2px 0px, #0000000e 0 1px 2px 0, #00000010 0 1px 2px 0;
     box-sizing: border-box;
     color: #112D4E;
     font-size: 0.875rem;
@@ -115,7 +113,7 @@ tfoot td {
     cursor: pointer;
 }
 .edit-btn:hover {
-    background: #DBE2EF;
+    border: 1px solid #112d4e9c;
 }
 
 
@@ -133,7 +131,7 @@ tfoot td {
 }
 .modal-content {
     background-color: #ffffff;
-    margin: 8% auto;
+    margin: 7% auto;
     padding: 1.5625rem;
     border: 1px solid #888;
     border-radius: 0.625rem;
@@ -182,8 +180,8 @@ tfoot td {
 h3 {
     color: #3F72AF;
     letter-spacing: 0.03125rem;
-    font-weight: bolder;
-    font-size: 1.4375rem;
+    font-weight: 500;
+    font-size: 1.5rem;
     margin-left: 0.5rem;
 }
 
@@ -204,15 +202,19 @@ input {
     border: none;
     outline: none;
     background: none;
-    background-color: #dbe2ef87;
+    border: 0.01rem solid #112d4e54;
     width: 13.5625rem;
     padding: 0.3125rem;
     border-radius: 0.4375rem;
-    font-size: 0.9375rem;
+    font-size: 0.9rem;
     color: #112D4E;
+}
+input:focus{
+    border: 0.01rem solid #112d4ecb;
 }
 label {
     letter-spacing: 0.03125rem;
+    font-size: 1.1rem;
     color: #112D4E;
 }
 
@@ -224,17 +226,16 @@ label {
     line-height: normal;
     border-style: none;
     box-sizing: border-box;
-    box-shadow: #0000000c 0 2px 4px -1px, #0000000e 0 5px 9px 0, #00000010 0 0px 17px 0;
-    padding: 0.5rem 0.9375rem;
+    padding: 0.625rem;
     width: -webkit-fill-available;
     margin-left: 2%;
     margin-right: 2%;
     background-color: #3F72AF;
-    border-radius: 1rem;
-    font-size: 1.125rem;
-    font-weight: 600;
-    letter-spacing: 0.03125rem;
-    color: #ffffff;
+    border-radius: 0.7rem;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.125rem;
+    color: #F9F7F7;
     cursor: pointer;
 }
 .saveBtn:hover {
@@ -257,14 +258,4 @@ label {
 .modal p i{
     font-size: 0.9375rem;
     margin-right: 1%;
-}
-
-
-/* ------------------------------- FOOTER -------------------------------- */
-footer {
-    background-color: #ffffff;
-    padding: 0.625rem;
-    margin-top: 3.125rem;
-    text-align: center;
-    color: #ffffff;
 }
