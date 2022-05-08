@@ -21,9 +21,7 @@ exports.liabilityData = function (userID) {
 
         database.query(sql, userID, function (err, result, fields) {
 
-            if (err) {
-                reject(err);
-            }
+            if (err) { throw err; }
 
             let income_expense = [
                 {
@@ -158,10 +156,7 @@ exports.getMonthlyIn_Ex = function (userID) {
 
     return new Promise((resolve, reject) => {
         database.query(sql, userID, function (err, result) {
-            if (err) {
-                reject(err);
-            }
-            console.log(result);
+            if (err) { throw err; }
             let sendData = result[0];
             resolve(sendData);
         });
@@ -188,11 +183,8 @@ exports.editLiabilities = function (type, userID) {
 
     return new Promise((resolve, reject) => {
         database.query(sql, userID, function (err, result) {
-            if (err) {
-                reject(err);
-            }
-            // result[0].date = moment(result[0].date).utc().format('DD/MM/YYYY');
-            console.log(result);
+            if (err) { throw(err); }
+            
             let sendData = [result[0], amount, rate, duration, date];
             resolve(sendData);
         });
@@ -221,9 +213,7 @@ exports.calInterest = function (type, r, t, p, date, userID) {
 
     return new Promise((resolve, reject) => {
         database.query(sql, [p, int, r, t, userID], function (err, result) {
-            if (err) {
-                reject(err);
-            }
+            if (err) { throw(err); }
             resolve(result);
         });
     });
@@ -239,9 +229,7 @@ exports.updateIn_Ex = function(name, updateValue, userID) {
 
     return new Promise((resolve, reject) => {
         database.query(sql, [updateValue, userID], function (err, result) {
-            if (err) {
-                reject(err);
-            }
+            if (err) { throw(err); }
             resolve(result);
         });
     });

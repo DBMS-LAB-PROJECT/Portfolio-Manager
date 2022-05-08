@@ -671,4 +671,36 @@ router.post('/userAlreadyExist', (req, res) => {
     })    
 })
 
+router.get("/dashboard/profile", isloggedin, function(req, res){
+
+    let sql = `SELECT first_name, last_name, profession FROM user_details WHERE user_id = ?`;
+
+    database.query(sql, req.user, function(err, result){
+        if(err) throw err;
+        res.json(result);
+    });
+});
+
+router.get("/dashboard/liabilities", isloggedin, function(req, res){
+
+    liabilities.liabilityData(req.user).then(result => {
+        res.json({
+            income_expense: result[0],
+            liabilities: result[1],
+            total_loan_amount: result[2],
+            total_loan_interest: result[3],
+        });
+    }).catch(error => { throw error; });
+});
+
+router.get("/dashboard/insurance", isloggedin, function(req, res){
+
+    let sql =  `SELECT type, insurer, endingDate FROM insurance_details WHERE userId = ?`;
+
+    database.query(sql, req.user, function(err, result){
+        if (err) throw err;
+        res.json(result);
+    });
+});
+
 module.exports = router;
