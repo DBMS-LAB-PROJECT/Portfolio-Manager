@@ -473,7 +473,7 @@ const getCompanyDetails = async () => {
 
 const getStockSplitHistory = async () => {
     stockSplitHistoryDivError.style.display = "none";
-    
+
     const stockSplitData = document.getElementById("stockSplitData");
 
     const postData = {
@@ -1155,14 +1155,15 @@ customDateInput.style.display = "none";
 currentPrice.classList.add('red');
 currentDate.classList.add('red');
 
+currentDate.style.setProperty('color', offwhite);
+currentDate.style.setProperty('background-color', mediumBlue);
+currentPrice.style.setProperty('color', offwhite);
+currentPrice.style.setProperty('background-color', mediumBlue);
+
+
 addToPortfolio.addEventListener('click', () => {
     document.querySelector('#addToPortfolio button').classList.add('selectedButton');
     addToPortfolioModal.style.display = "";
-    currentDate.style.setProperty('color', offwhite);
-
-    currentDate.style.setProperty('background-color', mediumBlue);
-    currentPrice.style.setProperty('color', offwhite);
-    currentPrice.style.setProperty('background-color', mediumBlue);
 
     customPrice.addEventListener('click', () => {
         customPriceInput.style.display = "";
