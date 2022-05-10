@@ -14,7 +14,8 @@ html{
 }
 
 body{
-    color: var(--offwhite);
+    /* color: var(--offwhite); */
+    color: var(--darkBlue);
 }
 
 header{
@@ -22,6 +23,7 @@ header{
     max-width: 15rem;
     height: 100vh;
     background-color: var(--darkBlue);
+    color: var(--offwhite);
 }
 
 h1{
@@ -34,6 +36,7 @@ h1{
     align-items: center;
     margin: 2rem 0;
     font-weight: 300;
+    opacity: 0.4;
 }
 
 .page-container a{
@@ -48,15 +51,14 @@ h1{
 }
 
 .page-container:hover{
-    font-weight: 400;
     cursor: pointer;
+    opacity: 1;
 }
 
-/* 
-.page-container a:hover{
-    font-weight: 400;
-    cursor: pointer;
-} */
+
+.logout{
+    opacity: 0.4;
+}
 
 .logout a{
     color: var(--offwhite);
@@ -74,5 +76,30 @@ h1{
 }
 
 .logout:hover{
-    font-weight: 400;
+    opacity: 1;
+}
+
+.grid-container{
+    display: grid;
+    max-width: 100%;
+    max-height: 100%;
+    grid-template-columns: 15rem 1fr;
+}
+
+.data-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color: lightgrey;
+    /* gap: 1rem; */
+}
+
+.data-container > *{
+    /* border: 1px solid red; */
+    box-shadow: 0px 0px 7px rgb(160, 160, 160);
+    background-color: white;
+    margin: 1rem;
+}
+
+.currently-selected{
+    opacity: 1;
 }

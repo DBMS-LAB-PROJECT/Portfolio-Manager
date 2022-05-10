@@ -18,57 +18,91 @@
 </head>
 
 <body>
-    <header>
-        <h1>PORTFOLIO <br>MANAGER</h1>
+    <div class="grid-container">
+        <header>
+            <h1>PORTFOLIO <br>MANAGER</h1>
 
-        <div class="nav-container">
-            <div class="page-container">
-                <img src="../images/dashboard/dashboard.png" alt="">
-                <span>Dashboard</li>
-            </div>
-            <div class="page-container">
-                <a href="/profile">
-                    <img src="../images/dashboard/profile.png" alt="">
-                    <span>Profile</span>
-                </a>
+            <div class="nav-container">
+                <div class="page-container" id="dashboard">
+                    <img src="../images/dashboard/dashboard.png" alt="">
+                    <span >Dashboard</li>
+                </div>
+                <div class="page-container" id="profile">
+                    <a href="/profile">
+                        <img src="../images/dashboard/profile.png" alt="">
+                        <span >Profile</span>
+                    </a>
+                </div>
+
+                <div class="page-container" id="liability">
+                    <a href="/liabilities">
+                        <img src="../images/dashboard/liability icon 2.png" alt="">
+                        <span > Liability</span>
+                    </a>
+                </div>
+
+                <div class="page-container" id="insurance">
+                    <a href="/insurance">
+                        <img src="../images/dashboard/insurance.png" alt="">
+                        <span > Insurance</span>
+                    </a>
+                </div>
+
+                <div class="page-container" id="stocks">
+                    <a href="/stocks">
+                        <img src="../images/dashboard/stocks.png" alt="">
+                        <span > Stocks</span>
+                    </a>
+                </div>
+
+                <div class="page-container" id="crypto">
+                    <a href="/crypto">
+                        <img src="../images/dashboard/crypto.png" alt="">
+                        <span > Crypto</span>
+                    </a>
+                </div>
+
+                <div class="logout">
+                    <a href="/logout">
+                        <i class="fa-solid fa-power-off"></i><span>Logout</span>
+                    </a>
+                </div>
             </div>
 
-            <div class="page-container">
-                <a href="/liabilities">
-                    <img src="../images/dashboard/liability icon 2.png" alt="">
-                    <span> Liability</span>
-                </a>
-            </div>
+        </header>
 
-            <div class="page-container">
-                <a href="/insurance">
-                    <img src="../images/dashboard/insurance.png" alt="">
-                    <span> Insurance</span>
-                </a>
+        <div class="data-container">
+            <div id="user-data">
             </div>
-
-            <div class="page-container">
-                <a href="/stocks">
-                    <img src="../images/dashboard/stocks.png" alt="">
-                    <span> Stocks</span>
-                </a>
+            <div id="profile-data">
+                <h2>
+                    Profile
+                </h2>
             </div>
-
-            <div class="page-container">
-                <a href="/crypto">
-                    <img src="../images/dashboard/crypto.png" alt="">
-                    <span> Crypto</span>
-                </a>
+            <div id="liability-data">
+                <h2>
+                    Liability
+                </h2>
             </div>
-
-            <div class="logout">
-                <a href="/logout">
-                    <i class="fa-solid fa-power-off"></i><span>Logout</span>
-                </a>
+            <div id="insurance-data">
+                <h2>
+                    Insurance
+                </h2>
+            </div>
+            <div id="stocks-data">
+                <h2>
+                    Stocks
+                </h2>
+            </div>
+            <div id="crypto-data">
+                <h2>
+                    Crypto
+                </h2>
             </div>
         </div>
-        
-    </header>
+
+    </div>
+    <script src="js/dashboard.js"></script>
 </body>
 
 </html>
