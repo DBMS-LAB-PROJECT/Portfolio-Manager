@@ -4,6 +4,7 @@ const passport = require("passport");
 const ejs = require("ejs");
 const bcrypt = require("bcrypt");
 const mysql2 = require("mysql2");
+const mysql2promise = require('mysql2/promise');
 const flash = require("express-flash");
 const https = require("https");
 const { response } = require("express");
@@ -15,6 +16,10 @@ const path = require("path");
 const database = require("../database");
 const liabilities = require("../liabilities_queries");
 const _ = require("lodash");
+const { toArray, reject } = require("lodash");
+const { resolve } = require("path");
+const { promise } = require("../database");
+const { promisify } = require('util');
 // const stream = require("stream");
 // const JSONStream = require('JSONStream');
 // const es = require('event-stream');
@@ -87,23 +92,28 @@ router.get("/auth/failure", function (req, res) {
     res.send("Oops login failed");
 })
 
-router.get("/dashboard", isloggedin, function (req, res) {
-    con.query('use portfolio_manager');
-    // const user_id = req.user;
-    // // const user_id = '113720373204677842542';
-    // let userName;
-    // let sql = 'select user_name from login_credentials where user_id = ?';
-    // con.query(sql, user_id, function (err, rows) {
-    //     if (err) console.log(err);
-    //     // console.log(rows);
-    //     res.render("dashboard", { username: rows[0].user_name });
-    //     // userName = rows[0].user_name;
-    //     console.log(userName);
-    // })
-    res.render('dashboard2');
+// router.get("/dashboard", isloggedin, function (req, res) {
+//     con.query('use portfolio_manager');
+//     // const user_id = req.user;
+//     // // const user_id = '113720373204677842542';
+//     // let userName;
+//     // let sql = 'select user_name from login_credentials where user_id = ?';
+//     // con.query(sql, user_id, function (err, rows) {
+//     //     if (err) console.log(err);
+//     //     // console.log(rows);
+//     //     res.render("dashboard", { username: rows[0].user_name });
+//     //     // userName = rows[0].user_name;
+//     //     console.log(userName);
+//     // })
+//     res.render('dashboard2');
 
 
-});
+// });
+
+
+router.get('/dashboard', (req, res) => {
+    res.render('dashboard2.ejs');
+})
 
 router.get("/logout", function (req, res) {
     req.logOut();
@@ -198,11 +208,11 @@ router.get("/insurance/edit/:ins_type", isloggedin, function (req, res) {
     let type = req.params.ins_type;
     let sql = "SELECT * FROM insurance_details WHERE userId = ? AND type = ?"
     let value = [user, type]
-    
-    database.query(sql, value, function(err, result){
-        res.render("editInsurance", { 
+
+    database.query(sql, value, function (err, result) {
+        res.render("editInsurance", {
             type: type,
-            data: result 
+            data: result
         });
     });
 });
@@ -583,44 +593,44 @@ router.get('/dashboard2', (req, res) => {
 
 
 
-router.get("/profile", isloggedin, function(request, response, next){
+router.get("/profile", isloggedin, function (request, response, next) {
 
-	let query = `SELECT a.*, b.user_email FROM user_details a, login_credentials b 
+    let query = `SELECT a.*, b.user_email FROM user_details a, login_credentials b 
                 WHERE a.user_id = b.user_id AND b.user_id = ?`;;
 
-	database.query(query, request.user, function(error, data){
-		if(error){
-			throw error; 
-		} else{
+    database.query(query, request.user, function (error, data) {
+        if (error) {
+            throw error;
+        } else {
             console.log(data);
-			response.render('profile', { data:data[0] });
-		}
-	});
+            response.render('profile', { data: data[0] });
+        }
+    });
 });
 
-router.get("/profile/edit", isloggedin, function(req, res){
+router.get("/profile/edit", isloggedin, function (req, res) {
 
     let query = `SELECT a.*, b.user_email FROM user_details a, login_credentials b 
                 WHERE a.user_id = b.user_id AND b.user_id = ?`;
-    
-    database.query(query, req.user, function(error, data){
-        if(error){ throw error; } else {
-		    res.render('profileEdit', { data: data[0] } );
-		}
-	});
+
+    database.query(query, req.user, function (error, data) {
+        if (error) { throw error; } else {
+            res.render('profileEdit', { data: data[0] });
+        }
+    });
 });
 
-router.get("/profileJSONdata", isloggedin, function(req, res){
+router.get("/profileJSONdata", isloggedin, function (req, res) {
 
     let query = "SELECT * FROM user_details WHERE user_id = ?";
-	database.query(query, req.user, function(error, data){
-		if(error){ throw error; } else {
-			res.json(data[0]);
-		}
-	});
+    database.query(query, req.user, function (error, data) {
+        if (error) { throw error; } else {
+            res.json(data[0]);
+        }
+    });
 });
 
-router.post("/profile/edit", isloggedin, function(req, res){
+router.post("/profile/edit", isloggedin, function (req, res) {
 
     let fname = req.body.fname;
     let lname = req.body.lname;
@@ -642,8 +652,8 @@ router.post("/profile/edit", isloggedin, function(req, res){
                 grade = "${grade}", email = "${email}", mobile_no = "${phone_no}", gender = "${gender}" 
                 WHERE user_id = "${req.user}"`;
 
-    database.query(sql, function(err, result){
-        if(err){ throw err; }
+    database.query(sql, function (err, result) {
+        if (err) { throw err; }
     });
     res.redirect("/profile");
 
@@ -655,33 +665,109 @@ router.post('/userAlreadyExist', (req, res) => {
     const username = req.body.username;
     let sql = 'select * from login_credentials where user_name = ?';
     con.query(sql, username, (err, rows) => {
-        if(err) console.log(err);
-        if(rows.length > 0){
+        if (err) console.log(err);
+        if (rows.length > 0) {
             const existStatus = {
-                status : 200
+                status: 200
             }
             res.send(existStatus);
         }
-        else{
+        else {
             const existStatus = {
-                status : 404
+                status: 404
             }
             res.send(existStatus);
         }
-    })    
+    })
 })
 
-router.get("/dashboard/profile", isloggedin, function(req, res){
+router.post('/username', async (req, res) => {
+    con.query('use portfolio_manager');
+    // const user_id = req.user;
+    const user_id = '113720373204677842542';
+    const promisePool = con.promise();
+    const [rows, fields] = await promisePool.query("select user_name from login_credentials where user_id = '113720373204677842542'");
+    // console.log(rows);
+    const userName = {
+        userName: rows[0].user_name
+    }
+    // console.log(userName);
+    res.send(userName);
+    // console.log(fields);
+})
+
+router.post('/dashboard/stocks', async (req, res) => {
+    const symbolArr = [];
+    const coresspondingSymbolArr = [];
+    const buyDateArr = [];
+    const buyPriceArr = [];
+    const sellPriceArr = [];
+    let totalCostPrice = 0;
+
+    const data = {
+        totalCostPrice: 0,
+        growth: 0
+    }
+    const user_id = '113720373204677842542';
+    con.query('use portfolio_manager');
+    let sql2 = 'select symbol  from stocks where user_id = ? group by symbol';
+    const promisePool = con.promise();
+    let [rows, fileds] = await promisePool.query(sql2, user_id);
+
+    rows.forEach(symbol => {
+        symbolArr.push(symbol);
+    });
+
+    let sql = 'select quantity,price,symbol,buyDate,companyName from stocks where user_id = ?';
+    [rows, fileds] = await promisePool.query(sql, user_id);
+    for (let i = 0; i < rows.length; i++) {
+        coresspondingSymbolArr.push(rows[i].symbol);
+        let buyPrice = rows[i].quantity * rows[i].price;
+        totalCostPrice += buyPrice;
+        buyPriceArr.push(buyPrice);
+        let date = new Date(rows[i].buyDate);
+        date = date.toISOString().split('T')[0]
+        const d = date.substring(5, 7) + "/" + date.substring(8, 10) + "/" + date.substring(0, 4);
+        let buyDate = new Date(d);
+        let todayDate = new Date().toLocaleDateString();
+        let today = new Date(todayDate)
+        let numberOfDays = (today.getTime() - buyDate.getTime()) / (1000 * 3600 * 24);
+        buyDateArr.push(numberOfDays);
+    }
+    totalCostPrice = totalCostPrice.toFixed(2);
+    data.totalCostPrice = totalCostPrice;
+
+    for (let i = 0; i < symbolArr.length; i++) {
+        let element = symbolArr[i];
+        let url = 'https://api.polygon.io/v2/aggs/ticker/' + element.symbol + '/prev?adjusted=true&apiKey=' + process.env.polygonAPI5;
+        const data = await fetch(url)
+        const json = await data.json();
+        sellPriceArr.push(json.results[0].o);
+    }
+
+    console.log(sellPriceArr);
+    // console.log(symbolArr);
+    // console.log(buyPriceArr);
+    // console.log(buyDateArr);
+    // console.log(sellPriceArr);
+
+    
+
+
+
+})
+
+router.get("/dashboard/profile", isloggedin, function (req, res) {
 
     let sql = `SELECT first_name, last_name, profession FROM user_details WHERE user_id = ?`;
 
-    database.query(sql, req.user, function(err, result){
-        if(err) throw err;
+    database.query(sql, req.user, function (err, result) {
+        if (err) throw err;
         res.json(result);
     });
 });
 
-router.get("/dashboard/liabilities", isloggedin, function(req, res){
+router.get("/dashboard/liabilities", isloggedin, function (req, res) {
 
     liabilities.liabilityData(req.user).then(result => {
         res.json({
@@ -693,11 +779,11 @@ router.get("/dashboard/liabilities", isloggedin, function(req, res){
     }).catch(error => { throw error; });
 });
 
-router.get("/dashboard/insurance", isloggedin, function(req, res){
+router.get("/dashboard/insurance", isloggedin, function (req, res) {
 
-    let sql =  `SELECT type, insurer, endingDate FROM insurance_details WHERE userId = ?`;
+    let sql = `SELECT type, insurer, endingDate FROM insurance_details WHERE userId = ?`;
 
-    database.query(sql, req.user, function(err, result){
+    database.query(sql, req.user, function (err, result) {
         if (err) throw err;
         res.json(result);
     });
