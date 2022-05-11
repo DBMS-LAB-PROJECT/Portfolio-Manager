@@ -466,10 +466,10 @@ router.get('/contact', (req, res) => {
     res.render('contact');
 })
 
-router.get('/currentHoldings', (req, res) => {
+router.get('/currentHoldings', isloggedin, (req, res) => {
     con.query('use portfolio_manager');
-    // const user_id = req.user;
-    const user_id = '113720373204677842542';
+    const user_id = req.user;
+    // const user_id = '113720373204677842542';
     let userName;
     let sql = 'select user_name from login_credentials where user_id = ?';
     con.query(sql, user_id, function (err, rows) {
@@ -482,10 +482,10 @@ router.get('/currentHoldings', (req, res) => {
 })
 
 
-router.post('/currentHoldings', function (req, res) {
+router.post('/currentHoldings', isloggedin, function (req, res) {
     con.query('use portfolio_manager');
-    // const user_id = req.user;
-    const user_id = '113720373204677842542';
+    const user_id = req.user;
+    // const user_id = '113720373204677842542';
     // console.log("this is post route------->" + user_id); 
     let sql = 'select stock_id,quantity,symbol,price,buyDate,companyName from stocks where user_id = ?'
     con.query(sql, user_id, function (err, rows) {
@@ -681,12 +681,12 @@ router.post('/userAlreadyExist', (req, res) => {
     })
 })
 
-router.post('/username', async (req, res) => {
+router.post('/username', isloggedin, async (req, res) => {
     con.query('use portfolio_manager');
-    // const user_id = req.user;
-    const user_id = '113720373204677842542';
+    const user_id = req.user;
+    // const user_id = '113720373204677842542';
     const promisePool = con.promise();
-    const [rows, fields] = await promisePool.query("select user_name from login_credentials where user_id = '113720373204677842542'");
+    const [rows, fields] = await promisePool.query(`select user_name from login_credentials where user_id = "${user_id}"`);
     // console.log(rows);
     const userName = {
         userName: rows[0].user_name
@@ -757,17 +757,17 @@ router.post('/dashboard/stocks', async (req, res) => {
 
 })
 
-router.get("/dashboard/profile", isloggedin, function (req, res) {
+router.post("/dashboard/profile", isloggedin, function (req, res) {
 
     let sql = `SELECT first_name, last_name, profession FROM user_details WHERE user_id = ?`;
 
     database.query(sql, req.user, function (err, result) {
         if (err) throw err;
-        res.json(result);
+        res.json(result[0]);
     });
 });
 
-router.get("/dashboard/liabilities", isloggedin, function (req, res) {
+router.post("/dashboard/liabilities", isloggedin, function (req, res) {
 
     liabilities.liabilityData(req.user).then(result => {
         res.json({
@@ -779,7 +779,7 @@ router.get("/dashboard/liabilities", isloggedin, function (req, res) {
     }).catch(error => { throw error; });
 });
 
-router.get("/dashboard/insurance", isloggedin, function (req, res) {
+router.post("/dashboard/insurance", isloggedin, function (req, res) {
 
     let sql = `SELECT type, insurer, endingDate FROM insurance_details WHERE userId = ?`;
 
