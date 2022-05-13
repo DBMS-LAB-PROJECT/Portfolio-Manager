@@ -112,7 +112,7 @@ router.get("/auth/failure", function (req, res) {
 // });
 
 
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', isloggedin, (req, res) => {
     res.render('dashboard2.ejs');
 })
 
@@ -183,7 +183,7 @@ router.get("/liabilities/edit/:liability_type", isloggedin, function (req, res) 
 
 });
 
-router.get("/addInsurance", function (req, res) {
+router.get("/addInsurance", isloggedin, function (req, res) {
     res.render("addInsurance");
 })
 
@@ -254,7 +254,7 @@ router.post("/signup", passport.authenticate('local-signup', {
 )
 
 
-router.post("/liabilities/edit/:liability_type", function (req, res) {
+router.post("/liabilities/edit/:liability_type", isloggedin, function (req, res) {
 
     let type = req.params.liability_type;
     let r = req.body.interest_rate;
@@ -270,7 +270,7 @@ router.post("/liabilities/edit/:liability_type", function (req, res) {
     });
 });
 
-router.post("/liabilities/update/:label", function (req, res) {
+router.post("/liabilities/update/:label", isloggedin, function (req, res) {
 
     let name = req.params.label;
     let updateValue = req.body.amount;
@@ -332,14 +332,14 @@ router.post("/insurance/edit/:ins_type", isloggedin, function (req, res) {
 
 
 
-router.get("/stocks", async function (req, res) {
+router.get("/stocks", isloggedin, async function (req, res) {
     con.query("use portfolio_manager");
     // const user = req.user;
     // console.log("this is get test route------->" + user);
     res.render("stocks");
 })
 
-router.post("/stocks", async function (req, res) {
+router.post("/stocks", isloggedin, async function (req, res) {
     let url_time_series = "https://api.twelvedata.com/time_series?apikey=" + process.env.API_KEY + "&interval=1min&outputsize=5&symbol=";
     let url_logo = "https://api.twelvedata.com/logo?apikey=" + process.env.API_KEY + "&symbol=";
     url_time_series += req.body.company_symbol;
@@ -357,10 +357,10 @@ router.post("/stocks", async function (req, res) {
     // res.send(jsondata);
 })
 
-router.post("/stocks/add", function (req, res) {
+router.post("/stocks/add", isloggedin, function (req, res) {
     con.query("use portfolio_manager");
-    // const user_id = req.user;
-    const user_id = '113720373204677842542';
+    const user_id = req.user;
+    // const user_id = '113720373204677842542';
     // console.log(user_id);
     let companyName = req.body.companyName;
     console.log(companyName);
@@ -420,10 +420,10 @@ router.post("/stocks/add", function (req, res) {
 //     res.sendStatus(200);
 // })
 
-router.post('/currentHoldingModal', function (req, res) {
+router.post('/currentHoldingModal', isloggedin, function (req, res) {
     con.query("use portfolio_manager");
-    // const user_id = req.user;
-    const user_id = '113720373204677842542';
+    const user_id = req.user;
+    // const user_id = '113720373204677842542';
     // console.log(user_id);
     let symbol = req.body.symbol;
     // console.log(symbol);
@@ -442,10 +442,10 @@ router.post('/currentHoldingModal', function (req, res) {
 })
 
 
-router.post('/currentHoldingModal/remove', function (req, res) {
+router.post('/currentHoldingModal/remove', isloggedin, function (req, res) {
     con.query("use portfolio_manager");
-    // const user_id = req.user;
-    const user_id = '113720373204677842542';
+    const user_id = req.user;
+    // const user_id = '113720373204677842542';
     // console.log(user_id);
     let symbol = req.body.symbol;
     let stock_id = req.body.stock_id;
@@ -501,10 +501,10 @@ router.post('/currentHoldings', isloggedin, function (req, res) {
     })
 })
 
-router.post('/currentHoldings/remove', function (req, res) {
+router.post('/currentHoldings/remove', isloggedin, function (req, res) {
     con.query("use portfolio_manager");
-    // const user_id = req.user;
-    const user_id = '113720373204677842542';
+    const user_id = req.user;
+    // const user_id = '113720373204677842542';
     // console.log(user_id);
     // let symbol = req.body.symbol;
     let stock_id = req.body.stock_id;
@@ -518,10 +518,10 @@ router.post('/currentHoldings/remove', function (req, res) {
     })
 })
 
-router.post('/currentHoldings/search', (req, res) => {
+router.post('/currentHoldings/search', isloggedin, (req, res) => {
     con.query("use portfolio_manager");
-    // const user_id = req.user;
-    const user_id = '113720373204677842542';
+    const user_id = req.user;
+    // const user_id = '113720373204677842542';
     const searchItem = req.body.searchItem;
     // console.log(searchItem);
     // console.log("this is post route------->" + user_id); 
@@ -538,7 +538,7 @@ router.post('/currentHoldings/search', (req, res) => {
     })
 })
 
-router.post('/getAllCompanies', async (req, res) => {
+router.post('/getAllCompanies', isloggedin, async (req, res) => {
     let url = "https://api.twelvedata.com/stocks?apikey=" + process.env.API_KEY + "&country=usa";
     const data = await fetch(url);
     const jsondata = await data.json();
@@ -546,7 +546,7 @@ router.post('/getAllCompanies', async (req, res) => {
     res.send(jsondata);
 })
 
-router.post('/url_time_series', async (req, res) => {
+router.post('/url_time_series', isloggedin, async (req, res) => {
     const symbol = req.body.symbol;
     const interval = req.body.interval
     const API_KEY = process.env.API_KEY;
@@ -560,7 +560,7 @@ router.post('/url_time_series', async (req, res) => {
     res.send(jsondata);
 })
 
-router.post('/info', async (req, res) => {
+router.post('/info', isloggedin, async (req, res) => {
     const symbol = req.body.symbol;
     let url = 'https://api.polygon.io/v3/reference/tickers/' + symbol + '?apiKey=' + process.env.polygonAPI1;
     const data = await fetch(url);
@@ -569,7 +569,7 @@ router.post('/info', async (req, res) => {
     res.send(jsondata);
 })
 
-router.post('/stockSplitHistory', async (req, res) => {
+router.post('/stockSplitHistory', isloggedin, async (req, res) => {
     const symbol = req.body.symbol;
     const url = 'https://api.polygon.io/v3/reference/splits?ticker=' + symbol + '&apiKey=' + process.env.polygonAPI1;
     const data = await fetch(url);
@@ -578,7 +578,7 @@ router.post('/stockSplitHistory', async (req, res) => {
     res.send(jsondata);
 })
 
-router.post('/dividendHistory', async (req, res) => {
+router.post('/dividendHistory', isloggedin, async (req, res) => {
     const symbol = req.body.symbol;
     let url = req.body.url;
     url += process.env.polygonAPI3;
@@ -588,7 +588,7 @@ router.post('/dividendHistory', async (req, res) => {
     res.send(jsondata);
 })
 
-router.get('/dashboard2', (req, res) => {
+router.get('/dashboard2', isloggedin, (req, res) => {
     res.render('dashboard2');
 })
 
@@ -697,7 +697,7 @@ router.post('/username', isloggedin, async (req, res) => {
     // console.log(fields);
 })
 
-router.post('/dashboard/stocks', async (req, res) => {
+router.post('/dashboard/stocks', isloggedin, async (req, res) => {
     const symbolArr = [];
     const coresspondingSymbolArr = [];
     const buyDateArr = [];
@@ -713,7 +713,8 @@ router.post('/dashboard/stocks', async (req, res) => {
         sqlData: 0,
         uniqueSymbolArr: []
     }
-    const user_id = '113720373204677842542';
+    // const user_id = '113720373204677842542';
+    const user_id = req.user;
     con.query('use portfolio_manager');
     let sql2 = 'select symbol  from stocks where user_id = ? group by symbol';
     const promisePool = con.promise();
