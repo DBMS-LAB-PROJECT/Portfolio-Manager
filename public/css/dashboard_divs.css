@@ -163,3 +163,7 @@
 #stocks-data p{
     margin-top: 2%;
 }
+
+.totalInvested{
+    font-size: 1.5rem;
+}

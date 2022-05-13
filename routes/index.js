@@ -798,7 +798,7 @@ router.post('/dashboard/stocks', isloggedin, async (req, res) => {
         else{
             ratio = 0;
         }
-        grwothRateArr.push(ratio * 365 * 100);
+        grwothRateArr.push(ratio  * 100);
     }
     // console.log(grwothRateArr);
 
