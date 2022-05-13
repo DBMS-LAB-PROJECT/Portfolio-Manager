@@ -1,0 +1,46 @@
+body{
+    font-family: 'Brandon Grotesque','Lato';
+    margin :0;
+    padding: 0;
+}
+
+.container {
+    width: 71.875rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    overflow: hidden;
+    width: 100%;
+    color: #112D4E;
+    border-radius: 0.625rem;
+    border: 1px solid #d0d0d06e;
+    margin-bottom: 15%;
+}
+thead {
+    border-collapse: collapse;
+    border-bottom: 1px solid #112d4e9c;
+    /* background-color: #F9F7F7; */
+}
+thead th{
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: #3F72AF;
+    letter-spacing: 0.03125rem;
+}
+tbody td {
+    letter-spacing: 0.03125rem;
+    font-size: 1.04rem;
+    border-bottom: 1px solid #abb7cc70;
+    text-align: center;
+}
+th, td {
+    padding: 0.9375rem;
+}
+tbody td:nth-child(1) {
+    text-align: left;
+    column-width: auto;
+}

@@ -232,6 +232,10 @@ router.get("/insurance/delete/:ins_type", isloggedin, function (req, res) {
     res.redirect("/insurance");
 })
 
+router.get("/crypto", isloggedin, function (req, res){
+    res.render("crypto");
+});
+
 // **************************** POST ROUTES *******************************************************
 router.post("/login", passport.authenticate('local-signIn', {
     successRedirect: '/dashboard',
