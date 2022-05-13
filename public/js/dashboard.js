@@ -5,14 +5,14 @@ const profile = document.getElementById('profile');
 const liability = document.getElementById('liability')
 const insurance = document.getElementById('insurance')
 const stocks = document.getElementById('stocks')
-const crypto = document.getElementById('crypto');
+// const crypto = document.getElementById('crypto');
 
 const userDataDiv = document.getElementById('user-data');
 const profileDataDiv = document.getElementById('profile-data')
 const stocksDataDiv = document.getElementById('stocks-data')
 const insuranceDataDiv = document.getElementById('insurance-data')
 const liabilityDataDiv = document.getElementById('liability-data')
-const cryptoDataDiv = document.getElementById('crypto-data')
+// const cryptoDataDiv = document.getElementById('crypto-data')
 
 const getUserData = async () => {
     const postData = {};
@@ -111,16 +111,16 @@ const getInsuranceData = async () => {
     }
     insuranceDataDiv.innerHTML = html;
 }
-const getCryptoData = async () => {
-    const postData = {};
-    const data = await fetch('http://localhost:3000/dashboard/crypto', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(postData),
-    });
-}
+// const getCryptoData = async () => {
+//     const postData = {};
+//     const data = await fetch('http://localhost:3000/dashboard/crypto', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(postData),
+//     });
+// }
 const getStocksData = async () => {
     const postData = {};
     const data = await fetch('http://localhost:3000/dashboard/stocks', {
