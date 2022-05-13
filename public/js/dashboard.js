@@ -132,17 +132,21 @@ const getStocksData = async () => {
     });
     const json = await data.json();
     console.log(json);
-    let html = `<h2>Stocks</h2>`;
+    
     let growthPercentage = (parseFloat(json.growthRate)).toFixed(2);
     let rows = json.sqlData;
     const uniqueSymbolArr = json.uniqueSymbolArr;
+    let html = `<h2>Stocks</h2>`;
+    html += `<div>Total Invested</div>`
+    html += `<div>$${json.totalCostPrice}</div>`
+    
     if(growthPercentage >= 0){
         html += '<h3>Growth:</h3>'
-        html += `<span id="growth">${growthPercentage}</span>`
+        html += `<span id="growth">${growthPercentage}%</span>`
     }
     else{
         html += '<h3>Loss:</h3>'
-        html += `<span id="loss">${growthPercentage * -1}</span>`
+        html += `<span id="loss">${growthPercentage * -1}%</span>`
     }
 
     html += '<p>List of current holdings in stock:</p>';
