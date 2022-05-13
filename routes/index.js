@@ -731,13 +731,22 @@ router.post('/dashboard/stocks', isloggedin, async (req, res) => {
         let buyPrice = rows[i].quantity * rows[i].price;
         totalCostPrice += buyPrice;
         buyPriceArr.push(buyPrice);
-        let date = new Date(rows[i].buyDate);
-        date = date.toISOString().split('T')[0]
-        const d = date.substring(5, 7) + "/" + date.substring(8, 10) + "/" + date.substring(0, 4);
+        let date = new Date(rows[i].buyDate).toLocaleDateString();
+        // console.log(date);
+        // date = date.toISOString().split('T')[0]
+        const d = date.substring(3, 5) + "/" + date.substring(0, 2) + "/" + date.substring(6, 10);
+        // console.log(d);
         let buyDate = new Date(d);
+        // console.log(buyDate);
         let todayDate = new Date().toLocaleDateString();
+        todayDate = todayDate.substring(3, 5) + "/" + todayDate.substring(0, 2) + "/" + todayDate.substring(6, 10);
+        // console.log(todayDate);
         let today = new Date(todayDate)
+        // console.log(today);
         let numberOfDays = (today.getTime() - buyDate.getTime()) / (1000 * 3600 * 24);
+        if(numberOfDays >= 1){
+            numberOfDays -= 1; 
+        }
         buyDateArr.push(numberOfDays);
     }
     totalCostPrice = totalCostPrice.toFixed(2);
@@ -753,8 +762,8 @@ router.post('/dashboard/stocks', isloggedin, async (req, res) => {
 
     // console.log(sellPriceArr);
     // console.log(symbolArr);
-    // console.log(buyPriceArr);
-    // console.log(buyDateArr);
+    console.log(buyDateArr);
+    console.log(buyPriceArr);
     // console.log(sellPriceArr);
 
     for (let i = 0; i < buyPriceArr.length; i++) {
@@ -766,7 +775,7 @@ router.post('/dashboard/stocks', isloggedin, async (req, res) => {
         const value = parseFloat(sellPriceArr[index]) * parseFloat(rows[i].quantity);
         totalSellPriceArr.push(value.toFixed(2));
     }
-    // console.log(totalSellPriceArr);
+    console.log(totalSellPriceArr);
 
     for(let i = 0; i < buyPriceArr.length; i++){
     // for(let i = 0; i < 1; i++){
@@ -778,8 +787,13 @@ router.post('/dashboard/stocks', isloggedin, async (req, res) => {
         // console.log(buyPrices);
         let ratio =  sellPrice/buyPrices;
         // console.log(ratio);
-        ratio = Math.pow(ratio, 1/buyDateArr[i]);
-        ratio -= 1;
+        if(buyDateArr[i] != 0){
+            ratio = Math.pow(ratio, 1/buyDateArr[i]);
+            ratio -= 1;
+        }
+        else{
+            ratio = 0;
+        }
         grwothRateArr.push(ratio * 365 * 100);
     }
     // console.log(grwothRateArr);
