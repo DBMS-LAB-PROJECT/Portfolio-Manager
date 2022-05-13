@@ -1,0 +1,21 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Brandon Grotesque','Lato';
+}
+.heading{
+    background-color: #112D4E;
+    display: flex;
+}
+h1{
+    color: #F9F7F7;
+    margin-left: 5%;
+    font-weight: 500;
+    font-size: 2.5rem;
+}
+.container{
+    margin: 5%;
+}
+p{
+    font-size: 1.2rem;
+}
