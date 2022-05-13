@@ -93,6 +93,27 @@ const getStocksData = async () => {
         body: JSON.stringify(postData),
     });
     const json = await data.json();
+    console.log(json);
+    let html = `<h2>Stocks</h2>`;
+    let growthPercentage = (parseFloat(json.growthRate)).toFixed(2);
+    let rows = json.sqlData;
+    const uniqueSymbolArr = json.uniqueSymbolArr;
+    if(growthPercentage >= 0){
+        html += '<h3>Growth</h3>'
+        html += `<h3>${growthPercentage}</h3>`
+    }
+    else{
+        html += '<h3>Loss</h3>'
+        html += `<h3>${growthPercentage * -1}</h3>`
+    }
+
+    html += '<p>List of current holdings in stock</p>';
+    for(let i = 0; i < uniqueSymbolArr.length; i++){
+        html += `<div>${uniqueSymbolArr[i].symbol}</div> `;
+    }
+
+    const stocksData = document.getElementById('stocks-data');
+    stocksData.innerHTML = html;
 }
 const getLiabilityData = async () => {
     const postData = {};

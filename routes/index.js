@@ -20,6 +20,7 @@ const { toArray, reject } = require("lodash");
 const { resolve } = require("path");
 const { promise } = require("../database");
 const { promisify } = require('util');
+const { log } = require("console");
 // const stream = require("stream");
 // const JSONStream = require('JSONStream');
 // const es = require('event-stream');
@@ -702,11 +703,15 @@ router.post('/dashboard/stocks', async (req, res) => {
     const buyDateArr = [];
     const buyPriceArr = [];
     const sellPriceArr = [];
+    const totalSellPriceArr = [];
+    const grwothRateArr = [];
     let totalCostPrice = 0;
 
     const data = {
         totalCostPrice: 0,
-        growth: 0
+        growthRate: 0,
+        sqlData: 0,
+        uniqueSymbolArr: []
     }
     const user_id = '113720373204677842542';
     con.query('use portfolio_manager');
@@ -745,16 +750,50 @@ router.post('/dashboard/stocks', async (req, res) => {
         sellPriceArr.push(json.results[0].o);
     }
 
-    console.log(sellPriceArr);
+    // console.log(sellPriceArr);
     // console.log(symbolArr);
     // console.log(buyPriceArr);
     // console.log(buyDateArr);
     // console.log(sellPriceArr);
 
-    
+    for (let i = 0; i < buyPriceArr.length; i++) {
+        const findSymbol = (element) => {
+            if (element.symbol == rows[i].symbol)
+                return true;
+        }
+        const index = symbolArr.findIndex(findSymbol);
+        const value = parseFloat(sellPriceArr[index]) * parseFloat(rows[i].quantity);
+        totalSellPriceArr.push(value.toFixed(2));
+    }
+    // console.log(totalSellPriceArr);
 
+    for(let i = 0; i < buyPriceArr.length; i++){
+    // for(let i = 0; i < 1; i++){
+        const sellPrice = parseFloat(totalSellPriceArr[i]);
+        // console.log(sellPrice);
+        // console.log(rows[i].price);
+        // console.log(parseFloat((rows[i].quantity).toString()));
+        const buyPrices = parseFloat(rows[i].price * parseFloat((rows[i].quantity).toString()));
+        // console.log(buyPrices);
+        let ratio =  sellPrice/buyPrices;
+        // console.log(ratio);
+        ratio = Math.pow(ratio, 1/buyDateArr[i]);
+        ratio -= 1;
+        grwothRateArr.push(ratio * 365 * 100);
+    }
+    // console.log(grwothRateArr);
 
+    let avg = 0;
+    grwothRateArr.forEach(element => {
+        avg += element/7;
+    });
+    // console.log(avg);
 
+    data.sqlData = rows;
+    data.growthRate = avg;
+    data.uniqueSymbolArr = symbolArr; 
+    console.log(data.uniqueSymbolArr);
+    res.send(data);
 })
 
 router.post("/dashboard/profile", isloggedin, function (req, res) {
