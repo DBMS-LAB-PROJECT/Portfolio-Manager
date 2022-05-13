@@ -138,7 +138,7 @@ const getStocksData = async () => {
     const uniqueSymbolArr = json.uniqueSymbolArr;
     let html = `<h2>Stocks</h2>`;
     html += `<div>Total Invested</div>`
-    html += `<div>$${json.totalCostPrice}</div>`
+    html += `<div class="totalInvested">$${json.totalCostPrice}</div>`
     
     if(growthPercentage >= 0){
         html += '<h3>Growth:</h3>'
