@@ -137,15 +137,15 @@ const getStocksData = async () => {
     let rows = json.sqlData;
     const uniqueSymbolArr = json.uniqueSymbolArr;
     if(growthPercentage >= 0){
-        html += '<h3>Growth</h3>'
-        html += `<h3>${growthPercentage}</h3>`
+        html += '<h3>Growth:</h3>'
+        html += `<span id="growth">${growthPercentage}</span>`
     }
     else{
-        html += '<h3>Loss</h3>'
-        html += `<h3>${growthPercentage * -1}</h3>`
+        html += '<h3>Loss:</h3>'
+        html += `<span id="loss">${growthPercentage * -1}</span>`
     }
 
-    html += '<p>List of current holdings in stock</p>';
+    html += '<p>List of current holdings in stock:</p>';
     for(let i = 0; i < uniqueSymbolArr.length; i++){
         html += `<div>${uniqueSymbolArr[i].symbol}</div> `;
     }

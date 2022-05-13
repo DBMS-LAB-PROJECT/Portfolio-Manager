@@ -138,3 +138,28 @@
     font-weight: 500;
     color: #3F72AF;
 }
+
+/* ------------------------ STOCKS DIV -------------------------------- */
+#stocks-data{
+    display: flex;
+    flex-direction: column;
+    background-image: url(../images/dashboard/bg-img.png);
+    background-repeat: no-repeat;
+    background-position: 46% -3%;
+    background-size: 70rem;
+}
+#stocks-data h2{
+    margin-bottom: 5%;
+}
+#stocks-data span{
+    font-size: 1.35rem;
+}
+#stocks-data #loss{
+    color: #FF2E63;
+}
+#stocks-data #growth{
+    color: #008b00;
+}
+#stocks-data p{
+    margin-top: 2%;
+}
