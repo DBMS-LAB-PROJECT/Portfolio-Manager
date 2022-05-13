@@ -25,7 +25,7 @@ const getUserData = async () => {
     });
     const json = await data.json();
     const userName = json.userName;
-    userDataDiv.innerHTML = `<h2>Greetings, ${userName}</h2>`
+    userDataDiv.innerHTML = `<h2><p>Greetings,</p> <span>${userName}</span></h2>`
 }
 
 const getProfileData = async () => {
@@ -38,9 +38,35 @@ const getProfileData = async () => {
         body: JSON.stringify(postData),
     });
     const json = await data.json();
-    profileDataDiv.innerHTML = `
-        <div>${json.first_name} ${json.last_name}</div>
-        <div>${json.profession}</div>`
+    let fname = json.first_name;
+    let lname = json.last_name;
+    let prof = json.profession;
+    let html = `<h2>Profile</h2>`;
+    if(fname === null && lname === null && prof === null || fname === "" && lname === "" && prof === "")
+    {
+        html += `
+            <div class="empty-msg">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <p>No Data to show</p>
+                <p>Please add profile details</p>
+            </div>
+        `;
+    }
+    else
+    {
+        html = `
+            <h2>Profile</h2>
+            <div>
+                <div>
+                    <p>Name:</p><span>${fname} ${lname}</span> 
+                </div>
+                <div>
+                    <p>Profession:</p><span>${prof}</span> 
+                </div>
+            </div>
+        `;
+    }
+    profileDataDiv.innerHTML = html;
 }
 const getInsuranceData = async () => {
     const postData = {};
@@ -53,24 +79,36 @@ const getInsuranceData = async () => {
     });
     const json = await data.json();
     console.log(json);
-    let html = `<h2>Insurance</h2>
-        <table>
-        <thead>
-            <th>Type</th>
-            <th>Insurer</th>
-            <th>Ending Date</th>
-        </thead>
-        <tbody>
-    `;
-    for(var i = 0; i < json.length; i++){
+    let html = `<h2>Insurance</h2>`;
+    if(json.length === 0){
         html += `
-        <tr>
-            <td>${json[i].type}</td>
-            <td>${json[i].insurer}</td>
-            <td>${json[i].endingDate}</td>
-        </tr>`
+            <div class="empty-msg">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <p>No Data to show</p>
+                <p>Please add insurance details</p>
+            </div>
+        `;
     }
-    html += `</tbody></table>`;
+    else{
+        html += `
+            <table>
+                <thead>
+                    <th>Type</th>
+                    <th>Insurer</th>
+                    <th>Ending Date</th>
+                </thead>
+            <tbody>
+        `;
+        for(var i = 0; i < json.length; i++){
+            html += `
+            <tr>
+                <td>${json[i].type}</td>
+                <td>${json[i].insurer}</td>
+                <td>${json[i].endingDate}</td>
+            </tr>`
+        }
+        html += `</tbody></table>`;
+    }
     insuranceDataDiv.innerHTML = html;
 }
 const getCryptoData = async () => {
@@ -127,9 +165,18 @@ const getLiabilityData = async () => {
     const json = await data.json();
     liabilityDataDiv.innerHTML = `
         <h2>Liability</h2>
-        <div>Annual Income: ${json.income_expense.monthlyIncome}</div>
-        <div>Monthly Income: ${json.income_expense.annualIncome}</div>
-        <div>Total Loan Amount: ${json.total_loan_amount}</div>`
+        <div>
+            <div>
+                <p>Annual Income: </p><span>${json.income_expense.annualIncome}</span>
+            </div>
+            <div>
+                <p>Annual Expense: </p><span>${json.income_expense.annualExpense}</span>
+            </div>
+            <div>
+                <p>Total Loan Amount: </p><span>${json.total_loan_amount}</span>
+            </div>
+        </div>
+    `;
 }
 
 getUserData();

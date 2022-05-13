@@ -1,0 +1,140 @@
+.data-box{
+    border-radius: 0.7rem;
+    padding: 1rem;
+    background-color: #fff;
+}
+.data-box h2{
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #112D4E;
+}
+
+/* --------------------------- USER DATA DIV ------------------------------------- */
+#user-data{
+    background-image: url('../images/dashboard/bg-img.png');
+    background-repeat: no-repeat;
+    background-position: 29% -4%;
+    background-size: 50rem;
+}
+#user-data h2{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+#user-data p{
+    margin-top: 5%;
+    font-size: 2.1rem;
+}
+#user-data span{
+    font-size: 2.1rem;
+    color: #3F72AF;
+}
+
+/* --------------------------- INSURANCE DIV ------------------------------------- */
+.empty-msg{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    font-size: 1.1rem;
+    background-color: #112d4e27;
+    border-radius: 1rem;
+    height: 70%;
+    color: #112D4E;
+}
+.empty-msg svg{
+    font-size: 2rem;
+}
+#insurance-data{
+    display: flex;
+    flex-direction: column;
+}
+#insurance-data h2{
+    margin-bottom: 4%;
+}
+#insurance-data table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    overflow: hidden;
+    width: 100%;
+    color: #112D4E;
+}
+#insurance-data thead {
+    border-collapse: collapse;
+    border-bottom: 1px solid #112d4e9c;
+}
+#insurance-data th, #insurance-data td {
+    padding: 0.3rem;
+}
+#insurance-data th {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #3F72AF;
+    letter-spacing: 0.03rem;
+}
+#insurance-data td {
+    text-align: center;
+    font-size: 0.95rem;
+    letter-spacing: 0.03rem;
+    border-bottom: 1px solid #abb7cc70;
+}
+#insurance-data tbody td:nth-child(1) {
+    text-align: left;
+}
+#insurance-data tbody tr:last-child td{
+    border-bottom: 1px solid #112d4e9c;
+}
+
+
+
+/* -------------------------LIABILITY DIV--------------------------------------------- */
+#liability-data{
+    display: flex;
+    flex-direction: column;
+    background-image: url('../images/dashboard/bg-img.png');
+    background-repeat: no-repeat;
+    background-position: 42% -35%;
+    background-size: 40rem;
+}
+#liability-data div{
+    font-size: 1.09rem;
+    color: #112D4E;
+    font-weight: 500;
+}
+#liability-data div span{
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: #3F72AF;
+}
+#liability-data h2{
+    margin-bottom: 5%;
+}
+
+
+/* --------------------PROFILE DIV --------------------------------------------------- */
+#profile-data .empty-msg{
+    background: none;
+    margin-top: 2%;
+    display: block;
+}
+#profile-data{
+    display: flex;
+    flex-direction: column;
+    background-image: url(../images/dashboard/bg-img.png);
+    background-repeat: no-repeat;
+    background-position: 45% -23%;
+    background-size: 60rem;
+}
+#profile-data h2{
+    margin-bottom: 5%;
+}
+#profile-data div{
+    font-size: 1.09rem;
+}
+#profile-data div span{
+    font-size: 1.45rem;
+    font-weight: 500;
+    color: #3F72AF;
+}
